@@ -1,0 +1,110 @@
+# System-wide Configuration
+
+agents:
+  news:
+    enabled: true
+    weight: 0.40
+    model_path: models/news_agent_v1
+    fp16: true
+    max_new_tokens: 512
+    temperature: 0.7
+
+  technical:
+    enabled: true
+    weight: 0.35
+    model_path: models/technical_agent_v1
+    fp16: true
+    max_new_tokens: 512
+    temperature: 0.5
+
+  fundamental:
+    enabled: true
+    weight: 0.25
+    model_path: models/fundamental_agent_v1
+    fp16: true
+    max_new_tokens: 512
+    temperature: 0.6
+
+supervisor:
+  enabled: false  # Set to true after training
+  model_path: models/supervisor_v1
+  context_dim: 16
+  hidden_dim: 128
+  exploration_factor: 0.5
+  exploration_decay: 0.995
+  min_exploration: 0.1
+  learning_rate: 0.001
+  buffer_size: 10000
+
+strategist:
+  model_path: models/strategist_v1
+  fp16: true
+  max_new_tokens: 768
+  temperature: 0.7
+
+  # Risk Management
+  max_position_size: 0.10  # 10% of portfolio max
+  max_drawdown: 0.15       # 15% max drawdown
+  stop_loss: 0.05          # 5% stop loss
+
+risk:
+  max_position_size: 0.10
+  max_portfolio_drawdown: 0.15
+  max_single_stock_allocation: 0.20
+  stop_loss_pct: 0.05
+  take_profit_pct: 0.15
+  min_confidence_threshold: 0.50
+
+judge:
+  model: claude-sonnet-4-20250514
+  rubrics_dir: config/judge/rubrics
+  use_multi_judge: false  # Set true for consensus
+  multi_judge_models:
+    - claude
+    - gpt4
+
+data:
+  news:
+    default_lookback_days: 7
+    max_articles_per_query: 50
+    deduplicate: true
+
+  market:
+    default_period: 3mo
+    default_interval: 1d
+    cache_ttl: 300  # 5 minutes
+
+  fundamental:
+    default_period: Q  # Quarterly
+    use_cache: true
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/system.log
+  rotation: "500 MB"
+  retention: "30 days"
+
+monitoring:
+  enable_wandb: false
+  wandb_project: stock-agent-system
+  enable_prometheus: false
+  prometheus_port: 9090
+
+training:
+  device: cuda
+  mixed_precision: fp16
+  gradient_checkpointing: true
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  max_grad_norm: 1.0
+
+portfolio:
+  initial_capital: 100000
+  currency: USD
+  allow_fractional_shares: false
+
+execution:
+  mode: paper  # paper or live
+  dry_run: true
+  broker: null  # Configure if using live trading

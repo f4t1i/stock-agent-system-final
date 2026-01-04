@@ -1,0 +1,68 @@
+# PPO Training Configuration for Senior Strategist Agent
+
+# Model Configuration
+model:
+  sft_checkpoint: "models/strategist_sft/final"
+  base_model: "meta-llama/Llama-3.1-8B-Instruct"
+  
+  # LoRA Configuration
+  lora_rank: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  
+  # Model Settings
+  fp16: true
+  max_seq_length: 2048
+  
+  # Learning Rates
+  learning_rate: 1.0e-5
+  value_lr: 1.0e-4
+
+# Training Configuration
+training:
+  # PPO Hyperparameters
+  clip_epsilon: 0.2
+  value_coef: 0.5
+  entropy_coef: 0.01
+  gamma: 0.99
+  gae_lambda: 0.95
+  
+  # Training Loop
+  num_iterations: 1000
+  episodes_per_iteration: 10
+  epochs_per_iteration: 4
+  batch_size: 32
+  
+  # Checkpointing
+  output_dir: "models/strategist_ppo"
+  save_interval: 100
+  
+  # Evaluation
+  eval_interval: 50
+  eval_episodes: 20
+
+# Judge Configuration
+judge:
+  provider: "anthropic"
+  model: "claude-3-5-sonnet-20241022"
+  rubric_path: "config/judge/rubrics/strategist_rubric.yaml"
+
+# Environment Configuration
+environment:
+  symbols:
+    - "AAPL"
+    - "MSFT"
+    - "GOOGL"
+    - "AMZN"
+    - "TSLA"
+    - "META"
+    - "NVDA"
+  
+  initial_capital: 100000
+  max_position_size: 0.10
+  transaction_cost: 0.001
+
+# Logging
+use_wandb: true
+wandb_project: "stock-agent-system"
+log_level: "INFO"

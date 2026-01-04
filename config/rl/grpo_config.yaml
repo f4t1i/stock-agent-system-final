@@ -1,0 +1,112 @@
+# GRPO Training Configuration for Senior Strategist Agent
+# Group Relative Policy Optimization - Memory efficient alternative to PPO
+
+# Model Configuration
+model:
+  sft_checkpoint: "models/strategist_sft/final"
+  base_model: "meta-llama/Llama-3.1-8B-Instruct"
+  
+  # LoRA Configuration
+  lora_rank: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  
+  # Model Settings
+  load_in_4bit: true
+  max_seq_length: 2048
+  fp16: true
+
+# Training Configuration
+training:
+  # GRPO Hyperparameters
+  learning_rate: 5.0e-6
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  
+  # GRPO Specific
+  group_size: 4
+  kl_coef: 0.05
+  temperature: 0.7
+  
+  # Optimization
+  warmup_steps: 50
+  max_steps: 1000
+  weight_decay: 0.01
+  lr_scheduler_type: "cosine"
+  
+  # Checkpointing
+  output_dir: "models/strategist_grpo"
+  save_steps: 100
+  save_total_limit: 3
+  logging_steps: 10
+  
+  # Evaluation
+  eval_steps: 100
+  eval_strategy: "steps"
+
+# Reward Configuration
+reward:
+  # Judge for reward calculation
+  judge_provider: "anthropic"
+  judge_model: "claude-3-5-sonnet-20241022"
+  rubric_path: "config/judge/rubrics/strategist_rubric.yaml"
+  
+  # Reward shaping
+  reward_scale: 1.0
+  reward_clip: 2.0
+  
+  # Multi-objective weights
+  decision_quality_weight: 0.4
+  risk_management_weight: 0.3
+  reasoning_quality_weight: 0.2
+  confidence_calibration_weight: 0.1
+
+# Data Configuration
+data:
+  # Training data source
+  trajectory_db: "data/experience_library.db"
+  min_reward_threshold: 0.5
+  
+  # Sampling
+  num_training_examples: 5000
+  validation_split: 0.1
+  
+  # Augmentation
+  augmentation_factor: 0.2
+
+# Environment Configuration
+environment:
+  symbols:
+    - "AAPL"
+    - "MSFT"
+    - "GOOGL"
+    - "AMZN"
+    - "TSLA"
+    - "META"
+    - "NVDA"
+    - "JPM"
+    - "BAC"
+    - "WMT"
+  
+  portfolio:
+    initial_capital: 100000
+    max_position_size: 0.10
+    max_drawdown: 0.15
+    stop_loss: 0.05
+
+# Logging & Monitoring
+use_wandb: true
+wandb_project: "stock-agent-system"
+wandb_entity: null
+log_level: "INFO"
+
+# Experiment Tracking
+experiment:
+  name: "strategist_grpo_v1"
+  description: "GRPO training for senior strategist with multi-agent synthesis"
+  tags:
+    - "grpo"
+    - "strategist"
+    - "rl"
+    - "multi-agent"

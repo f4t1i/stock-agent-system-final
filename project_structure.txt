@@ -1,0 +1,107 @@
+.
+├── CLAUDE_CODE.md
+├── CLAUDE_CODE_PROMPT.md
+├── CONTRIBUTING.md
+├── Dockerfile
+├── IMPLEMENTATION_STATUS.md
+├── LICENSE
+├── PROJECT_SUMMARY.md
+├── QUICKSTART.md
+├── README.md
+├── README_OLD.md
+├── agents
+│   ├── __init__.py
+│   ├── base_agent.py
+│   ├── junior
+│   │   ├── __init__.py
+│   │   ├── fundamental_agent.py
+│   │   ├── news_agent.py
+│   │   └── technical_agent.py
+│   ├── senior
+│   │   ├── __init__.py
+│   │   └── strategist_agent.py
+│   └── supervisor
+│       ├── __init__.py
+│       └── supervisor_agent.py
+├── api
+│   ├── __init__.py
+│   ├── schemas.py
+│   └── server.py
+├── config
+│   ├── judge
+│   │   └── rubrics
+│   ├── rl
+│   │   ├── grpo_config.yaml
+│   │   └── ppo_config.yaml
+│   ├── sft
+│   │   ├── fundamental_agent.yaml
+│   │   ├── news_agent.yaml
+│   │   └── technical_agent.yaml
+│   ├── supervisor
+│   │   └── neural_ucb.yaml
+│   └── system.yaml
+├── docker-compose.yml
+├── docs
+│   ├── API_DOCUMENTATION.md
+│   ├── ARCHITECTURE.md
+│   ├── DEPLOYMENT.md
+│   ├── TESTING.md
+│   └── TRAINING.md
+├── judge
+│   ├── __init__.py
+│   ├── llm_judge.py
+│   └── multi_judge.py
+├── main.py
+├── orchestration
+│   ├── __init__.py
+│   ├── coordinator.py
+│   └── langgraph_workflow.py
+├── project_structure.txt
+├── requirements.txt
+├── scripts
+│   ├── collect_data.py
+│   ├── collect_news.py
+│   └── generate_synthetic_data.py
+├── tests
+│   ├── __init__.py
+│   ├── integration
+│   │   ├── __init__.py
+│   │   ├── test_api.py
+│   │   ├── test_coordinator.py
+│   │   └── test_full_workflow.py
+│   └── unit
+│       ├── __init__.py
+│       ├── test_fundamental_agent.py
+│       ├── test_judge.py
+│       ├── test_news_agent.py
+│       ├── test_strategist.py
+│       ├── test_supervisor.py
+│       └── test_technical_agent.py
+├── training
+│   ├── __init__.py
+│   ├── data_synthesis
+│   │   ├── __init__.py
+│   │   ├── experience_library.py
+│   │   └── synthesize_trajectories.py
+│   ├── rl
+│   │   ├── __init__.py
+│   │   ├── backtester.py
+│   │   ├── train_strategist_grpo.py
+│   │   └── train_strategist_ppo.py
+│   ├── sft
+│   │   ├── __init__.py
+│   │   ├── train_fundamental_agent.py
+│   │   ├── train_news_agent.py
+│   │   └── train_technical_agent.py
+│   └── supervisor
+│       ├── __init__.py
+│       └── train_supervisor.py
+└── utils
+    ├── __init__.py
+    ├── config_loader.py
+    ├── logging_setup.py
+    ├── market_data.py
+    ├── metrics.py
+    └── news_fetcher.py
+
+24 directories, 80 files

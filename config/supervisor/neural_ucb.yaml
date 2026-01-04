@@ -1,0 +1,177 @@
+# Neural-UCB Supervisor Configuration
+# Contextual Bandit approach for intelligent agent routing
+
+# Model Configuration
+model:
+  model_path: "models/supervisor_v1"
+  
+  # Neural Network Architecture
+  context_dim: 128
+  hidden_dims: [256, 128, 64]
+  num_actions: 7  # 7 routing strategies
+  
+  # UCB Parameters
+  exploration_factor: 0.5
+  confidence_scaling: 2.0
+  
+  # Training
+  learning_rate: 1.0e-4
+  batch_size: 32
+  update_frequency: 10
+
+# Routing Strategies
+strategies:
+  - name: "news_only"
+    id: 0
+    agents: ["news"]
+    description: "Use only news sentiment analysis"
+    
+  - name: "technical_only"
+    id: 1
+    agents: ["technical"]
+    description: "Use only technical analysis"
+    
+  - name: "fundamental_only"
+    id: 2
+    agents: ["fundamental"]
+    description: "Use only fundamental analysis"
+    
+  - name: "news_technical"
+    id: 3
+    agents: ["news", "technical"]
+    description: "Combine news and technical analysis"
+    
+  - name: "technical_fundamental"
+    id: 4
+    agents: ["technical", "fundamental"]
+    description: "Combine technical and fundamental analysis"
+    
+  - name: "news_fundamental"
+    id: 5
+    agents: ["news", "fundamental"]
+    description: "Combine news and fundamental analysis"
+    
+  - name: "all_agents"
+    id: 6
+    agents: ["news", "technical", "fundamental"]
+    description: "Use all available agents"
+
+# Training Configuration
+training:
+  # Online Learning
+  num_episodes: 1000
+  buffer_size: 10000
+  min_buffer_size: 100
+  
+  # Update Schedule
+  update_interval: 10
+  target_update_interval: 100
+  
+  # Checkpointing
+  output_dir: "models/supervisor_training"
+  save_interval: 100
+  
+  # Evaluation
+  eval_interval: 50
+  eval_episodes: 20
+
+# Context Features
+context_features:
+  # Market Data
+  - name: "price"
+    type: "float"
+    normalize: true
+    
+  - name: "volume"
+    type: "float"
+    normalize: true
+    log_transform: true
+    
+  - name: "volatility"
+    type: "float"
+    normalize: true
+    
+  - name: "price_change_1d"
+    type: "float"
+    normalize: true
+    
+  - name: "price_change_5d"
+    type: "float"
+    normalize: true
+    
+  # Portfolio State
+  - name: "cash_ratio"
+    type: "float"
+    normalize: true
+    
+  - name: "position_count"
+    type: "int"
+    normalize: true
+    
+  - name: "current_drawdown"
+    type: "float"
+    normalize: true
+    
+  # Market Regime
+  - name: "market_regime"
+    type: "categorical"
+    categories: ["bull", "bear", "sideways", "high_volatility"]
+    embedding_dim: 8
+
+# Reward Shaping
+reward:
+  # Reward calculation
+  success_reward: 1.0
+  failure_penalty: -0.5
+  neutral_reward: 0.0
+  
+  # Efficiency bonus (for using fewer agents)
+  efficiency_bonus: 0.1
+  
+  # Discount factor
+  gamma: 0.99
+
+# Exploration Strategy
+exploration:
+  # Initial exploration
+  initial_epsilon: 1.0
+  final_epsilon: 0.1
+  decay_steps: 500
+  
+  # UCB exploration
+  use_ucb: true
+  ucb_confidence: 2.0
+  
+  # Thompson sampling (alternative)
+  use_thompson: false
+
+# Performance Tracking
+tracking:
+  # Metrics to track per strategy
+  metrics:
+    - "selection_count"
+    - "avg_reward"
+    - "success_rate"
+    - "avg_latency"
+    - "cost_efficiency"
+  
+  # Window for moving averages
+  window_size: 100
+  
+  # Regime-specific tracking
+  track_by_regime: true
+
+# Logging
+use_wandb: true
+wandb_project: "stock-agent-system"
+log_level: "INFO"
+
+# Experiment
+experiment:
+  name: "supervisor_neural_ucb_v1"
+  description: "Neural-UCB contextual bandit for agent routing"
+  tags:
+    - "supervisor"
+    - "contextual-bandit"
+    - "neural-ucb"
+    - "routing"

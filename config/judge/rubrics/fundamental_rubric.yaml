@@ -1,0 +1,196 @@
+# Fundamental Analysis Agent Evaluation Rubric
+
+agent_type: fundamental
+description: "Rubric for evaluating the Fundamental Analysis Agent's performance in analyzing company financials, valuation metrics, and business fundamentals"
+
+criteria:
+  - name: financial_metrics_accuracy
+    weight: 0.25
+    description: "Accuracy and completeness of financial metrics extraction (P/E, P/B, ROE, Debt-to-Equity, etc.)"
+    scoring:
+      excellent: "All key metrics correctly extracted and calculated with proper context"
+      good: "Most metrics correct with minor calculation errors or missing context"
+      fair: "Some metrics correct but significant gaps or errors"
+      poor: "Major errors in metrics or most metrics missing"
+  
+  - name: valuation_analysis
+    weight: 0.25
+    description: "Quality of valuation assessment (DCF, comparable analysis, intrinsic value estimation)"
+    scoring:
+      excellent: "Comprehensive valuation with multiple methods, clear assumptions, and justified conclusions"
+      good: "Solid valuation analysis with reasonable assumptions and clear methodology"
+      fair: "Basic valuation with some questionable assumptions or incomplete analysis"
+      poor: "Weak or incorrect valuation methodology"
+  
+  - name: business_quality_assessment
+    weight: 0.20
+    description: "Evaluation of business model, competitive advantages, management quality, and industry position"
+    scoring:
+      excellent: "Deep analysis of business fundamentals, moats, and competitive positioning"
+      good: "Good understanding of business with relevant competitive analysis"
+      fair: "Surface-level business analysis with limited competitive insights"
+      poor: "Minimal or incorrect business assessment"
+  
+  - name: financial_health_evaluation
+    weight: 0.15
+    description: "Assessment of balance sheet strength, cash flow quality, and financial stability"
+    scoring:
+      excellent: "Thorough analysis of financial health with red flags identified and contextualized"
+      good: "Solid financial health assessment with key risks noted"
+      fair: "Basic financial health check with some important factors missed"
+      poor: "Inadequate or incorrect financial health evaluation"
+  
+  - name: growth_prospects
+    weight: 0.10
+    description: "Analysis of growth drivers, market opportunities, and future earnings potential"
+    scoring:
+      excellent: "Comprehensive growth analysis with realistic projections and clear drivers identified"
+      good: "Reasonable growth assessment with key drivers explained"
+      fair: "Basic growth analysis with limited forward-looking insights"
+      poor: "Weak or unrealistic growth projections"
+  
+  - name: reasoning_quality
+    weight: 0.05
+    description: "Clarity, logic, and coherence of the fundamental analysis reasoning"
+    scoring:
+      excellent: "Crystal clear reasoning with logical flow and well-supported conclusions"
+      good: "Clear reasoning with minor gaps in logic"
+      fair: "Somewhat unclear reasoning with noticeable logical gaps"
+      poor: "Confusing or illogical reasoning"
+
+# Score ranges for final evaluation
+score_ranges:
+  excellent: [90, 100]
+  good: [75, 89]
+  fair: [60, 74]
+  poor: [0, 59]
+
+# Specific evaluation prompts
+evaluation_prompts:
+  financial_metrics: |
+    Evaluate the accuracy and completeness of financial metrics:
+    - Are P/E, P/B, ROE, Debt-to-Equity correctly calculated?
+    - Are metrics compared to industry averages?
+    - Are trends over time analyzed?
+    - Are any red flags in the numbers identified?
+  
+  valuation: |
+    Assess the valuation analysis:
+    - Is the DCF model (if used) properly constructed?
+    - Are comparable companies appropriately selected?
+    - Are assumptions clearly stated and reasonable?
+    - Is the conclusion (undervalued/fair/overvalued) justified?
+  
+  business_quality: |
+    Evaluate the business quality assessment:
+    - Is the business model clearly understood?
+    - Are competitive advantages (moats) identified?
+    - Is management quality discussed?
+    - Is industry positioning analyzed?
+  
+  financial_health: |
+    Review the financial health evaluation:
+    - Is balance sheet strength assessed?
+    - Is cash flow quality analyzed?
+    - Are liquidity and solvency risks identified?
+    - Are debt levels and coverage ratios evaluated?
+  
+  growth: |
+    Assess the growth prospects analysis:
+    - Are growth drivers clearly identified?
+    - Are market opportunities quantified?
+    - Are earnings projections realistic?
+    - Are risks to growth discussed?
+
+# Common failure modes to watch for
+failure_modes:
+  - "Missing key financial metrics (P/E, ROE, etc.)"
+  - "Incorrect metric calculations or interpretations"
+  - "Valuation without clear methodology or assumptions"
+  - "Ignoring red flags in financial statements"
+  - "Overly optimistic or pessimistic bias without justification"
+  - "Failure to compare to industry peers"
+  - "Ignoring balance sheet risks or cash flow issues"
+  - "Unrealistic growth projections"
+  - "Missing discussion of competitive positioning"
+  - "Lack of context for financial metrics"
+
+# Reward calculation
+reward_calculation:
+  base_reward: "weighted_score / 100"  # 0 to 1
+  bonus_factors:
+    - condition: "identified_major_red_flag"
+      bonus: 0.1
+      description: "Bonus for identifying critical financial risks"
+    - condition: "comprehensive_valuation"
+      bonus: 0.05
+      description: "Bonus for using multiple valuation methods"
+    - condition: "industry_comparison"
+      bonus: 0.05
+      description: "Bonus for thorough industry peer comparison"
+  
+  penalty_factors:
+    - condition: "major_calculation_error"
+      penalty: 0.2
+      description: "Penalty for significant errors in financial metrics"
+    - condition: "missing_critical_metric"
+      penalty: 0.1
+      description: "Penalty for omitting key financial indicators"
+    - condition: "unrealistic_valuation"
+      penalty: 0.15
+      description: "Penalty for unjustified or extreme valuation conclusions"
+
+# Example good output
+example_good_output: |
+  {
+    "symbol": "AAPL",
+    "valuation": "fair",
+    "score": 0.78,
+    "confidence": 0.85,
+    "metrics": {
+      "pe_ratio": 28.5,
+      "pb_ratio": 45.2,
+      "roe": 0.45,
+      "debt_to_equity": 1.8,
+      "current_ratio": 0.98,
+      "fcf_yield": 0.03
+    },
+    "dcf_valuation": {
+      "intrinsic_value": 185.50,
+      "current_price": 180.00,
+      "upside": 0.03,
+      "assumptions": {
+        "revenue_growth": [0.08, 0.07, 0.06],
+        "terminal_growth": 0.03,
+        "wacc": 0.09
+      }
+    },
+    "business_quality": {
+      "moat": "strong",
+      "competitive_position": "market_leader",
+      "management": "excellent"
+    },
+    "financial_health": "strong",
+    "growth_prospects": "moderate",
+    "key_risks": [
+      "High valuation multiples vs historical average",
+      "Slowing iPhone sales growth",
+      "Regulatory pressures in key markets"
+    ],
+    "reasoning": "Apple trades at a P/E of 28.5x, slightly above its 5-year average of 25x but justified by strong services growth and ecosystem lock-in. DCF analysis suggests fair value around $185, implying 3% upside. Balance sheet is solid with manageable debt and strong FCF generation. Key risks include valuation and growth deceleration, but competitive moats remain intact.",
+    "recommendation": "hold"
+  }
+
+# Example poor output
+example_poor_output: |
+  {
+    "symbol": "AAPL",
+    "valuation": "undervalued",
+    "score": 0.9,
+    "confidence": 0.95,
+    "metrics": {
+      "pe_ratio": 28.5
+    },
+    "reasoning": "Apple is a great company with strong products. The stock looks cheap.",
+    "recommendation": "strong_buy"
+  }

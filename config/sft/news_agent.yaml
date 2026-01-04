@@ -1,0 +1,39 @@
+# News Agent SFT Configuration
+
+model:
+  base_model: "unsloth/Meta-Llama-3.1-8B-Instruct"
+  max_seq_length: 2048
+  load_in_4bit: true
+  
+  # LoRA Configuration
+  lora_rank: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+
+data:
+  dataset_path: "data/processed/news_training.jsonl"
+  val_split: 0.1
+  max_samples: null  # null = use all
+
+training:
+  output_dir: "models/news_agent_sft"
+  num_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 2.0e-4
+  weight_decay: 0.01
+  lr_scheduler: "linear"
+  warmup_steps: 100
+  
+  # Logging & Evaluation
+  logging_steps: 10
+  eval_steps: 500
+  save_steps: 500
+  
+  # Post-training
+  merge_lora: false  # Set to true to merge LoRA weights
+
+# Wandb
+use_wandb: true
+wandb_project: "stock-agent-system"
+wandb_entity: null  # Your wandb entity

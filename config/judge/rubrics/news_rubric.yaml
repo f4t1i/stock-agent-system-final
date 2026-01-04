@@ -1,0 +1,86 @@
+name: "News Sentiment Analysis Rubric"
+description: "Evaluation criteria for news sentiment analysis agent outputs"
+
+dimensions:
+  - name: "Sentiment Accuracy"
+    weight: 0.30
+    description: "How accurately does the sentiment score reflect the actual news content?"
+    levels:
+      - score: 1.0
+        description: "Sentiment perfectly captures the tone and implications of the news. Score is well-calibrated and justified."
+      - score: 0.75
+        description: "Sentiment is mostly accurate with minor deviations. Good calibration overall."
+      - score: 0.50
+        description: "Sentiment is somewhat accurate but misses important nuances or is poorly calibrated."
+      - score: 0.25
+        description: "Sentiment shows significant inaccuracies or poor calibration."
+      - score: 0.0
+        description: "Sentiment is completely wrong or contradicts the news content."
+
+  - name: "Reasoning Quality"
+    weight: 0.25
+    description: "Quality and depth of the reasoning provided"
+    levels:
+      - score: 1.0
+        description: "Reasoning is comprehensive, well-structured, and cites specific facts from the news. Explains the logic clearly."
+      - score: 0.75
+        description: "Reasoning is good with clear logic, though may lack some depth or specific citations."
+      - score: 0.50
+        description: "Reasoning is present but superficial or vague. Missing key details."
+      - score: 0.25
+        description: "Reasoning is weak, circular, or poorly explained."
+      - score: 0.0
+        description: "No meaningful reasoning provided or reasoning is illogical."
+
+  - name: "Price Impact Assessment"
+    weight: 0.20
+    description: "Accuracy of price impact prediction (bullish/bearish/neutral)"
+    levels:
+      - score: 1.0
+        description: "Price impact assessment is spot-on and well-justified based on news content."
+      - score: 0.75
+        description: "Price impact is reasonable and mostly aligned with news implications."
+      - score: 0.50
+        description: "Price impact assessment is questionable or weakly supported."
+      - score: 0.25
+        description: "Price impact seems contrary to news implications."
+      - score: 0.0
+        description: "Price impact assessment is clearly wrong."
+
+  - name: "Key Events Identification"
+    weight: 0.15
+    description: "Ability to identify and extract key events from news"
+    levels:
+      - score: 1.0
+        description: "All critical events identified. No important information missed."
+      - score: 0.75
+        description: "Most key events identified with minor omissions."
+      - score: 0.50
+        description: "Some key events identified but missing important ones."
+      - score: 0.25
+        description: "Few key events identified, many important ones missed."
+      - score: 0.0
+        description: "Failed to identify key events or identified irrelevant information."
+
+  - name: "Confidence Calibration"
+    weight: 0.10
+    description: "Is the confidence level appropriate given the analysis quality?"
+    levels:
+      - score: 1.0
+        description: "Confidence is perfectly calibrated - high when analysis is strong, low when uncertain."
+      - score: 0.75
+        description: "Confidence is mostly well-calibrated with minor issues."
+      - score: 0.50
+        description: "Confidence shows moderate miscalibration."
+      - score: 0.25
+        description: "Confidence is poorly calibrated - overly confident or understated."
+      - score: 0.0
+        description: "Confidence is completely miscalibrated."
+
+reward_mapping:
+  # How to convert scores to RL rewards
+  excellent_threshold: 0.85  # Score above this gets bonus
+  poor_threshold: 0.40  # Score below this gets penalty
+  base_weight: 1.0
+  bonus: 0.3
+  penalty: -0.5

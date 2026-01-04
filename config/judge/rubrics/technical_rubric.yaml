@@ -1,0 +1,85 @@
+name: "Technical Analysis Rubric"
+description: "Evaluation criteria for technical analysis agent outputs"
+
+dimensions:
+  - name: "Indicator Interpretation"
+    weight: 0.30
+    description: "Accuracy and quality of technical indicator interpretation"
+    levels:
+      - score: 1.0
+        description: "All indicators correctly interpreted. Analysis synthesizes multiple indicators coherently."
+      - score: 0.75
+        description: "Most indicators correctly interpreted with good synthesis."
+      - score: 0.50
+        description: "Some indicators interpreted correctly but synthesis is weak."
+      - score: 0.25
+        description: "Many indicators misinterpreted or analysis is confused."
+      - score: 0.0
+        description: "Fundamental misunderstanding of technical indicators."
+
+  - name: "Signal Quality"
+    weight: 0.25
+    description: "Quality and actionability of trading signals"
+    levels:
+      - score: 1.0
+        description: "Signal is clear, well-justified, and properly weighted by strength. Timing is appropriate."
+      - score: 0.75
+        description: "Good signal with minor issues in justification or timing."
+      - score: 0.50
+        description: "Signal is present but weak or poorly timed."
+      - score: 0.25
+        description: "Signal is questionable or contradicted by indicators."
+      - score: 0.0
+        description: "Signal is clearly wrong or missing."
+
+  - name: "Trend Identification"
+    weight: 0.20
+    description: "Accuracy in identifying market trends"
+    levels:
+      - score: 1.0
+        description: "Trend correctly identified with proper supporting evidence."
+      - score: 0.75
+        description: "Trend mostly correct with good evidence."
+      - score: 0.50
+        description: "Trend identification is uncertain or weakly supported."
+      - score: 0.25
+        description: "Trend identification shows significant errors."
+      - score: 0.0
+        description: "Trend completely misidentified."
+
+  - name: "Support/Resistance Levels"
+    weight: 0.15
+    description: "Quality of identified support and resistance levels"
+    levels:
+      - score: 1.0
+        description: "S/R levels are accurate, relevant, and properly prioritized."
+      - score: 0.75
+        description: "S/R levels are mostly good with minor issues."
+      - score: 0.50
+        description: "S/R levels are present but questionable or not relevant."
+      - score: 0.25
+        description: "S/R levels show significant errors."
+      - score: 0.0
+        description: "S/R levels are wrong or missing."
+
+  - name: "Risk Assessment"
+    weight: 0.10
+    description: "Quality of risk assessment and warnings"
+    levels:
+      - score: 1.0
+        description: "Comprehensive risk assessment with specific warnings and contingencies."
+      - score: 0.75
+        description: "Good risk assessment covering main concerns."
+      - score: 0.50
+        description: "Basic risk assessment, missing some concerns."
+      - score: 0.25
+        description: "Weak risk assessment with major gaps."
+      - score: 0.0
+        description: "No meaningful risk assessment provided."
+
+reward_mapping:
+  excellent_threshold: 0.85
+  poor_threshold: 0.40
+  base_weight: 1.0
+  bonus: 0.3
+  penalty: -0.5

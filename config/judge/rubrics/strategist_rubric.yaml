@@ -1,0 +1,87 @@
+name: "Senior Strategist Decision Rubric"
+description: "Evaluation criteria for senior strategist trading decisions"
+
+dimensions:
+  - name: "Decision Quality"
+    weight: 0.30
+    description: "Quality of the final trading decision (buy/sell/hold)"
+    levels:
+      - score: 1.0
+        description: "Decision is optimal given all available information. Properly synthesizes all agent inputs."
+      - score: 0.75
+        description: "Decision is sound with good synthesis of inputs."
+      - score: 0.50
+        description: "Decision is reasonable but may not be optimal."
+      - score: 0.25
+        description: "Decision shows poor judgment or ignores important inputs."
+      - score: 0.0
+        description: "Decision is clearly wrong or contradicts all evidence."
+
+  - name: "Risk Management"
+    weight: 0.25
+    description: "Quality of risk management (position sizing, stop loss, risk/reward)"
+    levels:
+      - score: 1.0
+        description: "Excellent risk management. Position size, stop loss, and targets are all appropriate and well-calibrated."
+      - score: 0.75
+        description: "Good risk management with proper controls in place."
+      - score: 0.50
+        description: "Basic risk management but could be improved."
+      - score: 0.25
+        description: "Weak risk management with significant gaps."
+      - score: 0.0
+        description: "No meaningful risk management or reckless recommendations."
+
+  - name: "Reasoning & Synthesis"
+    weight: 0.20
+    description: "Quality of reasoning that synthesizes multiple agent inputs"
+    levels:
+      - score: 1.0
+        description: "Excellent synthesis of all inputs. Reasoning is clear, logical, and comprehensive."
+      - score: 0.75
+        description: "Good synthesis with clear reasoning. Minor gaps acceptable."
+      - score: 0.50
+        description: "Basic synthesis but reasoning could be stronger."
+      - score: 0.25
+        description: "Weak synthesis, ignores important inputs or reasoning is flawed."
+      - score: 0.0
+        description: "Failed to synthesize inputs or reasoning is incoherent."
+
+  - name: "Portfolio Awareness"
+    weight: 0.15
+    description: "Consideration of portfolio constraints and diversification"
+    levels:
+      - score: 1.0
+        description: "Fully accounts for portfolio constraints, diversification, and current positions."
+      - score: 0.75
+        description: "Good awareness of portfolio considerations."
+      - score: 0.50
+        description: "Some portfolio awareness but could be more thorough."
+      - score: 0.25
+        description: "Weak portfolio awareness, ignores important constraints."
+      - score: 0.0
+        description: "No consideration of portfolio constraints."
+
+  - name: "Expected Outcome Realism"
+    weight: 0.10
+    description: "Realism of expected returns, targets, and time horizons"
+    levels:
+      - score: 1.0
+        description: "Expected outcomes are realistic and well-grounded in analysis."
+      - score: 0.75
+        description: "Outcomes are mostly realistic with minor optimism/pessimism."
+      - score: 0.50
+        description: "Outcomes show moderate unrealistic expectations."
+      - score: 0.25
+        description: "Outcomes are significantly unrealistic."
+      - score: 0.0
+        description: "Outcomes are completely unrealistic or missing."
+
+reward_mapping:
+  excellent_threshold: 0.85
+  poor_threshold: 0.40
+  base_weight: 1.2  # Higher weight for strategist
+  bonus: 0.4
+  penalty: -0.6
+  # Additional reward factors
+  actual_outcome_weight: 0.5  # Weight for comparing to actual market outcomes

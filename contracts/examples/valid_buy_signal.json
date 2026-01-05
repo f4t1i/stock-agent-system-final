@@ -1,0 +1,130 @@
+{
+  "analysis": {
+    "news": {
+      "sentiment_score": 1.5,
+      "confidence": 0.85,
+      "key_events": [
+        "Strong Q4 earnings beat (+15% vs expectations)",
+        "New product launch announced",
+        "Upgraded by major investment bank"
+      ],
+      "sources": [
+        {
+          "title": "Company X beats Q4 earnings expectations",
+          "url": "https://example.com/news/earnings-beat",
+          "sentiment": 1.8,
+          "timestamp": "2026-01-05T10:30:00Z"
+        }
+      ]
+    },
+    "technical": {
+      "signal": "bullish",
+      "signal_strength": 0.8,
+      "indicators": {
+        "rsi": 65,
+        "macd": {
+          "value": 2.5,
+          "signal": 2.0,
+          "histogram": 0.5
+        },
+        "sma_20": 148.5,
+        "sma_50": 145.0,
+        "sma_200": 140.0,
+        "bollinger_bands": {
+          "upper": 155.0,
+          "middle": 150.0,
+          "lower": 145.0
+        }
+      },
+      "support_levels": [145.0, 142.0, 138.0],
+      "resistance_levels": [155.0, 160.0, 165.0],
+      "patterns": [
+        {
+          "name": "Cup and Handle",
+          "type": "bullish",
+          "confidence": 0.75
+        }
+      ]
+    },
+    "fundamental": {
+      "valuation": "undervalued",
+      "financial_health_score": 0.9,
+      "growth_score": 0.85,
+      "key_metrics": {
+        "pe_ratio": 22.5,
+        "pb_ratio": 3.2,
+        "debt_to_equity": 0.45,
+        "roe": 0.28,
+        "roa": 0.15,
+        "current_ratio": 1.8,
+        "revenue_growth_yoy": 0.18,
+        "earnings_growth_yoy": 0.22
+      }
+    }
+  },
+  "signal": "buy",
+  "sizing": {
+    "position_size": 0.15,
+    "rationale": "Strong fundamentals (ROE: 28%, revenue growth: 18% YoY) combined with bullish technical setup (breakout above $150 resistance with RSI at 65) justify a moderate 15% position size. Kelly Criterion suggests ~18%, but we reduce to 15% for risk management.",
+    "kelly_fraction": 0.18,
+    "max_position_value": 15000
+  },
+  "risk": {
+    "stop_loss": 145.0,
+    "take_profit": 165.0,
+    "max_drawdown": 0.05,
+    "risk_reward_ratio": 3.0,
+    "time_horizon": "short_term",
+    "volatility_adjusted": true
+  },
+  "rationale": "Based on strong earnings beat (+15% vs expectations), bullish technical breakout above $150 resistance with cup-and-handle pattern confirmation, and favorable news sentiment (score: 1.5), we recommend BUY with 15% position size. The company shows excellent fundamentals (ROE: 28%, revenue growth: 18%) and is currently undervalued. Technical indicators support entry: RSI at 65 (not overbought), MACD showing bullish crossover, and price above all major moving averages. Stop loss at $145 (-3.3%) protects against false breakout, while take profit at $165 (+10%) targets next resistance level. Risk/reward ratio of 3:1 is favorable.",
+  "evidence": {
+    "sources": [
+      {
+        "type": "earnings_report",
+        "description": "Q4 2025 earnings beat by 15%, EPS $3.45 vs $3.00 expected",
+        "url": "https://example.com/earnings/q4-2025",
+        "timestamp": "2026-01-05T08:00:00Z",
+        "weight": 0.9
+      },
+      {
+        "type": "technical_indicator",
+        "description": "Bullish MACD crossover with histogram increasing",
+        "timestamp": "2026-01-05T09:30:00Z",
+        "weight": 0.7
+      },
+      {
+        "type": "fundamental_metric",
+        "description": "P/E ratio (22.5) below sector average (28.0), indicating undervaluation",
+        "timestamp": "2026-01-05T09:00:00Z",
+        "weight": 0.8
+      },
+      {
+        "type": "news",
+        "description": "Upgraded to 'Buy' by Goldman Sachs, price target raised to $170",
+        "url": "https://example.com/analyst-upgrade",
+        "timestamp": "2026-01-05T07:30:00Z",
+        "weight": 0.6
+      }
+    ],
+    "confidence": 0.85,
+    "consensus": {
+      "agent_agreement": 0.88,
+      "conflicting_signals": []
+    }
+  },
+  "metadata": {
+    "symbol": "AAPL",
+    "timestamp": "2026-01-05T10:45:00Z",
+    "version": "1.0.0",
+    "agent_versions": {
+      "news_agent": "v1.2.3",
+      "technical_agent": "v1.4.1",
+      "fundamental_agent": "v1.3.0",
+      "strategist": "v2.0.1"
+    },
+    "execution_time_ms": 3450,
+    "market_regime": "bull",
+    "current_price": 150.0
+  }
+}

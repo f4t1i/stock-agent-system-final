@@ -88,10 +88,74 @@ report-pdf: ## Generate PDF report
 
 ##@ Training
 
-train-sft: ## Train SFT models for junior agents
-	@echo "🧠 Training SFT models..."
-	python scripts/train_sft.py
-	@echo "✅ SFT training complete"
+##@ SFT Training
+
+train-news-agent: ## Train News Agent (SFT)
+	@echo "📰 Training News Agent..."
+	python scripts/train_agent_sft.py \
+		--agent news_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/news_agent_v1.0.0
+	@echo "✅ News Agent training complete"
+
+train-technical-agent: ## Train Technical Agent (SFT)
+	@echo "📊 Training Technical Agent..."
+	python scripts/train_agent_sft.py \
+		--agent technical_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/technical_agent_v1.0.0
+	@echo "✅ Technical Agent training complete"
+
+train-fundamental-agent: ## Train Fundamental Agent (SFT)
+	@echo "💰 Training Fundamental Agent..."
+	python scripts/train_agent_sft.py \
+		--agent fundamental_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/fundamental_agent_v1.0.0
+	@echo "✅ Fundamental Agent training complete"
+
+train-all-agents: ## Train all three agents (News, Technical, Fundamental)
+	@echo "🚀 Training all agents..."
+	python scripts/train_agent_sft.py \
+		--agent all \
+		--dataset data/datasets/sft_v1 \
+		--output-dir models/sft
+	@echo "✅ All agents training complete"
+
+train-quick-test: ## Quick test training (1 epoch, 100 samples)
+	@echo "⚡ Quick test training..."
+	python scripts/train_agent_sft.py \
+		--agent news_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/news_agent_test \
+		--preset quick_test
+	@echo "✅ Quick test complete"
+
+train-production: ## Production training with optimized settings
+	@echo "🏭 Production training..."
+	python scripts/train_agent_sft.py \
+		--agent all \
+		--dataset data/datasets/sft_v1 \
+		--output-dir models/sft \
+		--preset production
+	@echo "✅ Production training complete"
+
+##@ Model Registry
+
+models-list: ## List all registered models
+	@echo "📋 Listing registered models..."
+	python training/sft/model_registry.py --list
+
+models-best: ## Show best model for agent (usage: make models-best AGENT=news_agent)
+	@echo "🏆 Best model for $(or $(AGENT),news_agent)..."
+	python training/sft/model_registry.py --best --agent $(or $(AGENT),news_agent) --metric eval_loss
+
+models-promote: ## Promote model to production (usage: make models-promote MODEL_ID=xxx)
+	@echo "⬆️  Promoting model $(MODEL_ID) to production..."
+	python training/sft/model_registry.py --promote $(MODEL_ID) --to-stage production
+	@echo "✅ Model promoted"
+
+##@ RL Training
 
 train-rl: ## Train RL model for strategist
 	@echo "🎮 Training RL model..."

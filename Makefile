@@ -486,6 +486,57 @@ acceptance-test-rl: ## Run RL training pipeline acceptance tests (Tasks #21-24)
 	python tests/acceptance/test_rl_training.py
 	@echo "\n✅ All RL tests passed!"
 
+acceptance-test-iteration: ## Run multi-iteration training acceptance tests (Phase A2)
+	@echo "✅ Running multi-iteration training acceptance tests..."
+	python tests/acceptance/test_multi_iteration_training.py
+	@echo "\n✅ All iteration tests passed!"
+
+##@ Multi-Iteration Training (Phase A2)
+
+train-iteration: ## Run multi-iteration training (default: 10 iterations)
+	@echo "🔄 Starting multi-iteration training..."
+	python scripts/train_rl.py --mode iteration --iterations 10 --output models/iteration
+	@echo "✅ Multi-iteration training complete"
+
+train-iteration-quick: ## Quick iteration test (3 iterations)
+	@echo "⚡ Quick iteration training..."
+	python scripts/train_rl.py --mode iteration --iterations 3 --output models/iteration_test
+	@echo "✅ Quick iteration complete"
+
+train-regime-specific: ## Train regime-specific models (bull/bear/sideways)
+	@echo "📊 Training regime-specific models..."
+	python scripts/train_rl.py --mode regime --regimes bull,bear,sideways --output models/regime
+	@echo "✅ Regime-specific training complete"
+
+train-with-convergence: ## Train with convergence tracking
+	@echo "📈 Training with convergence tracking..."
+	python scripts/train_rl.py --mode iteration --iterations 20 --convergence-threshold 0.01 --patience 3 --output models/converged
+	@echo "✅ Convergence training complete"
+
+test-supervisor-v2: ## Test Supervisor v2 routing
+	@echo "🎯 Testing Supervisor v2..."
+	python -c "from agents.supervisor_v2 import SupervisorV2, SupervisorConfig; import numpy as np; config = SupervisorConfig(num_agents=4, context_dim=10, hidden_dim=64); supervisor = SupervisorV2(config); context = np.random.randn(10); agent_id, confidence = supervisor.select_agent(context); print(f'Selected agent: {agent_id}, Confidence: {confidence:.3f}')"
+	@echo "✅ Supervisor v2 test complete"
+
+test-regime-features: ## Test regime feature extraction
+	@echo "📊 Testing regime features..."
+	python -c "from agents.regime_features import RegimeFeatureExtractor; import pandas as pd; import numpy as np; from datetime import datetime; extractor = RegimeFeatureExtractor(); dates = pd.date_range(end=datetime.now(), periods=100, freq='D'); prices = pd.DataFrame({'date': dates, 'open': 100 + np.cumsum(np.random.randn(100) * 0.5), 'high': 100 + np.cumsum(np.random.randn(100) * 0.5 + 0.1), 'low': 100 + np.cumsum(np.random.randn(100) * 0.5 - 0.1), 'close': 100 + np.cumsum(np.random.randn(100) * 0.5), 'volume': np.random.randint(1000000, 10000000, 100)}); features = extractor.extract('AAPL', prices); print(f'Regime: {features[\"regime\"]}, Trend: {features[\"trend\"]}, Volatility: {features[\"volatility\"]}')"
+	@echo "✅ Regime features test complete"
+
+iteration-status: ## Show iteration training status
+	@echo "📊 Iteration Training Status:"
+	@echo "Models:"
+	@ls -lh models/iteration/*.pt 2>/dev/null || echo "  No iteration models found"
+	@echo "\nLogs:"
+	@ls -lh models/iteration/logs/*.log 2>/dev/null || echo "  No logs found"
+	@echo "\nMetrics:"
+	@ls -lh models/iteration/metrics/*.json 2>/dev/null || echo "  No metrics found"
+
+##@ Acceptance Tests (All)
+
+acceptance-test-all: acceptance-test-phase-a0 acceptance-test-sft acceptance-test-rl acceptance-test-iteration ## Run all acceptance tests
+	@echo "\n🎉 ALL ACCEPTANCE TESTS PASSED!"
+
 ##@ Documentation
 
 docs: ## Generate documentation

@@ -1,0 +1,138 @@
+# Risk Management Configuration
+# Controls trading risk policies and guardrails
+
+# Position Limits
+position_limits:
+  # Maximum position size as % of portfolio
+  max_position_size_pct: 10.0
+  
+  # Maximum position value in USD
+  max_position_value: 100000.0
+  
+  # Maximum number of open positions
+  max_open_positions: 20
+
+# Portfolio Limits
+portfolio_limits:
+  # Maximum concentration in single stock (%)
+  max_concentration_pct: 25.0
+  
+  # Maximum sector concentration (%)
+  max_sector_concentration_pct: 40.0
+  
+  # Maximum portfolio drawdown (%)
+  max_drawdown_pct: 20.0
+  
+  # Minimum portfolio diversification (number of stocks)
+  min_diversification: 5
+
+# Confidence Gates
+confidence_gates:
+  # Minimum agent confidence for any trade
+  min_confidence: 0.6
+  
+  # Minimum confidence for high-risk trades
+  min_confidence_high_risk: 0.8
+  
+  # Minimum confidence for large positions (>5% portfolio)
+  min_confidence_large_position: 0.75
+
+# Volatility Gates
+volatility_gates:
+  # Maximum daily volatility (%)
+  max_volatility: 0.5
+  
+  # Maximum stock beta
+  max_beta: 2.0
+  
+  # Maximum VIX level for trading
+  max_vix: 40.0
+
+# Trading Hours
+trading_hours:
+  # Enable trading hours restriction
+  enabled: true
+  
+  # Market hours (EST)
+  market_open: "09:30"
+  market_close: "16:00"
+  
+  # Allow pre-market trading
+  allow_premarket: false
+  
+  # Allow after-hours trading
+  allow_afterhours: false
+
+# Circuit Breakers
+circuit_breakers:
+  # Daily loss limit (%)
+  daily_loss_limit_pct: 5.0
+  
+  # Weekly loss limit (%)
+  weekly_loss_limit_pct: 10.0
+  
+  # Monthly loss limit (%)
+  monthly_loss_limit_pct: 15.0
+  
+  # Auto-pause trading on breach
+  auto_pause: true
+  
+  # Cooldown period after breach (hours)
+  cooldown_hours: 24
+
+# Policy Templates
+policy_templates:
+  conservative:
+    name: "Conservative Trading"
+    description: "Low-risk, high-confidence trades only"
+    rules:
+      - field: "confidence"
+        operator: ">="
+        value: 0.8
+      - field: "volatility"
+        operator: "<="
+        value: 0.3
+    logic: "AND"
+  
+  balanced:
+    name: "Balanced Trading"
+    description: "Moderate risk with good confidence"
+    rules:
+      - field: "confidence"
+        operator: ">="
+        value: 0.7
+      - field: "volatility"
+        operator: "<="
+        value: 0.4
+    logic: "AND"
+  
+  aggressive:
+    name: "Aggressive Trading"
+    description: "Higher risk tolerance"
+    rules:
+      - field: "confidence"
+        operator: ">="
+        value: 0.6
+    logic: "AND"
+
+# Monitoring
+monitoring:
+  # Enable real-time risk monitoring
+  enabled: true
+  
+  # Check interval (seconds)
+  check_interval: 60
+  
+  # Alert on policy violations
+  alert_on_violation: true
+  
+  # Log all risk checks
+  log_checks: true
+
+# Logging
+logging:
+  level: "INFO"
+  log_file: "logs/risk_management.log"
+  rotate: true
+  max_size_mb: 100
+  backup_count: 5

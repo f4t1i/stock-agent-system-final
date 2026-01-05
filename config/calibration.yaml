@@ -1,0 +1,42 @@
+# Confidence Calibration Configuration
+
+# Calibration method
+calibration:
+  # Method: isotonic, platt, temperature
+  method: "isotonic"
+  
+  # Number of bins for reliability diagram
+  n_bins: 10
+  
+  # Minimum samples required for calibration
+  min_samples: 100
+  
+  # Recalibration interval (days)
+  recalibration_interval: 30
+
+# Metrics thresholds
+metrics:
+  # Maximum acceptable Expected Calibration Error
+  max_ece: 0.1
+  
+  # Maximum acceptable Maximum Calibration Error
+  max_mce: 0.2
+  
+  # Alert if ECE exceeds threshold
+  alert_on_threshold: true
+
+# Monitoring
+monitoring:
+  # Enable calibration monitoring
+  enabled: true
+  
+  # Check interval (hours)
+  check_interval: 24
+  
+  # Store calibration history
+  store_history: true
+
+# Logging
+logging:
+  level: "INFO"
+  log_file: "logs/calibration.log"

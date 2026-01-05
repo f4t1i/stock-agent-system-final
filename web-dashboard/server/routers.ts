@@ -8,6 +8,243 @@ import * as db from "./db";
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+
+  // Alerts Router
+  alerts: router({    createAlert: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        alert_type: z.enum(["price_threshold", "confidence_change", "recommendation_change", "technical_signal"]),
+        condition: z.enum(["above", "below", "crosses_above", "crosses_below", "equals"]),
+        threshold: z.number(),
+        notification_channels: z.array(z.enum(["email", "push", "webhook"])),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { alert_id: Math.random().toString(36).substring(7), ...input, enabled: true, created_at: new Date() };
+      }),
+
+    listAlerts: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    toggleAlert: protectedProcedure
+      .input(z.object({ alert_id: z.string(), enabled: z.boolean() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    deleteAlert: protectedProcedure
+      .input(z.object({ alert_id: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
+  // Calibration Router
+  calibration: router({
+    getMetrics: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return {
+          ece: 0.08,
+          mce: 0.15,
+          brier_score: 0.12,
+          accuracy: 0.82,
+        };
+      }),
+
+    getReliabilityDiagram: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return {
+          bin_centers: [0.1, 0.3, 0.5, 0.7, 0.9],
+          bin_accuracies: [0.15, 0.35, 0.48, 0.68, 0.85],
+          bin_counts: [50, 120, 200, 150, 80],
+        };
+      }),
+  }),
+
+  // Risk Management Router
+  risk: router({
+    evaluateTrade: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        action: z.enum(["BUY", "SELL"]),
+        quantity: z.number(),
+        price: z.number(),
+        confidence: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return {
+          approved: true,
+          risk_level: "low" as const,
+          checks: [
+            { name: "position_size", status: "pass" as const, message: "Position size within limits", value: 5.0, limit: 10.0 },
+            { name: "confidence", status: "pass" as const, message: "Confidence acceptable", value: input.confidence, limit: 0.6 },
+          ],
+          warnings: [],
+        };
+      }),
+
+    getPolicies: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    updatePolicy: protectedProcedure
+      .input(z.object({ policy_id: z.string(), settings: z.any() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
+  // Watchlist Router
+  watchlist: router({
+    createWatchlist: protectedProcedure
+      .input(z.object({ name: z.string(), description: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { watchlist_id: Math.random().toString(36).substring(7), ...input, symbol_count: 0, created_at: new Date() };
+      }),
+
+    listWatchlists: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    addSymbol: protectedProcedure
+      .input(z.object({ watchlist_id: z.string(), symbol: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    removeSymbol: protectedProcedure
+      .input(z.object({ watchlist_id: z.string(), symbol: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    deleteWatchlist: protectedProcedure
+      .input(z.object({ watchlist_id: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
+  // Explainability Router
+  explainability: router({
+    getDecision: protectedProcedure
+      .input(z.object({
+        decisionId: z.string(),
+      }))
+      .query(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        return {
+          decisionId: input.decisionId,
+          symbol: "AAPL",
+          agentName: "news_agent",
+          recommendation: "BUY" as const,
+          confidence: 0.85,
+          reasoning: "Strong positive sentiment from recent earnings report and product announcements. Market momentum is favorable.",
+          keyFactors: [
+            {
+              name: "Sentiment Score",
+              importance: 0.9,
+              value: 1.5,
+              description: "News sentiment: 1.50 (-2 to 2)",
+            },
+            {
+              name: "Key Events",
+              importance: 0.8,
+              value: 3,
+              description: "Significant events: Earnings beat, New product launch, CEO interview",
+            },
+            {
+              name: "News Volume",
+              importance: 0.6,
+              value: 15,
+              description: "Number of articles analyzed: 15",
+            },
+          ],
+          alternatives: [
+            {
+              scenario: "Conservative approach",
+              recommendation: "HOLD",
+              confidence: 0.6,
+              reasoning: "A wait-and-see approach to gather more information before acting.",
+            },
+          ],
+          timestamp: new Date(),
+          metadata: {},
+        };
+      }),
+
+    analyze: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        agentName: z.string(),
+        agentOutput: z.record(z.any()),
+        context: z.record(z.any()).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        const decisionId = Math.random().toString(36).substring(7);
+        return {
+          decisionId,
+          symbol: input.symbol,
+          agentName: input.agentName,
+          recommendation: "BUY" as const,
+          confidence: 0.75,
+          reasoning: "Analysis based on provided agent output.",
+          keyFactors: [],
+          alternatives: [],
+          timestamp: new Date(),
+          metadata: input.context || {},
+        };
+      }),
+
+    listRecent: protectedProcedure
+      .input(z.object({
+        limit: z.number().optional(),
+        agentName: z.string().optional(),
+        symbol: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        return [
+          {
+            decisionId: "dec1",
+            symbol: "AAPL",
+            agentName: "news_agent",
+            recommendation: "BUY" as const,
+            confidence: 0.85,
+            timestamp: new Date(),
+          },
+          {
+            decisionId: "dec2",
+            symbol: "GOOGL",
+            agentName: "technical_agent",
+            recommendation: "HOLD" as const,
+            confidence: 0.65,
+            timestamp: new Date(Date.now() - 3600000),
+          },
+        ];
+      }),
+  }),
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

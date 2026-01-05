@@ -1,0 +1,122 @@
+# Alerts Configuration
+# Controls alert monitoring, notifications, and rate limiting
+
+# Monitor settings
+monitor:
+  # Check interval in seconds
+  check_interval: 60
+  
+  # Enable background monitoring
+  enabled: true
+  
+  # Batch size for alert evaluation
+  batch_size: 100
+
+# Alert types configuration
+alert_types:
+  price_threshold:
+    enabled: true
+    description: "Price crosses threshold"
+    default_channels: ["push"]
+  
+  confidence_change:
+    enabled: true
+    description: "Agent confidence changes significantly"
+    default_channels: ["push", "email"]
+    min_change: 0.15  # 15% change required
+  
+  recommendation_change:
+    enabled: true
+    description: "Agent recommendation changes"
+    default_channels: ["push", "email"]
+  
+  technical_signal:
+    enabled: true
+    description: "Technical indicator signal"
+    default_channels: ["push"]
+
+# Notification settings
+notifications:
+  # Rate limiting
+  rate_limit:
+    per_minute: 10
+    per_hour: 100
+    per_day: 500
+  
+  # Deduplication window (seconds)
+  dedup_window: 300  # 5 minutes
+  
+  # Retry settings
+  retry:
+    enabled: true
+    max_attempts: 3
+    backoff_seconds: 60
+  
+  # Channels
+  channels:
+    email:
+      enabled: false  # Requires email service setup
+      from: "alerts@stockagent.com"
+      
+    push:
+      enabled: true
+      # Uses Manus notification API
+      
+    webhook:
+      enabled: false  # Requires webhook URL
+      url: null
+      timeout_seconds: 10
+
+# Condition evaluation
+conditions:
+  # Tolerance for 'equals' condition (percentage)
+  equals_tolerance: 0.01  # 1%
+  
+  # Minimum time between cross alerts (seconds)
+  cross_cooldown: 300  # 5 minutes
+
+# Database settings
+database:
+  # Alert history retention (days)
+  retention_days: 90
+  
+  # Auto-cleanup schedule (cron format)
+  cleanup_schedule: "0 2 * * *"  # 2 AM daily
+  
+  # Maximum alerts per user
+  max_alerts_per_user: 50
+
+# Watchlist settings
+watchlist:
+  # Maximum watchlists per user
+  max_watchlists: 10
+  
+  # Maximum symbols per watchlist
+  max_symbols_per_watchlist: 50
+  
+  # Auto-refresh interval (seconds)
+  refresh_interval: 300  # 5 minutes
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/alerts.log"
+  rotate: true
+  max_size_mb: 100
+  backup_count: 5
+
+# API settings
+api:
+  # Enable alerts API
+  enabled: true
+  
+  # Rate limiting
+  rate_limit:
+    requests_per_minute: 60
+    burst: 10
+  
+  # CORS settings
+  cors:
+    enabled: true
+    allow_origins: ["*"]
+    allow_methods: ["GET", "POST", "PUT", "DELETE"]

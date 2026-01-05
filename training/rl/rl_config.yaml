@@ -1,0 +1,229 @@
+# ============================================================================
+# RL Training Configuration
+# ============================================================================
+
+# GRPO (Group Relative Policy Optimization) Configuration
+grpo:
+  # Group sampling
+  group_size: 4                    # Number of responses per prompt
+  temperature: 0.8                 # Sampling temperature
+  top_p: 0.95                      # Nucleus sampling threshold
+
+  # Policy update
+  learning_rate: 1.0e-5           # Learning rate for policy optimizer
+  num_epochs_per_iteration: 1     # Training epochs per iteration
+  batch_size: 4                   # Batch size
+  gradient_accumulation_steps: 4  # Gradient accumulation
+
+  # PPO parameters
+  clip_epsilon: 0.2               # PPO clipping parameter
+  kl_coeff: 0.05                  # KL divergence penalty coefficient
+  gamma: 0.99                     # Discount factor
+  gae_lambda: 0.95                # GAE lambda parameter
+
+  # Training loop
+  num_iterations: 100             # Number of training iterations
+  eval_every: 10                  # Evaluate every N iterations
+  save_every: 10                  # Save checkpoint every N iterations
+
+  # Sequence lengths
+  max_prompt_length: 512          # Maximum prompt tokens
+  max_response_length: 256        # Maximum response tokens
+
+  # Experience filtering
+  min_reward_threshold: 0.0       # Minimum reward to include experience
+
+# ============================================================================
+# Contextual Bandit Configuration
+# ============================================================================
+
+contextual_bandit:
+  # Algorithm
+  algorithm: "thompson_sampling"   # thompson_sampling, ucb, epsilon_greedy
+
+  # Thompson Sampling parameters
+  prior_alpha: 1.0                # Beta prior alpha (successes)
+  prior_beta: 1.0                 # Beta prior beta (failures)
+
+  # UCB parameters
+  ucb_c: 2.0                      # UCB exploration constant
+
+  # Epsilon-Greedy parameters
+  epsilon: 0.1                    # Exploration probability
+  epsilon_decay: 0.995            # Decay rate per iteration
+  epsilon_min: 0.01               # Minimum epsilon
+
+  # Agents
+  agents:
+    - name: "news_agent"
+      description: "Analyzes news sentiment and events"
+      weight_init: 0.25
+
+    - name: "technical_agent"
+      description: "Analyzes price action and indicators"
+      weight_init: 0.25
+
+    - name: "fundamental_agent"
+      description: "Analyzes company fundamentals"
+      weight_init: 0.25
+
+    - name: "sentiment_agent"
+      description: "Analyzes market sentiment"
+      weight_init: 0.25
+
+  # Regime-based routing
+  use_regime_features: true       # Enable regime-aware routing
+  regime_context_window: 20       # Days for regime calculation
+
+  # Performance tracking
+  track_per_regime: true          # Track performance per market regime
+  track_per_symbol: true          # Track performance per symbol
+  update_frequency: "daily"       # How often to update agent weights
+
+# ============================================================================
+# Regime Features Configuration
+# ============================================================================
+
+regime_features:
+  # Volatility
+  volatility:
+    window: 20                    # Rolling window for volatility
+    thresholds:
+      low: 0.15                   # < 15% annualized vol
+      medium: 0.30                # 15-30% annualized vol
+      high: 0.30                  # > 30% annualized vol
+
+  # Trend
+  trend:
+    short_ma: 20                  # Short moving average (days)
+    long_ma: 50                   # Long moving average (days)
+    trend_strength_threshold: 0.02  # Minimum % difference for trend
+
+  # Sentiment
+  sentiment:
+    sources:
+      - "news"                    # News sentiment
+      - "social"                  # Social media sentiment
+      - "options"                 # Options market sentiment
+    aggregation: "weighted_mean" # How to combine sources
+
+  # Market regime classification
+  regimes:
+    - name: "bull_low_vol"
+      description: "Bullish trend with low volatility"
+      conditions:
+        trend: "up"
+        volatility: "low"
+
+    - name: "bull_high_vol"
+      description: "Bullish trend with high volatility"
+      conditions:
+        trend: "up"
+        volatility: "high"
+
+    - name: "bear_low_vol"
+      description: "Bearish trend with low volatility"
+      conditions:
+        trend: "down"
+        volatility: "low"
+
+    - name: "bear_high_vol"
+      description: "Bearish trend with high volatility"
+      conditions:
+        trend: "down"
+        volatility: "high"
+
+    - name: "sideways_low_vol"
+      description: "Sideways market with low volatility"
+      conditions:
+        trend: "sideways"
+        volatility: "low"
+
+    - name: "sideways_high_vol"
+      description: "Sideways market with high volatility"
+      conditions:
+        trend: "sideways"
+        volatility: "high"
+
+# ============================================================================
+# Reward Shaping Configuration
+# ============================================================================
+
+reward_shaping:
+  # Base reward
+  use_sharpe_ratio: true          # Use Sharpe ratio as base reward
+  use_total_return: false         # Use total return as base reward
+
+  # Reward components
+  components:
+    - name: "profit"
+      weight: 0.6
+      normalization: "winsorize"  # winsorize, standardize, none
+
+    - name: "risk_adjusted_return"
+      weight: 0.3
+      metric: "sharpe_ratio"      # sharpe_ratio, sortino_ratio, calmar_ratio
+
+    - name: "drawdown_penalty"
+      weight: -0.1
+      threshold: 0.10             # Penalize drawdowns > 10%
+
+  # Normalization
+  normalize_rewards: true         # Normalize rewards to [-1, 1]
+  clip_rewards: true              # Clip extreme rewards
+  clip_min: -10.0
+  clip_max: 10.0
+
+# ============================================================================
+# Evaluation Configuration
+# ============================================================================
+
+evaluation:
+  # Holdout set
+  holdout_symbols: ["SPY", "QQQ", "IWM"]  # ETFs for evaluation
+  holdout_period: "2023-10-01,2023-12-31"  # Date range
+
+  # Metrics
+  metrics:
+    - "sharpe_ratio"
+    - "total_return"
+    - "max_drawdown"
+    - "win_rate"
+    - "avg_trade_duration"
+
+  # Comparison
+  compare_to_baseline: true       # Compare to SFT baseline
+  baseline_path: "models/sft/strategist_v1.0.0"
+
+# ============================================================================
+# Presets
+# ============================================================================
+
+presets:
+  # Quick test (for development)
+  quick_test:
+    grpo:
+      num_iterations: 10
+      group_size: 2
+      batch_size: 2
+      eval_every: 5
+      save_every: 5
+
+  # Production training
+  production:
+    grpo:
+      num_iterations: 200
+      group_size: 4
+      batch_size: 8
+      eval_every: 20
+      save_every: 20
+
+  # High quality (more exploration)
+  high_quality:
+    grpo:
+      num_iterations: 500
+      group_size: 8
+      temperature: 1.0
+      batch_size: 4
+      eval_every: 50
+      save_every: 50

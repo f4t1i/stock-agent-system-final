@@ -88,15 +88,154 @@ report-pdf: ## Generate PDF report
 
 ##@ Training
 
-train-sft: ## Train SFT models for junior agents
-	@echo "🧠 Training SFT models..."
-	python scripts/train_sft.py
-	@echo "✅ SFT training complete"
+##@ SFT Training
 
-train-rl: ## Train RL model for strategist
-	@echo "🎮 Training RL model..."
-	python scripts/train_rl.py
+train-news-agent: ## Train News Agent (SFT)
+	@echo "📰 Training News Agent..."
+	python scripts/train_agent_sft.py \
+		--agent news_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/news_agent_v1.0.0
+	@echo "✅ News Agent training complete"
+
+train-technical-agent: ## Train Technical Agent (SFT)
+	@echo "📊 Training Technical Agent..."
+	python scripts/train_agent_sft.py \
+		--agent technical_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/technical_agent_v1.0.0
+	@echo "✅ Technical Agent training complete"
+
+train-fundamental-agent: ## Train Fundamental Agent (SFT)
+	@echo "💰 Training Fundamental Agent..."
+	python scripts/train_agent_sft.py \
+		--agent fundamental_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/fundamental_agent_v1.0.0
+	@echo "✅ Fundamental Agent training complete"
+
+train-all-agents: ## Train all three agents (News, Technical, Fundamental)
+	@echo "🚀 Training all agents..."
+	python scripts/train_agent_sft.py \
+		--agent all \
+		--dataset data/datasets/sft_v1 \
+		--output-dir models/sft
+	@echo "✅ All agents training complete"
+
+train-quick-test: ## Quick test training (1 epoch, 100 samples)
+	@echo "⚡ Quick test training..."
+	python scripts/train_agent_sft.py \
+		--agent news_agent \
+		--dataset data/datasets/sft_v1 \
+		--output models/sft/news_agent_test \
+		--preset quick_test
+	@echo "✅ Quick test complete"
+
+train-production: ## Production training with optimized settings
+	@echo "🏭 Production training..."
+	python scripts/train_agent_sft.py \
+		--agent all \
+		--dataset data/datasets/sft_v1 \
+		--output-dir models/sft \
+		--preset production
+	@echo "✅ Production training complete"
+
+##@ Model Registry
+
+models-list: ## List all registered models
+	@echo "📋 Listing registered models..."
+	python training/sft/model_registry.py --list
+
+models-best: ## Show best model for agent (usage: make models-best AGENT=news_agent)
+	@echo "🏆 Best model for $(or $(AGENT),news_agent)..."
+	python training/sft/model_registry.py --best --agent $(or $(AGENT),news_agent) --metric eval_loss
+
+models-promote: ## Promote model to production (usage: make models-promote MODEL_ID=xxx)
+	@echo "⬆️  Promoting model $(MODEL_ID) to production..."
+	python training/sft/model_registry.py --promote $(MODEL_ID) --to-stage production
+	@echo "✅ Model promoted"
+
+##@ Eval Gates & Regression Guards
+
+eval-model: ## Evaluate model on holdout dataset (usage: make eval-model MODEL=xxx DATASET=xxx)
+	@echo "📊 Evaluating model on holdout dataset..."
+	python training/sft/eval_gates.py \
+		--model $(MODEL) \
+		--dataset $(DATASET)
+	@echo "✅ Evaluation complete"
+
+eval-with-drift: ## Evaluate with drift detection (usage: make eval-with-drift MODEL=xxx DATASET=xxx BASELINE='{"eval_loss":0.45}')
+	@echo "📊 Evaluating with drift detection..."
+	python training/sft/eval_gates.py \
+		--model $(MODEL) \
+		--dataset $(DATASET) \
+		--baseline-metrics '$(BASELINE)' \
+		--drift-threshold 5.0
+	@echo "✅ Evaluation complete"
+
+eval-history: ## View evaluation history
+	@echo "📜 Evaluation history:"
+	python training/sft/eval_gates.py --history --limit 20
+
+regression-test: ## Run regression test (usage: make regression-test BASELINE=xxx CANDIDATE=xxx)
+	@echo "🔍 Running regression test..."
+	python training/sft/regression_guards.py \
+		--baseline $(BASELINE) \
+		--candidate $(CANDIDATE) \
+		--metrics eval_loss eval_accuracy eval_f1
+	@echo "✅ Regression test complete"
+
+regression-test-holdout: ## Regression test with holdout (usage: make regression-test-holdout BASELINE_PATH=xxx CANDIDATE_PATH=xxx HOLDOUT=xxx)
+	@echo "🔍 Running regression test with holdout re-evaluation..."
+	python training/sft/regression_guards.py \
+		--baseline-path $(BASELINE_PATH) \
+		--candidate-path $(CANDIDATE_PATH) \
+		--holdout $(HOLDOUT) \
+		--metrics eval_loss eval_accuracy eval_f1
+	@echo "✅ Regression test complete"
+
+regression-history: ## View regression test history
+	@echo "📜 Regression test history:"
+	python training/sft/regression_guards.py --history --limit 20
+
+regression-override: ## Override blocked model (usage: make regression-override TEST_ID=xxx REASON="explanation")
+	@echo "⚠️  Applying override to test $(TEST_ID)..."
+	python training/sft/regression_guards.py \
+		--override $(TEST_ID) \
+		--reason "$(REASON)"
+	@echo "✅ Override applied"
+
+##@ RL Training
+
+train-rl: ## Train RL model with GRPO (usage: make train-rl POLICY=xxx EXPERIENCES=xxx OUTPUT=xxx)
+	@echo "🎮 Training RL model with GRPO..."
+	python scripts/train_rl.py \
+		--policy $(POLICY) \
+		--experience-store $(EXPERIENCES) \
+		--output $(OUTPUT) \
+		--iterations 100
 	@echo "✅ RL training complete"
+
+train-rl-quick: ## Quick RL test (10 iterations)
+	@echo "⚡ Quick RL test training..."
+	python scripts/train_rl.py \
+		--policy models/sft/strategist_v1.0.0 \
+		--experience-store data/experiences \
+		--output models/rl/strategist_test \
+		--preset quick_test
+	@echo "✅ Quick RL test complete"
+
+supervisor-stats: ## Show supervisor agent routing statistics
+	@echo "📊 Supervisor routing statistics:"
+	python agents/supervisor_v2.py --stats
+
+supervisor-demo: ## Demo supervisor agent selection
+	@echo "🎯 Supervisor demo:"
+	python agents/supervisor_v2.py
+
+regime-features-demo: ## Demo regime feature extraction
+	@echo "🌍 Regime features demo:"
+	python agents/regime_features.py --demo
 
 ##@ Data Synthesis
 
@@ -333,6 +472,19 @@ acceptance-test: ## Run Phase A0 acceptance tests
 
 acceptance-test-quick: validate-signals ## Quick acceptance test (contracts only)
 	@echo "✅ Quick acceptance test complete"
+
+acceptance-test-sft: ## Run SFT training pipeline acceptance tests (Tasks #17-20)
+	@echo "✅ Running SFT training pipeline acceptance tests..."
+	@echo "\n1. Testing SFT Training..."
+	python tests/acceptance/test_sft_training.py
+	@echo "\n2. Testing Eval Gates & Regression Guards..."
+	python tests/acceptance/test_sft_pipeline_complete.py
+	@echo "\n✅ All SFT tests passed!"
+
+acceptance-test-rl: ## Run RL training pipeline acceptance tests (Tasks #21-24)
+	@echo "✅ Running RL training pipeline acceptance tests..."
+	python tests/acceptance/test_rl_training.py
+	@echo "\n✅ All RL tests passed!"
 
 ##@ Documentation
 

@@ -1,0 +1,29 @@
+# Risk Policies Configuration
+default_limits:
+  max_position_pct: 0.20
+  max_daily_loss_pct: 0.05
+  max_concentration_pct: 0.30
+  max_leverage: 2.0
+
+policies:
+  - name: "Position Size Limit"
+    isActive: true
+    severity: "CRITICAL"
+    rules:
+      max_position_pct: 0.20
+  
+  - name: "Daily Loss Limit"
+    isActive: true
+    severity: "CRITICAL"
+    rules:
+      max_daily_loss_pct: 0.05
+
+override_workflow:
+  approval_required: true
+  approvers: ["risk_manager", "cto"]
+  max_override_duration_hours: 24
+
+violation_severity:
+  CRITICAL: "Block trade"
+  WARNING: "Allow with confirmation"
+  INFO: "Log only"

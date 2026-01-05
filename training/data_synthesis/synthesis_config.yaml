@@ -1,0 +1,229 @@
+# Dataset Synthesis Configuration
+# Preset configurations for converting backtest experiences into training datasets
+
+# Storage Configuration
+storage:
+  experience_store_dir: "data/experiences"
+  dataset_output_dir: "data/datasets"
+  storage_format: "jsonl"  # jsonl, json, sqlite, parquet
+  auto_backup: true
+  backup_interval: 100
+
+# Dataset Splitting
+splits:
+  train: 0.8
+  val: 0.1
+  test: 0.1
+  random_seed: 42
+  stratify_by_reward: false  # Balance splits by reward distribution
+
+# Quality Gates (Judge Integration)
+quality_gates:
+  # Minimum requirements for dataset inclusion
+  min_reward: 0.0
+  min_judge_score: null  # null = no filtering, 6.0 = only "acceptable" or better
+  judge_approved_only: false  # true = only include judge-approved signals
+
+  # Signal validation requirements
+  require_valid_schema: true
+  require_complete_outcome: true  # Must have P&L data
+
+  # Outlier filtering
+  max_reward: null  # null = no cap, 1.0 = reject extreme outliers
+  min_trade_duration_days: null  # null = no minimum
+
+# Synthesis Strategies
+strategies:
+  # Strategy 1: Judge-Approved Only (Highest Quality)
+  judge_approved:
+    description: "Only signals that passed all judge validation gates"
+    filters:
+      judge_approved_only: true
+      min_judge_score: 6.0  # "acceptable" threshold
+      min_reward: 0.0
+    output_format: "chat"
+    balance_positive_negative: false
+    recommended_for: "SFT training, high-quality baselines"
+
+  # Strategy 2: Positive-Only (Success Cases)
+  positive_only:
+    description: "Only successful trades (reward > 0.5)"
+    filters:
+      judge_approved_only: false
+      min_judge_score: null
+      min_reward: 0.5
+    output_format: "chat"
+    balance_positive_negative: false
+    recommended_for: "Behavior cloning, imitation learning"
+
+  # Strategy 3: Contrastive (Preference Learning)
+  contrastive:
+    description: "Balanced pairs of positive/negative examples for preference learning"
+    filters:
+      judge_approved_only: false
+      min_judge_score: null
+      min_reward: -1.0  # Include all rewards
+    output_format: "instruction"
+    balance_positive_negative: true
+    positive_threshold: 0.5
+    negative_threshold: 0.0
+    recommended_for: "DPO, RLHF preference tuning, RFT"
+
+  # Strategy 4: Full-Spectrum (All Experiences)
+  full_spectrum:
+    description: "All experiences, balanced by reward distribution"
+    filters:
+      judge_approved_only: false
+      min_judge_score: null
+      min_reward: -1.0
+    output_format: "chat"
+    balance_positive_negative: true
+    reward_bins: 5  # Stratify into 5 reward buckets
+    recommended_for: "RL training, value function learning"
+
+  # Strategy 5: High-Confidence Only
+  high_confidence:
+    description: "Only high-confidence judge-approved signals (score >= 8.0)"
+    filters:
+      judge_approved_only: true
+      min_judge_score: 8.0  # "excellent" threshold
+      min_reward: 0.3
+    output_format: "chat"
+    balance_positive_negative: false
+    recommended_for: "Gold-standard datasets, evaluation benchmarks"
+
+# Output Formats
+formats:
+  # Chat format (for chat-based models like Claude, GPT-4)
+  chat:
+    description: "Conversational format with system/user/assistant messages"
+    schema:
+      - role: "system"
+        content: "System prompt defining the task"
+      - role: "user"
+        content: "Signal analysis data"
+      - role: "assistant"
+        content: "Trading decision with rationale"
+    file_extension: ".jsonl"
+    compatible_with: ["claude", "gpt-4", "llama-chat"]
+
+  # Prompt/Completion format (for completion models)
+  prompt_completion:
+    description: "Simple prompt → completion pairs"
+    schema:
+      prompt: "Signal data + 'Decision:'"
+      completion: "Trading action"
+    file_extension: ".jsonl"
+    compatible_with: ["gpt-3", "davinci", "base-llms"]
+
+  # Instruction-tuning format (for instruction-following models)
+  instruction:
+    description: "Structured instruction/input/output format"
+    schema:
+      instruction: "Task description"
+      input: "Signal JSON"
+      output: "Action JSON"
+    file_extension: ".jsonl"
+    compatible_with: ["alpaca", "vicuna", "instruction-tuned-models"]
+
+# Preprocessing
+preprocessing:
+  # Reward normalization
+  normalize_rewards: true
+  reward_normalization_method: "minmax"  # minmax, zscore, none
+
+  # Rationale processing
+  min_rationale_length: 50
+  max_rationale_length: 2000
+  truncate_long_rationales: true
+
+  # Symbol filtering
+  exclude_symbols: []  # List of symbols to exclude (e.g., ["PENNY_STOCK"])
+  include_symbols_only: null  # null = all symbols, ["AAPL", "MSFT"] = only these
+
+  # Deduplication
+  deduplicate_by_signal: true  # Remove duplicate signals
+  similarity_threshold: 0.95  # 95% similarity = duplicate
+
+# Augmentation (Optional)
+augmentation:
+  enabled: false
+
+  # Paraphrase rationales (using LLM)
+  paraphrase_rationales: false
+  paraphrase_ratio: 0.2  # Augment 20% of examples
+
+  # Add noise to numerical values
+  add_numerical_noise: false
+  noise_std: 0.02  # 2% standard deviation
+
+  # Backtranslation
+  backtranslate: false
+  target_languages: ["de", "es", "fr"]
+
+# Dataset Versioning
+versioning:
+  scheme: "semantic"  # semantic (1.0.0) or timestamp (20240115_120000)
+  auto_increment: true
+
+  # Version metadata
+  track_source_backtest_ids: true
+  track_git_commit: true
+  track_config_hash: true
+
+# Validation
+validation:
+  # Validate synthesized dataset
+  validate_schema: true
+  validate_json_format: true
+
+  # Check for data leakage
+  check_train_val_overlap: true
+  check_temporal_leakage: true  # Ensure val/test are after train chronologically
+
+  # Statistics
+  compute_reward_distribution: true
+  compute_symbol_distribution: true
+  compute_decision_distribution: true
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/synthesis.log"
+  log_to_console: true
+
+  # Progress tracking
+  show_progress_bar: true
+  log_every_n_examples: 100
+
+# Example Preset Configurations
+presets:
+  # Quick start: High-quality SFT dataset
+  sft_v1:
+    strategy: "judge_approved"
+    format: "chat"
+    min_judge_score: 6.0
+    min_reward: 0.0
+    version: "1.0.0"
+
+  # Preference learning dataset
+  preference_v1:
+    strategy: "contrastive"
+    format: "instruction"
+    min_reward: -1.0
+    version: "1.0.0"
+
+  # RL training dataset
+  rl_v1:
+    strategy: "full_spectrum"
+    format: "chat"
+    min_reward: -1.0
+    version: "1.0.0"
+
+  # Gold-standard evaluation benchmark
+  eval_benchmark:
+    strategy: "high_confidence"
+    format: "chat"
+    min_judge_score: 8.0
+    min_reward: 0.5
+    version: "1.0.0"

@@ -1,0 +1,341 @@
+# Judge Rubrics for Trading Signal Quality Assessment
+# Version: 1.0.0
+# Purpose: Define hard rules and LLM-based criteria for signal evaluation
+
+# =============================================================================
+# HARD RULES (Auto-Fail if violated)
+# =============================================================================
+
+format_rules:
+  description: "Mandatory format validation rules - violations result in auto-fail"
+
+  signal_validity:
+    rule: "signal must be one of: buy, sell, hold"
+    severity: "critical"
+    auto_fail: true
+
+  confidence_range:
+    rule: "confidence must be in range [0.0, 1.0]"
+    severity: "critical"
+    auto_fail: true
+
+  position_size_range:
+    rule: "position_size must be in range [0.0, 1.0]"
+    severity: "critical"
+    auto_fail: true
+
+  required_fields:
+    rule: "Must have: analysis, signal, sizing, risk, rationale, evidence, metadata"
+    severity: "critical"
+    auto_fail: true
+
+  rationale_length:
+    rule: "rationale must be >= 50 characters"
+    severity: "high"
+    auto_fail: true
+
+  evidence_sources:
+    rule: "Must have at least 1 evidence source"
+    severity: "high"
+    auto_fail: true
+
+  timestamp_format:
+    rule: "timestamp must be valid ISO 8601 format"
+    severity: "medium"
+    auto_fail: false  # Warn only
+
+  symbol_format:
+    rule: "symbol must be uppercase, 1-5 letters"
+    severity: "medium"
+    auto_fail: true
+
+# =============================================================================
+# FACT CHECK RULES (Data sanity checks)
+# =============================================================================
+
+fact_check_rules:
+  description: "Fact-checking rules for data accuracy and consistency"
+
+  price_sanity:
+    rule: "quote price must match source data (±1%)"
+    check_type: "data_verification"
+    tolerance: 0.01  # 1%
+    severity: "critical"
+    auto_fail: true
+
+  indicator_validity:
+    rules:
+      - name: "RSI range"
+        check: "RSI must be in [0, 100]"
+        severity: "critical"
+        auto_fail: true
+
+      - name: "MACD calculation"
+        check: "MACD values must be mathematically consistent"
+        severity: "high"
+        auto_fail: false
+
+      - name: "Moving averages ordering"
+        check: "SMA periods must be ordered correctly (optional)"
+        severity: "low"
+        auto_fail: false
+
+      - name: "Bollinger Bands"
+        check: "lower < middle < upper must hold"
+        severity: "critical"
+        auto_fail: true
+
+  risk_parameters:
+    rules:
+      - name: "Stop loss position (buy)"
+        check: "For buy signals: stop_loss < current_price < take_profit"
+        severity: "critical"
+        auto_fail: true
+
+      - name: "Stop loss position (sell)"
+        check: "For sell signals: stop_loss > current_price > take_profit"
+        severity: "critical"
+        auto_fail: true
+
+      - name: "Risk/reward ratio"
+        check: "Risk/reward ratio >= 1.0 (institutional standard: >= 1.5)"
+        minimum: 1.0
+        recommended: 1.5
+        severity: "high"
+        auto_fail: false  # Warn if < 1.0, recommend >= 1.5
+
+      - name: "Max drawdown"
+        check: "max_drawdown must be <= 0.30 (30%)"
+        threshold: 0.30
+        severity: "high"
+        auto_fail: false
+
+  position_sizing_logic:
+    rules:
+      - name: "Hold signal position size"
+        check: "hold signal must have position_size = 0"
+        severity: "high"
+        auto_fail: true
+
+      - name: "Buy/sell position size"
+        check: "buy/sell signals must have position_size > 0"
+        severity: "high"
+        auto_fail: true
+
+      - name: "Confidence vs position size"
+        check: "Low confidence (< 0.5) should have small position size (< 0.2)"
+        severity: "medium"
+        auto_fail: false  # Warning only
+
+  news_sentiment_consistency:
+    rules:
+      - name: "Sentiment score range"
+        check: "sentiment_score must be in [-2.0, 2.0]"
+        severity: "critical"
+        auto_fail: true
+
+      - name: "Sentiment vs signal alignment"
+        check: "Positive sentiment should align with buy/hold, negative with sell/hold"
+        severity: "medium"
+        auto_fail: false  # Warning only
+
+# =============================================================================
+# LLM JUDGE RUBRIC (Qualitative assessment)
+# =============================================================================
+
+llm_judge_rubric:
+  description: "LLM-based qualitative assessment criteria"
+  model: "claude-3-5-sonnet-20241022"  # Or gpt-4
+  scoring_range: [0, 10]
+
+  criteria:
+
+    reasoning_quality:
+      weight: 0.30
+      description: "Quality and clarity of reasoning"
+      scoring_guide:
+        0-2: "Illogical, contradictory, or nonsensical reasoning"
+        3-4: "Weak reasoning with gaps or unsupported claims"
+        5-6: "Adequate reasoning but lacks depth or nuance"
+        7-8: "Strong, clear reasoning with good evidence"
+        9-10: "Exceptional reasoning - comprehensive, logical, well-supported"
+      evaluation_points:
+        - "Is the reasoning logically sound and internally consistent?"
+        - "Are claims supported by evidence from the analysis?"
+        - "Does the reasoning address potential counterarguments?"
+        - "Is the rationale clear and easy to follow?"
+
+    risk_awareness:
+      weight: 0.25
+      description: "Awareness and management of risks"
+      scoring_guide:
+        0-2: "No risk awareness, dangerous recommendations"
+        3-4: "Minimal risk consideration, inappropriate risk management"
+        5-6: "Basic risk awareness, adequate stop losses"
+        7-8: "Strong risk management with appropriate safeguards"
+        9-10: "Exceptional risk awareness - comprehensive, multi-layered protection"
+      evaluation_points:
+        - "Are appropriate stop losses and take profits set?"
+        - "Is position sizing appropriate for the risk level?"
+        - "Are potential downside scenarios acknowledged?"
+        - "Is max drawdown realistically assessed?"
+
+    evidence_quality:
+      weight: 0.20
+      description: "Quality and relevance of supporting evidence"
+      scoring_guide:
+        0-2: "No evidence or irrelevant sources"
+        3-4: "Weak evidence, low-quality sources"
+        5-6: "Adequate evidence from acceptable sources"
+        7-8: "Strong evidence from multiple credible sources"
+        9-10: "Exceptional evidence - diverse, authoritative, recent"
+      evaluation_points:
+        - "Are sources credible and authoritative?"
+        - "Is evidence recent and relevant?"
+        - "Are multiple independent sources cited?"
+        - "Do evidence and conclusions align?"
+
+    coherence:
+      weight: 0.15
+      description: "Alignment across all agent outputs and final decision"
+      scoring_guide:
+        0-2: "Severe contradictions between agents and final decision"
+        3-4: "Significant inconsistencies, unclear synthesis"
+        5-6: "Mostly coherent with minor inconsistencies"
+        7-8: "Strong coherence, well-integrated analysis"
+        9-10: "Perfect coherence - seamless integration of all perspectives"
+      evaluation_points:
+        - "Do technical, fundamental, and news analyses align?"
+        - "Is the final decision consistent with agent recommendations?"
+        - "Are any discrepancies explicitly acknowledged and explained?"
+        - "Is the synthesis of multiple viewpoints clear?"
+
+    actionability:
+      weight: 0.10
+      description: "Clarity and practicality of trade execution guidance"
+      scoring_guide:
+        0-2: "Vague, unactionable recommendations"
+        3-4: "Lacks clarity on execution details"
+        5-6: "Adequate execution guidance"
+        7-8: "Clear, detailed execution plan"
+        9-10: "Exceptionally clear - ready for immediate execution"
+      evaluation_points:
+        - "Are entry, stop loss, and take profit levels clearly specified?"
+        - "Is position sizing explicit and justified?"
+        - "Is the time horizon defined?"
+        - "Can this be executed without additional interpretation?"
+
+  composite_score_calculation:
+    formula: "weighted_average"
+    description: "Final score = sum(criterion_score * weight) for all criteria"
+    thresholds:
+      excellent: 8.5  # Scores >= 8.5 are excellent
+      good: 7.0       # Scores >= 7.0 are good
+      acceptable: 6.0  # Scores >= 6.0 are acceptable
+      poor: 4.0       # Scores < 4.0 are poor
+      failing: 3.0    # Scores < 3.0 are failing
+
+# =============================================================================
+# COMPOSITE JUDGMENT LOGIC
+# =============================================================================
+
+composite_judgment:
+  description: "How hard rules and LLM scores combine for final judgment"
+
+  decision_flow:
+    step_1:
+      name: "Format validation"
+      action: "Check all format_rules"
+      outcome: "If any auto_fail rule violated → REJECT signal"
+
+    step_2:
+      name: "Fact checking"
+      action: "Check all fact_check_rules"
+      outcome: "If any auto_fail rule violated → REJECT signal"
+
+    step_3:
+      name: "LLM assessment"
+      action: "Score signal on all LLM criteria"
+      outcome: "Calculate weighted composite score"
+
+    step_4:
+      name: "Final judgment"
+      action: "Combine hard rules (pass/fail) + LLM score"
+      outcome: |
+        - If hard rules failed: REJECT
+        - If LLM score >= 8.5: ACCEPT (excellent)
+        - If LLM score >= 7.0: ACCEPT (good)
+        - If LLM score >= 6.0: ACCEPT (acceptable, with warnings)
+        - If LLM score < 6.0: REJECT (poor quality)
+
+  override_policy:
+    description: "When can LLM override hard rules (never) or vice versa"
+    hard_rules_override_llm: true   # Hard rule failures always reject
+    llm_can_override_hard_rules: false  # LLM cannot override hard fails
+    warning_threshold: 6.0  # Signals between 6.0-7.0 get warnings
+
+# =============================================================================
+# CONTINUOUS IMPROVEMENT
+# =============================================================================
+
+feedback_loop:
+  description: "How judge performance is monitored and improved"
+
+  metrics_tracked:
+    - "False positive rate (accepted bad signals)"
+    - "False negative rate (rejected good signals)"
+    - "Correlation with backtest performance"
+    - "Inter-judge agreement (if multiple judges)"
+
+  calibration_process:
+    frequency: "monthly"
+    steps:
+      - "Sample 100 judged signals (diverse scores)"
+      - "Compare judge scores with actual backtest outcomes"
+      - "Identify systematic biases or errors"
+      - "Adjust rubric weights or thresholds"
+      - "Document changes in changelog"
+
+  version_control:
+    current_version: "1.0.0"
+    changelog:
+      - version: "1.0.0"
+        date: "2026-01-05"
+        changes: "Initial rubric with format rules, fact checks, and LLM criteria"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+example_judgments:
+
+  - signal_id: "example_excellent"
+    format_rules_result: "PASS"
+    fact_check_result: "PASS"
+    llm_scores:
+      reasoning_quality: 9.5
+      risk_awareness: 9.0
+      evidence_quality: 9.0
+      coherence: 8.5
+      actionability: 9.0
+    composite_score: 9.05
+    final_judgment: "ACCEPT (excellent)"
+
+  - signal_id: "example_format_fail"
+    format_rules_result: "FAIL (RSI = 150, exceeds max 100)"
+    fact_check_result: "NOT_EVALUATED"
+    llm_scores: "NOT_EVALUATED"
+    composite_score: null
+    final_judgment: "REJECT (format rule violation)"
+
+  - signal_id: "example_poor_quality"
+    format_rules_result: "PASS"
+    fact_check_result: "PASS"
+    llm_scores:
+      reasoning_quality: 4.0
+      risk_awareness: 3.5
+      evidence_quality: 4.5
+      coherence: 5.0
+      actionability: 4.0
+    composite_score: 4.15
+    final_judgment: "REJECT (poor LLM score < 6.0)"

@@ -9,6 +9,78 @@ export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
 
+  // Alerts Router
+  alerts: router({    createAlert: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        alert_type: z.enum(["price_threshold", "confidence_change", "recommendation_change", "technical_signal"]),
+        condition: z.enum(["above", "below", "crosses_above", "crosses_below", "equals"]),
+        threshold: z.number(),
+        notification_channels: z.array(z.enum(["email", "push", "webhook"])),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { alert_id: Math.random().toString(36).substring(7), ...input, enabled: true, created_at: new Date() };
+      }),
+
+    listAlerts: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    toggleAlert: protectedProcedure
+      .input(z.object({ alert_id: z.string(), enabled: z.boolean() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    deleteAlert: protectedProcedure
+      .input(z.object({ alert_id: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
+  // Watchlist Router
+  watchlist: router({
+    createWatchlist: protectedProcedure
+      .input(z.object({ name: z.string(), description: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { watchlist_id: Math.random().toString(36).substring(7), ...input, symbol_count: 0, created_at: new Date() };
+      }),
+
+    listWatchlists: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    addSymbol: protectedProcedure
+      .input(z.object({ watchlist_id: z.string(), symbol: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    removeSymbol: protectedProcedure
+      .input(z.object({ watchlist_id: z.string(), symbol: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+
+    deleteWatchlist: protectedProcedure
+      .input(z.object({ watchlist_id: z.string() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
   // Explainability Router
   explainability: router({
     getDecision: protectedProcedure

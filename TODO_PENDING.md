@@ -89,13 +89,33 @@
   - Regime feature extraction tests
   - End-to-end integration tests
   - Makefile target: acceptance-test-rl
+## Phase A2 Week 9-10: Learning Track (4 tasks) ✅
 
-## Phase A2 Week 9-10: Learning Track (4 tasks)
+- [x] **Task #25: 🔁 Multi-Iteration Training Script** (10 Iterations)
+  - Automated training loop with iteration tracking
+  - Model checkpointing per iteration
+  - Convergence monitoring integration
+  - Makefile commands: train-iteration, train-iteration-quick
 
-- [ ] 🔁 Multi-Iteration Training Script (10 Iterations)
-- [ ] 📈 Convergence Tracking System
-- [ ] 🌦️ Regime-spezifische Modelle (Bull/Bear Strategists)
-- [ ] ✅ Acceptance Tests für iteratives Training
+- [x] **Task #26: 📈 Convergence Tracking System**
+  - Performance metrics tracking over iterations
+  - Early stopping with configurable patience
+  - Training state save/restore
+  - Convergence detection and reporting
+
+- [x] **Task #27: 🌦️ Regime-Specific Models** (Bull/Bear Strategists)
+  - Separate model training per market regime
+  - Regime detection using regime_features.py
+  - Model switching based on market conditions
+  - Makefile command: train-regime-specific
+
+- [x] **Task #28: ✅ Acceptance Tests** für iteratives Training
+  - 4/4 test cases passing (450 lines)
+  - GRPO multi-iteration training tests
+  - Supervisor v2 routing tests
+  - Regime feature extraction tests
+  - End-to-end integration tests
+  - Makefile target: acceptance-test-iteration
 
 ## Phase A3 Week 11-12: Produktisierung (6 tasks)
 
@@ -110,44 +130,54 @@
 
 ## Progress Summary
 
-**Total Completed: 24 tasks**
+**Total Completed: 28 tasks**
 - Phase A0 (Proof-of-Value): 12/12 ✅
 - Phase A1 Week 3-4 (Closed Loop v1): 4/4 ✅
 - Phase A1 Week 5-6 (SFT Training): 4/4 ✅
 - Phase A1 Week 7-8 (RL Training): 4/4 ✅
+- Phase A2 Week 9-10 (Learning Track): 4/4 ✅
 
-**Total Pending: 10 tasks**
-- Phase A2 Week 9-10 (Learning Track): 4 tasks
+**Total Pending: 6 tasks**
 - Phase A3 Week 11-12 (Produktisierung): 6 tasks
 
-**Overall Progress: 71% (24/34 tasks)**
+**Overall Progress: 82% (28/34 tasks)**
 
 ---
 
 ## Next Steps
 
-**Ready to start:** Tasks #25-28 - Learning Track (Multi-Iteration Training)
+**Ready to start:** Tasks #29-34 - Produktisierung (Phase A3)
 
-**Task #25:** Multi-Iteration Training Script (10 Iterations)
-- Automated training loop with feedback
-- Model versioning across iterations
-- Convergence monitoring
+**Task #29:** UI Dashboard mit Explainability Cards
+- Agent decision visualization
+- Reasoning transparency
+- Confidence display
 
-**Task #26:** Convergence Tracking System
-- Performance metrics over iterations
-- Early stopping criteria
-- Visualization dashboards
+**Task #30:** Alerts & Watchlists
+- Real-time notifications
+- Custom watchlist management
+- Alert configuration
 
-**Task #27:** Regime-spezifische Modelle (Bull/Bear Strategists)
-- Train separate models per market regime
-- Regime detection and model switching
-- Performance comparison
+**Task #31:** Trading Policies & Guardrails
+- Risk gates implementation
+- Position limits
+- Trading rules enforcement
 
-**Task #28:** Acceptance Tests für iteratives Training
-- Multi-iteration workflow tests
-- Convergence validation
-- Regime-specific model tests
+**Task #32:** Confidence Calibration System
+- Confidence score calibration
+- Uncertainty quantification
+- Calibration monitoring
+
+**Task #33:** Release v1.0.0
+- Semantic versioning
+- Changelog generation
+- Release documentation
+
+**Task #34:** Final Acceptance Tests
+- End-to-end system tests
+- Production readiness validation
+- Performance benchmarks
 
 ---
 
-Last updated: 2026-01-05 (Tasks #21-24 complete - Phase A1 Week 7-8: 100%)
+Last updated: 2026-01-05 (Tasks #25-28 complete - Phase A2 Week 9-10: 100%)

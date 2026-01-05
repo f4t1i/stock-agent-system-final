@@ -155,6 +155,56 @@ models-promote: ## Promote model to production (usage: make models-promote MODEL
 	python training/sft/model_registry.py --promote $(MODEL_ID) --to-stage production
 	@echo "✅ Model promoted"
 
+##@ Eval Gates & Regression Guards
+
+eval-model: ## Evaluate model on holdout dataset (usage: make eval-model MODEL=xxx DATASET=xxx)
+	@echo "📊 Evaluating model on holdout dataset..."
+	python training/sft/eval_gates.py \
+		--model $(MODEL) \
+		--dataset $(DATASET)
+	@echo "✅ Evaluation complete"
+
+eval-with-drift: ## Evaluate with drift detection (usage: make eval-with-drift MODEL=xxx DATASET=xxx BASELINE='{"eval_loss":0.45}')
+	@echo "📊 Evaluating with drift detection..."
+	python training/sft/eval_gates.py \
+		--model $(MODEL) \
+		--dataset $(DATASET) \
+		--baseline-metrics '$(BASELINE)' \
+		--drift-threshold 5.0
+	@echo "✅ Evaluation complete"
+
+eval-history: ## View evaluation history
+	@echo "📜 Evaluation history:"
+	python training/sft/eval_gates.py --history --limit 20
+
+regression-test: ## Run regression test (usage: make regression-test BASELINE=xxx CANDIDATE=xxx)
+	@echo "🔍 Running regression test..."
+	python training/sft/regression_guards.py \
+		--baseline $(BASELINE) \
+		--candidate $(CANDIDATE) \
+		--metrics eval_loss eval_accuracy eval_f1
+	@echo "✅ Regression test complete"
+
+regression-test-holdout: ## Regression test with holdout (usage: make regression-test-holdout BASELINE_PATH=xxx CANDIDATE_PATH=xxx HOLDOUT=xxx)
+	@echo "🔍 Running regression test with holdout re-evaluation..."
+	python training/sft/regression_guards.py \
+		--baseline-path $(BASELINE_PATH) \
+		--candidate-path $(CANDIDATE_PATH) \
+		--holdout $(HOLDOUT) \
+		--metrics eval_loss eval_accuracy eval_f1
+	@echo "✅ Regression test complete"
+
+regression-history: ## View regression test history
+	@echo "📜 Regression test history:"
+	python training/sft/regression_guards.py --history --limit 20
+
+regression-override: ## Override blocked model (usage: make regression-override TEST_ID=xxx REASON="explanation")
+	@echo "⚠️  Applying override to test $(TEST_ID)..."
+	python training/sft/regression_guards.py \
+		--override $(TEST_ID) \
+		--reason "$(REASON)"
+	@echo "✅ Override applied"
+
 ##@ RL Training
 
 train-rl: ## Train RL model for strategist
@@ -397,6 +447,14 @@ acceptance-test: ## Run Phase A0 acceptance tests
 
 acceptance-test-quick: validate-signals ## Quick acceptance test (contracts only)
 	@echo "✅ Quick acceptance test complete"
+
+acceptance-test-sft: ## Run SFT training pipeline acceptance tests (Tasks #17-20)
+	@echo "✅ Running SFT training pipeline acceptance tests..."
+	@echo "\n1. Testing SFT Training..."
+	python tests/acceptance/test_sft_training.py
+	@echo "\n2. Testing Eval Gates & Regression Guards..."
+	python tests/acceptance/test_sft_pipeline_complete.py
+	@echo "\n✅ All SFT tests passed!"
 
 ##@ Documentation
 

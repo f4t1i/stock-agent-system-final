@@ -345,3 +345,25 @@ presets:
     warmup_ratio: 0.05
     save_total_limit: 10
     early_stopping_patience: 10
+
+# ============================================================================
+# Regression Guards Configuration
+# ============================================================================
+
+regression_guards:
+  # Default tolerance for all metrics (percentage)
+  default_tolerance_pct: 2.0
+
+  # Metric-specific tolerances
+  loss_tolerance_pct: 3.0           # Allow 3% increase in loss
+  accuracy_tolerance_pct: 2.0       # Allow 2% decrease in accuracy
+  f1_tolerance_pct: 2.0             # Allow 2% decrease in F1
+  perplexity_tolerance_pct: 5.0     # Allow 5% increase in perplexity (non-critical)
+
+  # Custom metric policies
+  custom_policies: []
+
+  # Override settings
+  allow_override_single_critical: true    # Allow override if only 1 critical failure
+  require_override_reason: true           # Require reason for overrides
+  min_override_reason_length: 10          # Minimum characters for override reason

@@ -30,6 +30,14 @@ from .job_monitor import (
     monitor_job,
     stream_job_events
 )
+from .model_deployment import (
+    ModelDeployer,
+    InferenceRequest,
+    InferenceResponse,
+    ComparisonResult,
+    test_model,
+    compare_models
+)
 
 __all__ = [
     'OpenAIClient',
@@ -53,5 +61,11 @@ __all__ = [
     'JobEvent',
     'JobMetrics',
     'monitor_job',
-    'stream_job_events'
+    'stream_job_events',
+    'ModelDeployer',
+    'InferenceRequest',
+    'InferenceResponse',
+    'ComparisonResult',
+    'test_model',
+    'compare_models'
 ]

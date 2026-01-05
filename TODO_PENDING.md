@@ -6,10 +6,10 @@
 
 ## Phase A1 Week 3-4: Closed Loop v1 (4 tasks)
 
-- [ ] 🔄 Auto Data-Synthesis Pipeline (post-backtest)
-- [ ] 📚 Dataset Registry System (versioning)
-- [ ] 🎓 Judge-Approved Filtering für SFT Datasets
-- [ ] ✅ Acceptance Tests für Auto-Synthesis
+- [x] 🔄 Auto Data-Synthesis Pipeline (post-backtest)
+- [x] 📚 Dataset Registry System (versioning)
+- [x] 🎓 Judge-Approved Filtering für SFT Datasets
+- [x] ✅ Acceptance Tests für Auto-Synthesis
 
 ## Phase A1 Week 5-6: SFT Training (4 tasks)
 

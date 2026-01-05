@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """
-Generate Backtest Report - Create standardized reports from backtest results
+Generate Backtest Report - Enhanced standardized reports with Pass/Fail gates
 
 Usage:
     python scripts/generate_report.py
     python scripts/generate_report.py --format html
+    python scripts/generate_report.py --with-gates
     make report
 """
 
@@ -19,6 +20,7 @@ from typing import Dict, Optional
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from loguru import logger
+from evaluation.pass_fail_gates import PassFailGatesEvaluator
 
 
 def find_latest_backtest_results(results_dir: str = "backtest_results") -> Optional[Path]:
@@ -49,12 +51,29 @@ def load_backtest_results(filepath: Path) -> Dict:
         return json.load(f)
 
 
-def generate_markdown_report(results: Dict, output_path: Optional[Path] = None) -> str:
-    """Generate markdown report"""
+def generate_markdown_report(results: Dict, output_path: Optional[Path] = None, with_gates: bool = True) -> str:
+    """Generate enhanced markdown report with comprehensive metrics and gates"""
+
+    # Evaluate gates if enabled
+    gates_result = None
+    if with_gates:
+        try:
+            evaluator = PassFailGatesEvaluator()
+            gates_result = evaluator.evaluate(results)
+        except Exception as e:
+            logger.warning(f"Gates evaluation failed: {e}")
+
+    # Header with overall status
+    if gates_result:
+        status_emoji = "✅" if gates_result.final_judgment == "PASS" else "❌"
+        status_text = f"{status_emoji} **{gates_result.final_judgment}**"
+    else:
+        status_text = "⚠️ **NO GATES EVALUATION**"
 
     report_lines = [
         "# Backtest Report",
         "",
+        f"**Status:** {status_text}",
         f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "",
         "---",
@@ -68,7 +87,7 @@ def generate_markdown_report(results: Dict, output_path: Optional[Path] = None) 
         f"- **Slippage:** {results['config']['slippage_bps']} bps",
         f"- **Random Seed:** {results['config']['random_seed']}",
         "",
-        "### Controls",
+        "### Institutional Controls",
         "",
         f"- **Survivorship Bias Guard:** {'✅ Enabled' if results.get('survivorship_bias_guarded') else '❌ Disabled'}",
         f"- **Corporate Actions:** {'✅ Enabled' if results.get('corporate_actions_handled') else '❌ Disabled'}",
@@ -76,105 +95,178 @@ def generate_markdown_report(results: Dict, output_path: Optional[Path] = None) 
         "",
         "---",
         "",
-        "## Performance Summary",
+        "## 📊 Performance Summary",
         "",
-        f"| Metric | Value |",
-        f"|--------|-------|",
-        f"| **Initial Capital** | ${results['initial_capital']:,.2f} |",
-        f"| **Final Value** | ${results['final_value']:,.2f} |",
-        f"| **Total Return** | {results['total_return']:.2%} |",
-        f"| **Sharpe Ratio** | {results.get('sharpe_ratio', 0):.3f} |",
-        f"| **Max Drawdown** | {results.get('max_drawdown', 0):.2%} |",
-        f"| **Win Rate** | {results.get('win_rate', 0):.2%} |",
-        f"| **Profit Factor** | {results.get('profit_factor', 0):.2f} |",
+        "| Metric | Value | Description |",
+        "|--------|-------|-------------|",
+        f"| **Initial Capital** | ${results['initial_capital']:,.2f} | Starting portfolio value |",
+        f"| **Final Value** | ${results['final_value']:,.2f} | Ending portfolio value |",
+        f"| **Total Return** | {results['total_return']:.2%} | Overall return |",
+        f"| **Annualized Return** | {results.get('annualized_return', 0):.2%} | CAGR |",
+        "",
+        "### Risk-Adjusted Returns",
+        "",
+        "| Metric | Value | Benchmark | Description |",
+        "|--------|-------|-----------|-------------|",
+        f"| **Sharpe Ratio** | {results.get('sharpe_ratio', 0):.3f} | ≥ 1.0 | Risk-adjusted returns |",
+        f"| **Sortino Ratio** | {results.get('sortino_ratio', 0):.3f} | ≥ 1.0 | Downside risk-adjusted |",
+        f"| **Calmar Ratio** | {results.get('calmar_ratio', 0):.3f} | ≥ 1.0 | Return/Max DD |",
         "",
         "---",
         "",
-        "## Trading Activity",
+        "## ⚠️ Risk Metrics",
         "",
-        f"| Metric | Value |",
-        f"|--------|-------|",
-        f"| **Total Trades** | {results['num_trades']} |",
+        "| Metric | Value | Limit | Description |",
+        "|--------|-------|-------|-------------|",
+        f"| **Volatility (Annual)** | {results.get('volatility', 0):.2%} | ≤ 40% | Portfolio volatility |",
+        f"| **Downside Deviation** | {results.get('downside_deviation', 0):.2%} | ≤ 30% | Downside risk only |",
+        f"| **Max Drawdown** | {results.get('max_drawdown', 0):.2%} | ≤ 20% | Largest peak-to-trough decline |",
+        f"| **Max DD Duration** | {results.get('max_drawdown_duration_days', 0)} days | ≤ 180 days | Longest drawdown period |",
+        "",
+        "---",
+        "",
+        "## 💼 Trading Activity",
+        "",
+        "### Trade Summary",
+        "",
+        "| Metric | Value |",
+        "|--------|-------|",
+        f"| **Total Trades** | {results.get('total_trades', results.get('num_trades', 0))} |",
         f"| **Trading Days** | {results['trading_days']} |",
         f"| **Winning Trades** | {results.get('winning_trades', 0)} |",
         f"| **Losing Trades** | {results.get('losing_trades', 0)} |",
-        f"| **Avg Trade P&L** | ${results.get('avg_trade_pnl', 0):.2f} |",
         "",
-        "---",
+        "### Trade Performance",
         "",
-        "## Risk Metrics",
-        "",
-        f"| Metric | Value |",
-        f"|--------|-------|",
-        f"| **Volatility (Annual)** | {results.get('volatility', 0):.2%} |",
-        f"| **Downside Deviation** | {results.get('downside_deviation', 0):.2%} |",
-        f"| **Sortino Ratio** | {results.get('sortino_ratio', 0):.3f} |",
-        f"| **Calmar Ratio** | {results.get('calmar_ratio', 0):.3f} |",
+        "| Metric | Value | Benchmark |",
+        "|--------|-------|-----------|",
+        f"| **Win Rate** | {results.get('win_rate', 0):.2%} | ≥ 50% |",
+        f"| **Profit Factor** | {results.get('profit_factor', 0):.2f} | ≥ 1.5 |",
+        f"| **Avg Trade P&L** | ${results.get('avg_trade_pnl', 0):.2f} | > $0 |",
+        f"| **Avg Win** | ${results.get('avg_win', 0):.2f} | - |",
+        f"| **Avg Loss** | ${results.get('avg_loss', 0):.2f} | - |",
         "",
     ]
 
-    # Add delisted symbols if any
+    # Add delisted symbols section
     if results.get('delisted_symbols'):
         report_lines.extend([
             "---",
             "",
-            "## ⚠️ Delisted Symbols",
+            "## 🚫 Survivorship Bias Detection",
             "",
-            f"The following symbols were delisted during the backtest period:",
+            f"**Delisted Symbols:** {len(results['delisted_symbols'])} detected and positions force-closed",
             "",
         ])
         for symbol in results['delisted_symbols']:
-            report_lines.append(f"- {symbol}")
+            report_lines.append(f"- **{symbol}** - Delisted during backtest period")
         report_lines.append("")
 
-    # Add failed signals if any
+    # Add failed signals section
     if results.get('failed_signals', 0) > 0:
+        failed_rate = results['failed_signals'] / results.get('num_signals', 1) if results.get('num_signals', 0) > 0 else 0
         report_lines.extend([
             "---",
             "",
-            "## ❌ Failed Signals",
+            "## ❌ Signal Validation Failures",
             "",
-            f"**Total Failed Signals:** {results['failed_signals']}",
+            f"| Metric | Value |",
+            f"|--------|-------|",
+            f"| **Failed Signals** | {results['failed_signals']} |",
+            f"| **Total Signals** | {results.get('num_signals', 0)} |",
+            f"| **Failure Rate** | {failed_rate:.2%} |",
             "",
-            "Signals that failed validation were excluded from trading.",
+            "*Failed signals were excluded from trading to maintain signal quality.*",
             "",
         ])
 
-    # Add pass/fail gates section (placeholder for Phase A0 Week 2)
-    report_lines.extend([
-        "---",
-        "",
-        "## ✅ Pass/Fail Gates",
-        "",
-        "| Gate | Threshold | Result | Status |",
-        "|------|-----------|--------|--------|",
-    ])
+    # Add comprehensive pass/fail gates
+    if gates_result:
+        report_lines.extend([
+            "---",
+            "",
+            "## ✅ Quality Gates Evaluation",
+            "",
+            f"**Final Judgment:** {gates_result.final_judgment}",
+            "",
+            f"**Gates Summary:** {gates_result.passed_gates}/{gates_result.total_gates} passed",
+            "",
+            f"- **Critical Failures:** {gates_result.critical_failures}",
+            f"- **High Severity Failures:** {gates_result.high_failures}",
+            f"- **Medium Severity Failures:** {gates_result.medium_failures}",
+            "",
+        ])
 
-    # Example gates (will be configurable later)
-    sharpe_threshold = 1.0
-    sharpe = results.get('sharpe_ratio', 0)
-    sharpe_status = "✅ PASS" if sharpe >= sharpe_threshold else "❌ FAIL"
+        if gates_result.final_judgment == "FAIL":
+            report_lines.extend([
+                f"**❌ Rejection Reason:** {gates_result.rejection_reason}",
+                "",
+            ])
 
-    max_dd_threshold = 0.20  # 20%
-    max_dd = abs(results.get('max_drawdown', 0))
-    max_dd_status = "✅ PASS" if max_dd <= max_dd_threshold else "❌ FAIL"
+        # Group gates by category
+        categories = {}
+        for gate in gates_result.gate_results:
+            if gate.category not in categories:
+                categories[gate.category] = []
+            categories[gate.category].append(gate)
 
-    win_rate_threshold = 0.50  # 50%
-    win_rate = results.get('win_rate', 0)
-    win_rate_status = "✅ PASS" if win_rate >= win_rate_threshold else "❌ FAIL"
+        # Display gates by category
+        for category, gates in categories.items():
+            report_lines.extend([
+                f"### {category.replace('_', ' ').title()} Gates",
+                "",
+                "| Gate | Threshold | Actual | Status | Severity |",
+                "|------|-----------|--------|--------|----------|",
+            ])
 
-    report_lines.extend([
-        f"| Sharpe Ratio | ≥ {sharpe_threshold} | {sharpe:.2f} | {sharpe_status} |",
-        f"| Max Drawdown | ≤ {max_dd_threshold:.0%} | {max_dd:.2%} | {max_dd_status} |",
-        f"| Win Rate | ≥ {win_rate_threshold:.0%} | {win_rate:.2%} | {win_rate_status} |",
-        "",
-    ])
+            for gate in gates:
+                status = "✅ PASS" if gate.passed else "❌ FAIL"
+                inst_std = f" (Inst: {gate.institutional_standard})" if gate.institutional_standard else ""
+
+                # Format values based on gate type
+                if 'ratio' in gate.gate_name or 'factor' in gate.gate_name:
+                    threshold_str = f"{gate.threshold:.2f}{inst_std}"
+                    actual_str = f"{gate.actual_value:.3f}"
+                elif 'rate' in gate.gate_name or 'drawdown' in gate.gate_name or 'volatility' in gate.gate_name or 'deviation' in gate.gate_name:
+                    threshold_str = f"{gate.threshold:.1%}{inst_std}"
+                    actual_str = f"{gate.actual_value:.2%}"
+                elif 'days' in gate.gate_name or 'trades' in gate.gate_name:
+                    threshold_str = f"{int(gate.threshold)}{inst_std}"
+                    actual_str = f"{int(gate.actual_value)}"
+                else:
+                    threshold_str = f"{gate.threshold:.2f}{inst_std}"
+                    actual_str = f"{gate.actual_value:.2f}"
+
+                report_lines.append(
+                    f"| {gate.gate_name.replace('_', ' ').title()} | {gate.comparison} {threshold_str} | {actual_str} | {status} | {gate.severity} |"
+                )
+
+            report_lines.append("")
+
+        # Add warnings if any
+        if gates_result.warnings:
+            report_lines.extend([
+                "### ⚠️ Warnings",
+                "",
+            ])
+            for warning in gates_result.warnings:
+                report_lines.append(f"- {warning}")
+            report_lines.append("")
 
     # Footer
     report_lines.extend([
         "---",
         "",
-        "*Report generated by Stock Agent Trading System v1.0.0*",
+        "## 📝 Report Metadata",
+        "",
+        f"- **Report Version:** 2.0.0 (Enhanced)",
+        f"- **Generated By:** Stock Agent Trading System",
+        f"- **Timestamp:** {datetime.now().isoformat()}",
+        f"- **Gates Evaluation:** {'Enabled' if with_gates else 'Disabled'}",
+        "",
+        "---",
+        "",
+        "*This report was generated with institutional-grade metrics and quality gates.*",
         "",
     ])
 
@@ -270,7 +362,7 @@ def markdown_to_html_simple(markdown: str) -> str:
 
 def parse_args():
     """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description='Generate backtest report')
+    parser = argparse.ArgumentParser(description='Generate enhanced backtest report with quality gates')
 
     parser.add_argument(
         '--format',
@@ -292,12 +384,28 @@ def parse_args():
         help='Output file path (default: auto-generate in backtest_results/)'
     )
 
+    parser.add_argument(
+        '--with-gates',
+        action='store_true',
+        default=True,
+        help='Include pass/fail gates evaluation (default: True)'
+    )
+
+    parser.add_argument(
+        '--no-gates',
+        action='store_true',
+        help='Disable pass/fail gates evaluation'
+    )
+
     return parser.parse_args()
 
 
 def main():
     """Main report generation"""
     args = parse_args()
+
+    # Determine if gates should be used
+    with_gates = not args.no_gates if hasattr(args, 'no_gates') else args.with_gates
 
     # Find input file
     if args.input:
@@ -318,22 +426,26 @@ def main():
 
     if args.format == 'markdown':
         output_path = Path(args.output) if args.output else Path(f"backtest_results/report_{timestamp}.md")
-        report = generate_markdown_report(results, output_path)
+        report = generate_markdown_report(results, output_path, with_gates=with_gates)
 
         if not args.output:
             print(report)
 
-        logger.success(f"✅ Markdown report generated: {output_path}")
+        logger.success(f"✅ Enhanced markdown report generated: {output_path}")
+        if with_gates:
+            logger.info("   Report includes quality gates evaluation")
 
     elif args.format == 'html':
-        # First generate markdown
-        markdown_report = generate_markdown_report(results)
+        # First generate markdown with gates
+        markdown_report = generate_markdown_report(results, with_gates=with_gates)
 
         # Convert to HTML
         output_path = Path(args.output) if args.output else Path(f"backtest_results/report_{timestamp}.html")
         html_report = generate_html_report(markdown_report, output_path)
 
-        logger.success(f"✅ HTML report generated: {output_path}")
+        logger.success(f"✅ Enhanced HTML report generated: {output_path}")
+        if with_gates:
+            logger.info("   Report includes quality gates evaluation")
 
     elif args.format == 'pdf':
         logger.error("PDF generation not yet implemented (requires reportlab or weasyprint)")

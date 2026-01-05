@@ -26,12 +26,21 @@ OpenBB is a comprehensive financial data and analytics platform providing:
 ### 1. Install OpenBB Platform
 
 ```bash
-# Install OpenBB
+# Install OpenBB Platform
 pip install openbb
 
-# Or with specific providers
-pip install openbb[all]  # All data providers
+# Or with all data providers
+pip install openbb[all]
+
+# For LangChain integration (OpenBB Agents)
+pip install langchain langchain-anthropic langchain-openai
 ```
+
+**Note:** The project includes **OpenBB Agents** integration for seamless LLM + Financial Data workflows.
+- GitHub: https://github.com/OpenBB-finance/agents-for-openbb
+- Provides LangChain tools powered by OpenBB
+- Pre-built financial analysis agent templates
+- Best practices for AI + Financial Data
 
 ### 2. Configure API Keys (Optional)
 
@@ -542,12 +551,166 @@ except Exception as e:
 
 ---
 
+## 🤖 OpenBB Agents Integration
+
+This project integrates **OpenBB Agents** for seamless LLM + Financial Data workflows.
+
+### What are OpenBB Agents?
+
+OpenBB Agents (https://github.com/OpenBB-finance/agents-for-openbb) provides:
+- **LangChain Tools** powered by OpenBB data
+- **Pre-built Agent Templates** for financial analysis
+- **Structured Financial Data** retrieval
+- **Best Practices** for AI + Finance integration
+
+### Available Tools
+
+The integration provides **5 powerful LangChain tools**:
+
+1. **OpenBBStockQuoteTool** - Real-time stock quotes
+2. **OpenBBFinancialsTool** - Financial metrics and ratios
+3. **OpenBBNewsTool** - Recent news articles
+4. **OpenBBTechnicalAnalysisTool** - Technical indicators
+5. **OpenBBScreenerTool** - Stock screening (gainers/losers/active)
+
+### Quick Start with OpenBB Agents
+
+```python
+from utils.openbb_agents import create_openbb_tools, create_financial_analyst_agent
+from langchain_anthropic import ChatAnthropic
+
+# Option 1: Use tools directly
+tools = create_openbb_tools()
+
+from utils.openbb_agents import OpenBBStockQuoteTool
+quote_tool = OpenBBStockQuoteTool()
+result = quote_tool._run("AAPL")
+print(result)
+
+# Option 2: Create LLM-powered agent
+llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")
+agent = create_financial_analyst_agent(llm)
+
+# Ask complex financial questions
+response = agent.analyze("Analyze AAPL stock. Should I buy, sell, or hold?")
+print(response)
+```
+
+### LLM-Powered Financial Analysis
+
+The OpenBB Agents integration allows your LLM to:
+- ✅ Access real-time market data
+- ✅ Analyze financial statements
+- ✅ Monitor news and sentiment
+- ✅ Perform technical analysis
+- ✅ Screen stocks dynamically
+- ✅ Provide data-driven recommendations
+
+### Example: Complete Stock Analysis
+
+```python
+from utils.openbb_agents import create_financial_analyst_agent
+from langchain_anthropic import ChatAnthropic
+
+# Create agent
+llm = ChatAnthropic(model="claude-3-5-sonnet-20241022", temperature=0)
+agent = create_financial_analyst_agent(llm)
+
+# Complex analysis queries
+queries = [
+    "Analyze AAPL. Consider technical indicators, fundamentals, and recent news.",
+    "Compare AAPL vs MSFT. Which is a better investment right now?",
+    "Find top 3 gainers today with strong fundamentals",
+    "What are the main risks for TSLA based on recent data?"
+]
+
+for query in queries:
+    response = agent.analyze(query)
+    print(f"Query: {query}")
+    print(f"Analysis: {response}\n")
+```
+
+### Integration with Existing Agents
+
+```python
+# Enhance your existing agents with OpenBB tools
+from utils.openbb_agents import (
+    OpenBBStockQuoteTool,
+    OpenBBFinancialsTool,
+    OpenBBTechnicalAnalysisTool
+)
+
+class EnhancedNewsAgent:
+    def __init__(self):
+        self.quote_tool = OpenBBStockQuoteTool()
+        self.news_tool = OpenBBNewsTool()
+
+    def analyze(self, symbol: str):
+        # Get real-time data
+        quote = self.quote_tool._run(symbol)
+        news = self.news_tool._run(symbol, limit=10)
+
+        # Analyze with your LLM
+        # ... your analysis logic ...
+
+        return analysis_result
+```
+
+### Custom Financial Research Agent
+
+```python
+from utils.openbb_agents import create_openbb_tools
+
+class CustomFinancialResearcher:
+    def __init__(self):
+        self.tools = create_openbb_tools()
+
+    def research_stock(self, symbol: str):
+        research = {}
+
+        # Use all OpenBB tools
+        for tool in self.tools:
+            if tool.name == "openbb_stock_quote":
+                research['quote'] = tool._run(symbol)
+            elif tool.name == "openbb_financials":
+                research['financials'] = tool._run(symbol)
+            # ... etc
+
+        return research
+```
+
+### Benefits of OpenBB Agents
+
+| Feature | Without Agents | With OpenBB Agents |
+|---------|----------------|-------------------|
+| Data Access | Manual API calls | LangChain tool abstraction |
+| LLM Integration | Custom code required | Built-in templates |
+| Error Handling | Manual implementation | Handled by framework |
+| Tool Composition | Manual orchestration | Automatic agent execution |
+| Best Practices | Self-developed | Community-maintained |
+
+### Examples
+
+See `examples/openbb_agent_example.py` for comprehensive examples:
+- Using OpenBB tools directly
+- LLM-powered financial analyst agent
+- System integration patterns
+- Custom research agent implementation
+
+```bash
+# Run examples
+python examples/openbb_agent_example.py
+```
+
+---
+
 ## 📚 Resources
 
-- **OpenBB GitHub:** https://github.com/OpenBB-finance/OpenBB
+- **OpenBB Platform:** https://github.com/OpenBB-finance/OpenBB
+- **OpenBB Agents:** https://github.com/OpenBB-finance/agents-for-openbb
 - **Documentation:** https://docs.openbb.co
 - **Discord Community:** https://discord.gg/openbb
-- **Examples:** https://github.com/OpenBB-finance/OpenBBTerminal
+- **LangChain Docs:** https://python.langchain.com
 
 ---
 

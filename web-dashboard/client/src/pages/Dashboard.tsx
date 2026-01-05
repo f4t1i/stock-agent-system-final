@@ -14,6 +14,10 @@ import { SystemHealthMonitor } from "@/components/dashboard/SystemHealthMonitor"
 import { RecentTrades } from "@/components/dashboard/RecentTrades";
 import { TradingChart } from "@/components/dashboard/TradingChart";
 import { NaturalLanguageQuery } from "@/components/dashboard/NaturalLanguageQuery";
+import { ExplainabilityCard } from "@/components/explainability/ExplainabilityCard";
+import { trpc } from "@/lib/trpc";
+import { Link } from "wouter";
+import { ArrowRight } from "lucide-react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { useAnalysisStore } from "@/stores/analysisStore";
 import { useWebSocket } from "@/hooks/useWebSocket";
@@ -30,6 +34,77 @@ import {
   Wifi
 } from "lucide-react";
 import { toast } from "sonner";
+
+function RecentDecisionsSection() {
+  // Fetch recent decisions
+  const { data: decisions, isLoading } = trpc.explainability.listRecent.useQuery({
+    limit: 3,
+  });
+
+  if (isLoading) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Decisions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  }
+
+  if (!decisions || decisions.length === 0) {
+    return null;
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35 }}
+    >
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Recent Decisions</CardTitle>
+            <Link href="/explainability">
+              <Button variant="ghost" size="sm">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {decisions.map((decision) => (
+              <ExplainabilityCard
+                key={decision.decisionId}
+                decisionId={decision.decisionId}
+                symbol={decision.symbol}
+                agentName={decision.agentName}
+                recommendation={decision.recommendation as "BUY" | "SELL" | "HOLD"}
+                confidence={decision.confidence}
+                reasoning="Click to view full explanation"
+                keyFactors={[]}
+                timestamp={new Date(decision.timestamp)}
+              />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+}
 
 function DashboardContent() {
   const [searchSymbol, setSearchSymbol] = useState("AAPL");
@@ -275,12 +350,15 @@ function DashboardContent() {
         </motion.div>
       )}
 
+      {/* Recent Decisions - Explainability */}
+      <RecentDecisionsSection />
+
       {/* System Health & Recent Trades */}
       <motion.div 
         className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
+        transition={{ delay: 0.4 }}
       >
         <SystemHealthMonitor />
         <RecentTrades />

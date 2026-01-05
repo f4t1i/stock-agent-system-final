@@ -1,0 +1,201 @@
+# Report Pass/Fail Gates Configuration
+# Version: 1.0.0
+# Purpose: Define quality gates for backtest reports
+
+# =============================================================================
+# PERFORMANCE GATES
+# =============================================================================
+
+performance_gates:
+  description: "Minimum performance thresholds for accepting backtest results"
+
+  sharpe_ratio:
+    threshold: 1.0
+    comparison: ">="
+    severity: "critical"
+    description: "Sharpe Ratio ≥ 1.0 indicates good risk-adjusted returns"
+    institutional_standard: 1.5
+    retail_minimum: 0.5
+
+  max_drawdown:
+    threshold: 0.20  # 20%
+    comparison: "<="
+    severity: "critical"
+    description: "Max Drawdown ≤ 20% prevents catastrophic losses"
+    institutional_standard: 0.15  # 15%
+    retail_maximum: 0.30  # 30%
+
+  win_rate:
+    threshold: 0.50  # 50%
+    comparison: ">="
+    severity: "high"
+    description: "Win Rate ≥ 50% ensures profitable trade majority"
+    institutional_standard: 0.55
+    retail_minimum: 0.45
+
+  profit_factor:
+    threshold: 1.5
+    comparison: ">="
+    severity: "high"
+    description: "Profit Factor ≥ 1.5 ensures gross profit exceeds gross loss"
+    institutional_standard: 2.0
+    retail_minimum: 1.2
+
+  sortino_ratio:
+    threshold: 1.0
+    comparison: ">="
+    severity: "medium"
+    description: "Sortino Ratio ≥ 1.0 indicates good downside risk management"
+    institutional_standard: 1.5
+
+  calmar_ratio:
+    threshold: 1.0
+    comparison: ">="
+    severity: "medium"
+    description: "Calmar Ratio ≥ 1.0 balances returns with drawdown risk"
+    institutional_standard: 2.0
+
+# =============================================================================
+# RISK GATES
+# =============================================================================
+
+risk_gates:
+  description: "Risk management thresholds"
+
+  volatility:
+    threshold: 0.40  # 40% annual volatility
+    comparison: "<="
+    severity: "high"
+    description: "Annual Volatility ≤ 40% prevents excessive portfolio swings"
+    institutional_standard: 0.25
+
+  downside_deviation:
+    threshold: 0.30  # 30%
+    comparison: "<="
+    severity: "medium"
+    description: "Downside Deviation ≤ 30% limits downside risk"
+
+  max_drawdown_duration:
+    threshold: 180  # 180 days (6 months)
+    comparison: "<="
+    severity: "high"
+    description: "Max DD Duration ≤ 180 days prevents prolonged drawdowns"
+    institutional_standard: 90  # 3 months
+
+# =============================================================================
+# TRADING ACTIVITY GATES
+# =============================================================================
+
+trading_gates:
+  description: "Trading activity and quality thresholds"
+
+  min_trades:
+    threshold: 10
+    comparison: ">="
+    severity: "medium"
+    description: "Minimum 10 trades for statistical significance"
+    institutional_standard: 30
+    ideal: 100
+
+  avg_trade_pnl:
+    threshold: 0  # Must be positive
+    comparison: ">"
+    severity: "critical"
+    description: "Average Trade P&L > 0 ensures positive expectancy"
+
+  avg_win_to_avg_loss_ratio:
+    threshold: 1.0
+    comparison: ">="
+    severity: "medium"
+    description: "Avg Win ≥ Avg Loss ensures good risk/reward per trade"
+    institutional_standard: 1.5
+
+# =============================================================================
+# DATA QUALITY GATES
+# =============================================================================
+
+data_quality_gates:
+  description: "Data integrity and completeness checks"
+
+  min_trading_days:
+    threshold: 60  # ~3 months
+    comparison: ">="
+    severity: "critical"
+    description: "Minimum 60 trading days for meaningful backtest"
+    institutional_standard: 252  # 1 year
+    ideal: 756  # 3 years
+
+  failed_signals_rate:
+    threshold: 0.10  # 10%
+    comparison: "<="
+    severity: "high"
+    description: "Failed Signals Rate ≤ 10% ensures signal quality"
+    zero_tolerance: true
+
+  delisted_symbols_rate:
+    threshold: 0.20  # 20%
+    comparison: "<="
+    severity: "medium"
+    description: "Delisted Symbols ≤ 20% of universe prevents survivorship bias"
+
+# =============================================================================
+# COMPOSITE JUDGMENT
+# =============================================================================
+
+composite_judgment:
+  description: "Overall pass/fail logic combining all gates"
+
+  decision_logic:
+    critical_gates_must_pass: true
+    high_severity_threshold: 0  # Max number of high-severity failures allowed
+    medium_severity_threshold: 2  # Max number of medium-severity failures allowed
+
+  severity_levels:
+    critical:
+      description: "Must pass - any failure results in REJECT"
+      examples: ["sharpe_ratio", "max_drawdown", "avg_trade_pnl"]
+
+    high:
+      description: "Important - failures counted towards threshold"
+      examples: ["win_rate", "profit_factor", "volatility"]
+
+    medium:
+      description: "Recommended - warnings issued but may pass"
+      examples: ["sortino_ratio", "calmar_ratio", "min_trades"]
+
+  override_policy:
+    manual_override_allowed: false
+    institutional_mode_stricter: true
+
+# =============================================================================
+# REPORT OUTPUT
+# =============================================================================
+
+report_output:
+  description: "How gates are displayed in reports"
+
+  display_format:
+    show_thresholds: true
+    show_actual_values: true
+    show_institutional_standards: true
+    color_coding:
+      pass: "green"
+      fail: "red"
+      warning: "yellow"
+
+  summary_format:
+    include_gate_count: true
+    include_severity_breakdown: true
+    include_recommendations: true
+
+# =============================================================================
+# VERSION CONTROL
+# =============================================================================
+
+version_info:
+  version: "1.0.0"
+  last_updated: "2026-01-05"
+  changelog:
+    - version: "1.0.0"
+      date: "2026-01-05"
+      changes: "Initial gates configuration with institutional standards"

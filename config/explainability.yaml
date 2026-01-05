@@ -1,0 +1,206 @@
+# Explainability Configuration
+# Controls how agent decisions are explained and visualized
+
+# Explanation verbosity levels
+verbosity:
+  minimal: 1    # Only recommendation and confidence
+  standard: 2   # + reasoning and top 3 factors
+  detailed: 3   # + all factors and alternatives
+  debug: 4      # + raw agent output
+
+# Default verbosity level
+default_verbosity: standard
+
+# Factor importance thresholds
+factors:
+  # Minimum importance to display (0-1)
+  min_importance: 0.3
+  
+  # Maximum number of factors to show
+  max_factors: 10
+  
+  # Sort factors by importance
+  sort_by_importance: true
+  
+  # Include factor descriptions
+  include_descriptions: true
+
+# Confidence display
+confidence:
+  # Confidence ranges and labels
+  ranges:
+    - min: 0.0
+      max: 0.3
+      label: "Very Low"
+      color: "#ef4444"  # red
+    - min: 0.3
+      max: 0.5
+      label: "Low"
+      color: "#f59e0b"  # orange
+    - min: 0.5
+      max: 0.7
+      label: "Medium"
+      color: "#eab308"  # yellow
+    - min: 0.7
+      max: 0.85
+      label: "High"
+      color: "#22c55e"  # green
+    - min: 0.85
+      max: 1.0
+      label: "Very High"
+      color: "#10b981"  # emerald
+  
+  # Show confidence as percentage
+  show_percentage: true
+  
+  # Decimal places for confidence
+  decimal_places: 2
+
+# Alternative scenarios
+alternatives:
+  # Generate alternative scenarios
+  enabled: true
+  
+  # Maximum number of alternatives
+  max_alternatives: 3
+  
+  # Minimum confidence difference to show alternative
+  min_confidence_diff: 0.2
+  
+  # Include conservative (HOLD) alternative
+  include_conservative: true
+
+# Reasoning display
+reasoning:
+  # Maximum length of reasoning text (characters)
+  max_length: 500
+  
+  # Truncate long reasoning
+  truncate: true
+  
+  # Truncation suffix
+  truncation_suffix: "..."
+  
+  # Format reasoning as markdown
+  markdown: true
+
+# Agent-specific settings
+agents:
+  news_agent:
+    # Key factors to highlight
+    key_factors:
+      - sentiment_score
+      - news_count
+      - key_events
+    
+    # Factor importance weights
+    factor_weights:
+      sentiment_score: 0.9
+      news_count: 0.6
+      key_events: 0.8
+  
+  technical_agent:
+    key_factors:
+      - signal_strength
+      - support_levels
+      - resistance_levels
+      - indicators
+    
+    factor_weights:
+      signal_strength: 0.95
+      support_levels: 0.7
+      resistance_levels: 0.7
+      indicators: 0.6
+  
+  fundamental_agent:
+    key_factors:
+      - valuation
+      - financial_health_score
+      - growth_score
+      - metrics
+    
+    factor_weights:
+      valuation: 0.9
+      financial_health_score: 0.85
+      growth_score: 0.8
+      metrics: 0.6
+  
+  strategist:
+    key_factors:
+      - position_size
+      - risk_assessment
+      - entry_target
+      - stop_loss
+      - take_profit
+    
+    factor_weights:
+      position_size: 0.9
+      risk_assessment: 0.85
+      entry_target: 0.7
+      stop_loss: 0.8
+      take_profit: 0.75
+
+# Decision history
+history:
+  # Store decision history in database
+  enabled: true
+  
+  # Maximum decisions to keep
+  max_decisions: 10000
+  
+  # Auto-cleanup old decisions (days)
+  cleanup_after_days: 90
+  
+  # Include decision factors in history
+  include_factors: true
+
+# Visualization
+visualization:
+  # Factor importance chart type
+  factor_chart_type: "bar"  # bar, horizontal_bar, pie
+  
+  # Confidence gauge type
+  confidence_gauge_type: "circular"  # circular, linear, donut
+  
+  # Color scheme
+  color_scheme: "default"  # default, colorblind, monochrome
+  
+  # Animation duration (ms)
+  animation_duration: 300
+
+# API settings
+api:
+  # Enable explainability API
+  enabled: true
+  
+  # API rate limiting
+  rate_limit:
+    requests_per_minute: 60
+    burst: 10
+  
+  # Cache explanations
+  cache:
+    enabled: true
+    ttl_seconds: 300  # 5 minutes
+  
+  # CORS settings
+  cors:
+    enabled: true
+    allow_origins: ["*"]
+    allow_methods: ["GET", "POST"]
+
+# Logging
+logging:
+  # Log all explanation requests
+  log_requests: true
+  
+  # Log level
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  
+  # Log to file
+  log_file: "logs/explainability.log"
+  
+  # Rotate logs
+  rotate: true
+  max_size_mb: 100
+  backup_count: 5

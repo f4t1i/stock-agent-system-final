@@ -14,6 +14,14 @@ from .dataset_upload import (
     validate_dataset,
     upload_dataset
 )
+from .training_job import (
+    TrainingJobManager,
+    TrainingConfig,
+    HyperParameters,
+    TrainingJob,
+    create_training_job,
+    get_available_models
+)
 
 __all__ = [
     'OpenAIClient',
@@ -25,5 +33,11 @@ __all__ = [
     'ValidationResult',
     'UploadResult',
     'validate_dataset',
-    'upload_dataset'
+    'upload_dataset',
+    'TrainingJobManager',
+    'TrainingConfig',
+    'HyperParameters',
+    'TrainingJob',
+    'create_training_job',
+    'get_available_models'
 ]

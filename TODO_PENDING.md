@@ -62,10 +62,33 @@
 
 ## Phase A1 Week 7-8: RL Training (4 tasks)
 
-- [ ] 🎮 GRPO Trainer für Senior Strategist
-- [ ] 🧭 Supervisor v2 mit Contextual Bandit Routing
-- [ ] 🌍 Regime-Features für Routing (volatility, trend, sentiment)
-- [ ] ✅ Acceptance Tests für RL Training + Routing
+- [x] **Task #21: 🎮 GRPO Trainer** für Senior Strategist
+  - Group Relative Policy Optimization implementation (635 lines)
+  - Group sampling with K responses per prompt
+  - Relative advantage computation
+  - PPO-style policy updates with KL penalty
+  - Integration framework with experience store
+
+- [x] **Task #22: 🧭 Supervisor v2** mit Contextual Bandit Routing
+  - Multi-armed bandit agent selection (519 lines)
+  - 3 algorithms: Thompson Sampling, UCB, Epsilon-Greedy
+  - Per-agent performance tracking
+  - Regime-aware routing
+  - SQLite tracking database
+
+- [x] **Task #23: 🌍 Regime-Features** für Routing (391 lines)
+  - Volatility calculation (historical, realized)
+  - Trend detection (SMA crossovers, strength)
+  - Market regime classification (6 regimes)
+  - Sentiment integration hooks
+
+- [x] **Task #24: ✅ Acceptance Tests** für RL Training + Routing
+  - 4/4 test cases passing
+  - GRPO configuration tests
+  - Supervisor bandit algorithm tests
+  - Regime feature extraction tests
+  - End-to-end integration tests
+  - Makefile target: acceptance-test-rl
 
 ## Phase A2 Week 9-10: Learning Track (4 tasks)
 
@@ -87,44 +110,44 @@
 
 ## Progress Summary
 
-**Total Completed: 20 tasks**
+**Total Completed: 24 tasks**
 - Phase A0 (Proof-of-Value): 12/12 ✅
 - Phase A1 Week 3-4 (Closed Loop v1): 4/4 ✅
 - Phase A1 Week 5-6 (SFT Training): 4/4 ✅
+- Phase A1 Week 7-8 (RL Training): 4/4 ✅
 
-**Total Pending: 14 tasks**
-- Phase A1 Week 7-8 (RL Training): 4 tasks
+**Total Pending: 10 tasks**
 - Phase A2 Week 9-10 (Learning Track): 4 tasks
 - Phase A3 Week 11-12 (Produktisierung): 6 tasks
 
-**Overall Progress: 59% (20/34 tasks)**
+**Overall Progress: 71% (24/34 tasks)**
 
 ---
 
 ## Next Steps
 
-**Ready to start:** Tasks #21-24 - RL Training with GRPO
+**Ready to start:** Tasks #25-28 - Learning Track (Multi-Iteration Training)
 
-**Task #21:** GRPO Trainer für Senior Strategist
-- Group Relative Policy Optimization (GRPO) implementation
-- Multi-agent reward learning
-- Integration with experience store
+**Task #25:** Multi-Iteration Training Script (10 Iterations)
+- Automated training loop with feedback
+- Model versioning across iterations
+- Convergence monitoring
 
-**Task #22:** Supervisor v2 mit Contextual Bandit Routing
-- Multi-armed bandit agent selection
-- Context-aware routing based on market regime
-- Performance tracking per agent
+**Task #26:** Convergence Tracking System
+- Performance metrics over iterations
+- Early stopping criteria
+- Visualization dashboards
 
-**Task #23:** Regime-Features für Routing (volatility, trend, sentiment)
-- Volatility feature extraction
-- Trend detection (bull/bear/sideways)
-- Sentiment analysis integration
+**Task #27:** Regime-spezifische Modelle (Bull/Bear Strategists)
+- Train separate models per market regime
+- Regime detection and model switching
+- Performance comparison
 
-**Task #24:** Acceptance Tests für RL Training + Routing
-- GRPO trainer validation
-- Contextual bandit routing tests
-- End-to-end RL pipeline testing
+**Task #28:** Acceptance Tests für iteratives Training
+- Multi-iteration workflow tests
+- Convergence validation
+- Regime-specific model tests
 
 ---
 
-Last updated: 2026-01-05 (Task #18-20 complete - Phase A1 Week 5-6: 100%)
+Last updated: 2026-01-05 (Tasks #21-24 complete - Phase A1 Week 7-8: 100%)

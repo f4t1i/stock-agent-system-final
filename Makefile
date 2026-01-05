@@ -207,10 +207,35 @@ regression-override: ## Override blocked model (usage: make regression-override 
 
 ##@ RL Training
 
-train-rl: ## Train RL model for strategist
-	@echo "🎮 Training RL model..."
-	python scripts/train_rl.py
+train-rl: ## Train RL model with GRPO (usage: make train-rl POLICY=xxx EXPERIENCES=xxx OUTPUT=xxx)
+	@echo "🎮 Training RL model with GRPO..."
+	python scripts/train_rl.py \
+		--policy $(POLICY) \
+		--experience-store $(EXPERIENCES) \
+		--output $(OUTPUT) \
+		--iterations 100
 	@echo "✅ RL training complete"
+
+train-rl-quick: ## Quick RL test (10 iterations)
+	@echo "⚡ Quick RL test training..."
+	python scripts/train_rl.py \
+		--policy models/sft/strategist_v1.0.0 \
+		--experience-store data/experiences \
+		--output models/rl/strategist_test \
+		--preset quick_test
+	@echo "✅ Quick RL test complete"
+
+supervisor-stats: ## Show supervisor agent routing statistics
+	@echo "📊 Supervisor routing statistics:"
+	python agents/supervisor_v2.py --stats
+
+supervisor-demo: ## Demo supervisor agent selection
+	@echo "🎯 Supervisor demo:"
+	python agents/supervisor_v2.py
+
+regime-features-demo: ## Demo regime feature extraction
+	@echo "🌍 Regime features demo:"
+	python agents/regime_features.py --demo
 
 ##@ Data Synthesis
 
@@ -455,6 +480,11 @@ acceptance-test-sft: ## Run SFT training pipeline acceptance tests (Tasks #17-20
 	@echo "\n2. Testing Eval Gates & Regression Guards..."
 	python tests/acceptance/test_sft_pipeline_complete.py
 	@echo "\n✅ All SFT tests passed!"
+
+acceptance-test-rl: ## Run RL training pipeline acceptance tests (Tasks #21-24)
+	@echo "✅ Running RL training pipeline acceptance tests..."
+	python tests/acceptance/test_rl_training.py
+	@echo "\n✅ All RL tests passed!"
 
 ##@ Documentation
 

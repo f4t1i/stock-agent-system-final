@@ -98,10 +98,55 @@ train-rl: ## Train RL model for strategist
 	python scripts/train_rl.py
 	@echo "✅ RL training complete"
 
-synthesize-data: ## Synthesize training data from experience library
-	@echo "🔄 Synthesizing training data..."
-	python scripts/synthesize_training_data.py
-	@echo "✅ Data synthesis complete"
+##@ Data Synthesis
+
+synthesize-sft: ## Synthesize SFT dataset (judge-approved, chat format)
+	@echo "🔄 Synthesizing SFT dataset..."
+	python scripts/synthesize_dataset.py --preset sft_v1
+	@echo "✅ SFT dataset synthesized"
+
+synthesize-preference: ## Synthesize preference learning dataset (contrastive pairs)
+	@echo "🔄 Synthesizing preference learning dataset..."
+	python scripts/synthesize_dataset.py --preset preference_v1
+	@echo "✅ Preference dataset synthesized"
+
+synthesize-rl: ## Synthesize RL training dataset (full spectrum)
+	@echo "🔄 Synthesizing RL dataset..."
+	python scripts/synthesize_dataset.py --preset rl_v1
+	@echo "✅ RL dataset synthesized"
+
+synthesize-eval: ## Synthesize evaluation benchmark (gold standard)
+	@echo "🔄 Synthesizing evaluation benchmark..."
+	python scripts/synthesize_dataset.py --preset eval_benchmark
+	@echo "✅ Evaluation benchmark synthesized"
+
+synthesize-custom: ## Synthesize custom dataset (specify --strategy, --format, etc.)
+	@echo "🔄 Synthesizing custom dataset..."
+	@echo "Usage: make synthesize-custom STRATEGY=judge_approved FORMAT=chat MIN_REWARD=0.5"
+	python scripts/synthesize_dataset.py \
+		--strategy $(or $(STRATEGY),judge_approved) \
+		--format $(or $(FORMAT),chat) \
+		--min-reward $(or $(MIN_REWARD),0.0)
+	@echo "✅ Custom dataset synthesized"
+
+judge-filter: ## Apply judge filtering to experience store
+	@echo "⚖️  Applying judge filter to experiences..."
+	python training/data_synthesis/judge_filter.py --storage-dir data/experiences --min-score 6.0
+	@echo "✅ Judge filtering complete"
+
+experience-stats: ## Show experience store statistics
+	@echo "📊 Experience Store Statistics:"
+	python training/data_synthesis/experience_store.py --storage-dir data/experiences --stats
+
+experience-query: ## Query experiences (usage: make experience-query SYMBOL=AAPL MIN_REWARD=0.5)
+	@echo "🔍 Querying experiences..."
+	python training/data_synthesis/experience_store.py \
+		--storage-dir data/experiences \
+		--query \
+		$(if $(SYMBOL),--symbol $(SYMBOL),) \
+		$(if $(MIN_REWARD),--min-reward $(MIN_REWARD),) \
+		$(if $(JUDGE_ONLY),--judge-approved-only,)
+	@echo "✅ Query complete"
 
 ##@ Code Quality
 

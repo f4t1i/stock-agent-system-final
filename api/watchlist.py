@@ -170,7 +170,7 @@ async def list_watchlists(user_id: str = "demo_user"):
         raise HTTPException(status_code=500, detail=f"Error listing watchlists: {str(e)}")
 
 
-@router.post("/{watchlist_id}/add")
+@router.post("/{watchlist_id}/add_symbol")
 async def add_symbol(watchlist_id: str, request: AddSymbolRequest):
     """Add symbol to watchlist"""
     try:
@@ -202,7 +202,7 @@ async def add_symbol(watchlist_id: str, request: AddSymbolRequest):
         raise HTTPException(status_code=500, detail=f"Error adding symbol: {str(e)}")
 
 
-@router.delete("/{watchlist_id}/remove/{symbol}")
+@router.delete("/{watchlist_id}/remove_symbol/{symbol}")
 async def remove_symbol(watchlist_id: str, symbol: str):
     """Remove symbol from watchlist"""
     try:
@@ -278,6 +278,55 @@ async def delete_watchlist(watchlist_id: str, user_id: str = "demo_user"):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting watchlist: {str(e)}")
+
+
+@router.get("/{watchlist_id}/status")
+async def get_watchlist_status(watchlist_id: str):
+    """
+    Get watchlist status with current prices and metrics
+    """
+    try:
+        with sqlite3.connect(str(DB_PATH)) as conn:
+            conn.row_factory = sqlite3.Row
+            
+            # Get watchlist
+            cursor = conn.execute(
+                "SELECT * FROM watchlists WHERE watchlist_id = ?",
+                (watchlist_id,)
+            )
+            watchlist = cursor.fetchone()
+            if not watchlist:
+                raise HTTPException(status_code=404, detail="Watchlist not found")
+            
+            # Get symbols
+            cursor = conn.execute(
+                "SELECT symbol FROM watchlist_symbols WHERE watchlist_id = ?",
+                (watchlist_id,)
+            )
+            symbols = [row["symbol"] for row in cursor.fetchall()]
+        
+        # Mock: Get current prices for symbols
+        symbols_status = []
+        for symbol in symbols:
+            symbols_status.append({
+                "symbol": symbol,
+                "current_price": 150.0,  # Mock price
+                "change_percent": 2.5,   # Mock change
+                "volume": 1000000,       # Mock volume
+                "last_updated": datetime.now().isoformat()
+            })
+        
+        return {
+            "watchlist_id": watchlist_id,
+            "name": watchlist["name"],
+            "symbol_count": len(symbols),
+            "symbols": symbols_status,
+            "last_updated": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting watchlist status: {str(e)}")
 
 
 @router.get("/health")

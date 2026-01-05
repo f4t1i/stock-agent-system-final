@@ -149,3 +149,225 @@ if __name__ == "__main__":
     print(f"  Fourth: 80 crosses 90: {evaluator.evaluate_condition(80, 'crosses_below', 90, alert_id)}")   # False (already below)
     
     print("\n✅ All tests complete")
+
+
+# ============================================================================
+# Specific Alert Type Evaluators
+# ============================================================================
+
+class PriceThresholdEvaluator:
+    """Evaluate price threshold alerts"""
+    
+    def __init__(self):
+        self.evaluator = AlertEvaluator()
+    
+    def evaluate(self, current_price: float, alert_config: dict, alert_id: str) -> bool:
+        """
+        Evaluate price threshold alert
+        
+        Args:
+            current_price: Current stock price
+            alert_config: Alert configuration (condition, threshold)
+            alert_id: Alert identifier
+            
+        Returns:
+            True if alert should trigger
+        """
+        condition = alert_config.get("condition", "above")
+        threshold = alert_config.get("threshold", 0)
+        
+        return self.evaluator.evaluate_condition(
+            current_price, condition, threshold, alert_id
+        )
+
+
+class ConfidenceChangeEvaluator:
+    """Check confidence changes"""
+    
+    def __init__(self):
+        self.previous_confidences: Dict[str, float] = {}
+    
+    def evaluate(self, current_confidence: float, alert_config: dict, alert_id: str) -> bool:
+        """
+        Evaluate confidence change alert
+        
+        Args:
+            current_confidence: Current confidence score (0-1)
+            alert_config: Alert configuration (min_change_threshold)
+            alert_id: Alert identifier
+            
+        Returns:
+            True if confidence changed significantly
+        """
+        min_change = alert_config.get("min_change_threshold", 0.1)  # 10% default
+        
+        if alert_id in self.previous_confidences:
+            prev_conf = self.previous_confidences[alert_id]
+            change = abs(current_confidence - prev_conf)
+            
+            self.previous_confidences[alert_id] = current_confidence
+            return change >= min_change
+        else:
+            # First evaluation
+            self.previous_confidences[alert_id] = current_confidence
+            return False
+
+
+class RecommendationChangeEvaluator:
+    """Monitor recommendation changes"""
+    
+    def __init__(self):
+        self.previous_recommendations: Dict[str, str] = {}
+    
+    def evaluate(self, current_recommendation: str, alert_config: dict, alert_id: str) -> bool:
+        """
+        Evaluate recommendation change alert
+        
+        Args:
+            current_recommendation: Current recommendation (BUY/SELL/HOLD)
+            alert_config: Alert configuration (optional target_recommendation)
+            alert_id: Alert identifier
+            
+        Returns:
+            True if recommendation changed
+        """
+        target_rec = alert_config.get("target_recommendation")  # Optional filter
+        
+        if alert_id in self.previous_recommendations:
+            prev_rec = self.previous_recommendations[alert_id]
+            changed = prev_rec != current_recommendation
+            
+            self.previous_recommendations[alert_id] = current_recommendation
+            
+            # If target specified, only trigger if changed TO target
+            if target_rec:
+                return changed and current_recommendation == target_rec
+            return changed
+        else:
+            # First evaluation
+            self.previous_recommendations[alert_id] = current_recommendation
+            return False
+
+
+class TechnicalSignalEvaluator:
+    """Detect technical signals (RSI, MACD crossovers)"""
+    
+    def __init__(self):
+        self.previous_indicators: Dict[str, dict] = {}
+    
+    def evaluate_rsi(self, rsi: float, alert_config: dict, alert_id: str) -> bool:
+        """
+        Evaluate RSI alert
+        
+        Args:
+            rsi: Current RSI value (0-100)
+            alert_config: Alert configuration (overbought_threshold, oversold_threshold)
+            alert_id: Alert identifier
+            
+        Returns:
+            True if RSI crosses overbought/oversold threshold
+        """
+        overbought = alert_config.get("overbought_threshold", 70)
+        oversold = alert_config.get("oversold_threshold", 30)
+        
+        # Check overbought
+        if rsi >= overbought:
+            return True
+        
+        # Check oversold
+        if rsi <= oversold:
+            return True
+        
+        return False
+    
+    def evaluate_macd_crossover(self, macd: float, signal: float, alert_config: dict, alert_id: str) -> bool:
+        """
+        Evaluate MACD crossover alert
+        
+        Args:
+            macd: Current MACD value
+            signal: Current signal line value
+            alert_config: Alert configuration
+            alert_id: Alert identifier
+            
+        Returns:
+            True if MACD crosses signal line
+        """
+        key = f"{alert_id}_macd"
+        
+        if key in self.previous_indicators:
+            prev_macd = self.previous_indicators[key]["macd"]
+            prev_signal = self.previous_indicators[key]["signal"]
+            
+            # Bullish crossover: MACD crosses above signal
+            bullish = prev_macd <= prev_signal and macd > signal
+            
+            # Bearish crossover: MACD crosses below signal
+            bearish = prev_macd >= prev_signal and macd < signal
+            
+            self.previous_indicators[key] = {"macd": macd, "signal": signal}
+            
+            return bullish or bearish
+        else:
+            # First evaluation
+            self.previous_indicators[key] = {"macd": macd, "signal": signal}
+            return False
+
+
+# ============================================================================
+# Background Task Scheduler
+# ============================================================================
+
+import asyncio
+from typing import Callable, List
+
+class AlertScheduler:
+    """Background task scheduler for alert evaluation"""
+    
+    def __init__(self, evaluation_interval: int = 300):  # 5 minutes default
+        """
+        Initialize alert scheduler
+        
+        Args:
+            evaluation_interval: Interval between evaluations in seconds
+        """
+        self.evaluation_interval = evaluation_interval
+        self.is_running = False
+        self.tasks: List[Callable] = []
+    
+    def add_task(self, task: Callable):
+        """Add evaluation task"""
+        self.tasks.append(task)
+    
+    async def run(self):
+        """Run scheduler loop"""
+        self.is_running = True
+        logger.info(f"Alert scheduler started (interval: {self.evaluation_interval}s)")
+        
+        while self.is_running:
+            try:
+                logger.info("Evaluating alerts...")
+                
+                # Run all tasks
+                for task in self.tasks:
+                    try:
+                        if asyncio.iscoroutinefunction(task):
+                            await task()
+                        else:
+                            task()
+                    except Exception as e:
+                        logger.error(f"Error in task: {e}")
+                
+                logger.info(f"Alert evaluation complete. Next run in {self.evaluation_interval}s")
+                
+                # Wait for next interval
+                await asyncio.sleep(self.evaluation_interval)
+                
+            except Exception as e:
+                logger.error(f"Error in scheduler loop: {e}")
+                await asyncio.sleep(60)  # Wait 1 minute on error
+    
+    def stop(self):
+        """Stop scheduler"""
+        self.is_running = False
+        logger.info("Alert scheduler stopped")

@@ -22,6 +22,14 @@ from .training_job import (
     create_training_job,
     get_available_models
 )
+from .job_monitor import (
+    JobMonitor,
+    JobProgress,
+    JobEvent,
+    JobMetrics,
+    monitor_job,
+    stream_job_events
+)
 
 __all__ = [
     'OpenAIClient',
@@ -39,5 +47,11 @@ __all__ = [
     'HyperParameters',
     'TrainingJob',
     'create_training_job',
-    'get_available_models'
+    'get_available_models',
+    'JobMonitor',
+    'JobProgress',
+    'JobEvent',
+    'JobMetrics',
+    'monitor_job',
+    'stream_job_events'
 ]

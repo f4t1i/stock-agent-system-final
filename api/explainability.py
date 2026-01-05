@@ -92,8 +92,8 @@ class DecisionSummary(BaseModel):
 # Endpoints
 # ============================================================================
 
-@router.get("/decision/{decision_id}", response_model=ExplainabilityResponse)
-async def get_decision_explanation(decision_id: str):
+@router.get("/agent/{agent_name}/decision/{decision_id}", response_model=ExplainabilityResponse)
+async def get_decision_explanation(agent_name: str, decision_id: str):
     """
     Get explanation for a specific decision by ID
     

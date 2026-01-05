@@ -8,6 +8,110 @@ import * as db from "./db";
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+
+  // Explainability Router
+  explainability: router({
+    getDecision: protectedProcedure
+      .input(z.object({
+        decisionId: z.string(),
+      }))
+      .query(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        return {
+          decisionId: input.decisionId,
+          symbol: "AAPL",
+          agentName: "news_agent",
+          recommendation: "BUY" as const,
+          confidence: 0.85,
+          reasoning: "Strong positive sentiment from recent earnings report and product announcements. Market momentum is favorable.",
+          keyFactors: [
+            {
+              name: "Sentiment Score",
+              importance: 0.9,
+              value: 1.5,
+              description: "News sentiment: 1.50 (-2 to 2)",
+            },
+            {
+              name: "Key Events",
+              importance: 0.8,
+              value: 3,
+              description: "Significant events: Earnings beat, New product launch, CEO interview",
+            },
+            {
+              name: "News Volume",
+              importance: 0.6,
+              value: 15,
+              description: "Number of articles analyzed: 15",
+            },
+          ],
+          alternatives: [
+            {
+              scenario: "Conservative approach",
+              recommendation: "HOLD",
+              confidence: 0.6,
+              reasoning: "A wait-and-see approach to gather more information before acting.",
+            },
+          ],
+          timestamp: new Date(),
+          metadata: {},
+        };
+      }),
+
+    analyze: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        agentName: z.string(),
+        agentOutput: z.record(z.any()),
+        context: z.record(z.any()).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        const decisionId = Math.random().toString(36).substring(7);
+        return {
+          decisionId,
+          symbol: input.symbol,
+          agentName: input.agentName,
+          recommendation: "BUY" as const,
+          confidence: 0.75,
+          reasoning: "Analysis based on provided agent output.",
+          keyFactors: [],
+          alternatives: [],
+          timestamp: new Date(),
+          metadata: input.context || {},
+        };
+      }),
+
+    listRecent: protectedProcedure
+      .input(z.object({
+        limit: z.number().optional(),
+        agentName: z.string().optional(),
+        symbol: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        // TODO: Call Python backend API
+        // For now, return mock data
+        return [
+          {
+            decisionId: "dec1",
+            symbol: "AAPL",
+            agentName: "news_agent",
+            recommendation: "BUY" as const,
+            confidence: 0.85,
+            timestamp: new Date(),
+          },
+          {
+            decisionId: "dec2",
+            symbol: "GOOGL",
+            agentName: "technical_agent",
+            recommendation: "HOLD" as const,
+            confidence: 0.65,
+            timestamp: new Date(Date.now() - 3600000),
+          },
+        ];
+      }),
+  }),
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

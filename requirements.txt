@@ -40,6 +40,10 @@ pandas>=2.1.0
 numpy>=1.24.0
 # pandas-ta>=0.3.14b  # Not available on PyPI, install separately if needed
 
+# OpenBB Platform - Professional Financial Data & Analytics
+openbb>=4.0.0  # OpenBB Platform for comprehensive market data
+# openbb[all]  # Uncomment for all data providers
+
 # API Clients
 requests>=2.31.0
 aiohttp>=3.9.0

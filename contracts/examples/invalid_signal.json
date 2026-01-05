@@ -1,0 +1,47 @@
+{
+  "analysis": {
+    "news": {
+      "sentiment_score": 2.5,
+      "confidence": 1.2,
+      "key_events": []
+    },
+    "technical": {
+      "signal": "bullish",
+      "signal_strength": 0.8,
+      "indicators": {
+        "rsi": 150,
+        "bollinger_bands": {
+          "upper": 145.0,
+          "middle": 150.0,
+          "lower": 155.0
+        }
+      }
+    },
+    "fundamental": {
+      "valuation": "undervalued",
+      "financial_health_score": 0.9,
+      "growth_score": 0.85
+    }
+  },
+  "signal": "buy",
+  "sizing": {
+    "position_size": 1.5,
+    "rationale": "Too short"
+  },
+  "risk": {
+    "stop_loss": 155.0,
+    "take_profit": 145.0,
+    "max_drawdown": 0.05
+  },
+  "rationale": "Too short - needs at least 50 characters.",
+  "evidence": {
+    "sources": [],
+    "confidence": 0.85
+  },
+  "metadata": {
+    "symbol": "INVALID",
+    "timestamp": "2026-01-05T10:45:00Z",
+    "version": "1.0.0",
+    "current_price": 150.0
+  }
+}

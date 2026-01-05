@@ -1,0 +1,359 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://stock-agent-system.io/schemas/signal.json",
+  "title": "Trading Signal Contract",
+  "description": "Standardized trading signal format for multi-agent trading system. Enforces structured output with analysis, signal, sizing, risk, rationale, and evidence.",
+  "type": "object",
+  "required": ["analysis", "signal", "sizing", "risk", "rationale", "evidence", "metadata"],
+  "properties": {
+    "analysis": {
+      "description": "Multi-agent analysis results",
+      "type": "object",
+      "required": ["news", "technical", "fundamental"],
+      "properties": {
+        "news": {
+          "description": "News sentiment analysis",
+          "type": "object",
+          "required": ["sentiment_score", "confidence", "key_events"],
+          "properties": {
+            "sentiment_score": {
+              "type": "number",
+              "minimum": -2.0,
+              "maximum": 2.0,
+              "description": "Overall sentiment score: -2 (very bearish) to +2 (very bullish)"
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Confidence in sentiment analysis"
+            },
+            "key_events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 0,
+              "maxItems": 10,
+              "description": "Key events or catalysts identified"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {"type": "string"},
+                  "url": {"type": "string", "format": "uri"},
+                  "sentiment": {"type": "number", "minimum": -2.0, "maximum": 2.0},
+                  "timestamp": {"type": "string", "format": "date-time"}
+                }
+              }
+            }
+          }
+        },
+        "technical": {
+          "description": "Technical analysis signals",
+          "type": "object",
+          "required": ["signal", "signal_strength", "indicators"],
+          "properties": {
+            "signal": {
+              "type": "string",
+              "enum": ["bullish", "bearish", "neutral"],
+              "description": "Overall technical signal"
+            },
+            "signal_strength": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Strength of technical signal"
+            },
+            "indicators": {
+              "type": "object",
+              "properties": {
+                "rsi": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "Relative Strength Index"
+                },
+                "macd": {
+                  "type": "object",
+                  "properties": {
+                    "value": {"type": "number"},
+                    "signal": {"type": "number"},
+                    "histogram": {"type": "number"}
+                  }
+                },
+                "sma_20": {"type": "number", "minimum": 0},
+                "sma_50": {"type": "number", "minimum": 0},
+                "sma_200": {"type": "number", "minimum": 0},
+                "bollinger_bands": {
+                  "type": "object",
+                  "properties": {
+                    "upper": {"type": "number"},
+                    "middle": {"type": "number"},
+                    "lower": {"type": "number"}
+                  }
+                }
+              }
+            },
+            "support_levels": {
+              "type": "array",
+              "items": {"type": "number", "minimum": 0},
+              "description": "Identified support price levels"
+            },
+            "resistance_levels": {
+              "type": "array",
+              "items": {"type": "number", "minimum": 0},
+              "description": "Identified resistance price levels"
+            },
+            "patterns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "type": {"type": "string", "enum": ["bullish", "bearish", "neutral"]},
+                  "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+                }
+              }
+            }
+          }
+        },
+        "fundamental": {
+          "description": "Fundamental analysis valuation",
+          "type": "object",
+          "required": ["valuation", "financial_health_score", "growth_score"],
+          "properties": {
+            "valuation": {
+              "type": "string",
+              "enum": ["undervalued", "fairly_valued", "overvalued"],
+              "description": "Overall valuation assessment"
+            },
+            "financial_health_score": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Financial health score (0 = poor, 1 = excellent)"
+            },
+            "growth_score": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Growth potential score"
+            },
+            "key_metrics": {
+              "type": "object",
+              "properties": {
+                "pe_ratio": {"type": "number"},
+                "pb_ratio": {"type": "number"},
+                "debt_to_equity": {"type": "number"},
+                "roe": {"type": "number"},
+                "roa": {"type": "number"},
+                "current_ratio": {"type": "number"},
+                "revenue_growth_yoy": {"type": "number"},
+                "earnings_growth_yoy": {"type": "number"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "signal": {
+      "description": "Final trading decision",
+      "type": "string",
+      "enum": ["buy", "sell", "hold"],
+      "examples": ["buy", "sell", "hold"]
+    },
+    "sizing": {
+      "description": "Position sizing recommendation",
+      "type": "object",
+      "required": ["position_size", "rationale"],
+      "properties": {
+        "position_size": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Recommended position size as fraction of portfolio (0.0 - 1.0)"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Explanation for position sizing decision"
+        },
+        "kelly_fraction": {
+          "type": "number",
+          "description": "Kelly Criterion fraction (optional)"
+        },
+        "max_position_value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum position value in USD"
+        }
+      }
+    },
+    "risk": {
+      "description": "Risk management parameters",
+      "type": "object",
+      "required": ["stop_loss", "take_profit", "max_drawdown"],
+      "properties": {
+        "stop_loss": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Stop loss price level"
+        },
+        "take_profit": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Take profit price level"
+        },
+        "max_drawdown": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Maximum acceptable drawdown (0.0 - 1.0)"
+        },
+        "risk_reward_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Risk/reward ratio"
+        },
+        "time_horizon": {
+          "type": "string",
+          "enum": ["intraday", "swing", "short_term", "medium_term", "long_term"],
+          "description": "Expected holding period"
+        },
+        "volatility_adjusted": {
+          "type": "boolean",
+          "description": "Whether risk parameters are volatility-adjusted"
+        }
+      }
+    },
+    "rationale": {
+      "description": "Comprehensive reasoning for the trading decision",
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 2000,
+      "examples": ["Based on strong earnings beat (+15% vs expectations), bullish technical breakout above $150 resistance, and favorable news sentiment (score: 1.5), we recommend BUY with 10% position size. Stop loss at $145 (-3.3%), take profit at $165 (+10%)."]
+    },
+    "evidence": {
+      "description": "Supporting evidence and sources",
+      "type": "object",
+      "required": ["sources", "confidence"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["news", "technical_indicator", "fundamental_metric", "market_data", "analyst_report", "earnings_report"],
+                "description": "Type of evidence source"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 500,
+                "description": "Description of the evidence"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to source (if available)"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When evidence was collected"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0,
+                "description": "Importance weight of this evidence"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 20,
+          "description": "List of evidence sources"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Overall confidence in the signal (0.0 - 1.0)"
+        },
+        "consensus": {
+          "type": "object",
+          "properties": {
+            "agent_agreement": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Agreement level between agents"
+            },
+            "conflicting_signals": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Any conflicting signals from different agents"
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "description": "Signal metadata and tracking information",
+      "type": "object",
+      "required": ["symbol", "timestamp", "version"],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "pattern": "^[A-Z]{1,5}$",
+          "description": "Stock ticker symbol (uppercase, 1-5 letters)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Signal generation timestamp (ISO 8601)"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Signal schema version (semver)",
+          "examples": ["1.0.0", "1.1.0"]
+        },
+        "agent_versions": {
+          "type": "object",
+          "properties": {
+            "news_agent": {"type": "string"},
+            "technical_agent": {"type": "string"},
+            "fundamental_agent": {"type": "string"},
+            "strategist": {"type": "string"}
+          }
+        },
+        "execution_time_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total execution time in milliseconds"
+        },
+        "market_regime": {
+          "type": "string",
+          "enum": ["bull", "bear", "sideways", "high_volatility", "low_volatility"],
+          "description": "Detected market regime"
+        },
+        "current_price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Stock price at signal generation"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

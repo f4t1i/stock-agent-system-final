@@ -2,9 +2,12 @@
 
 A production-ready, LLM-powered multi-agent system for intelligent stock analysis and trading recommendations.
 
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/f4t1i/stock-agent-system-final/releases/tag/v1.0.0)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+> **🎉 v1.0.0 Released!** - First production-ready release with full-stack dashboard, risk management, and explainability. See [CHANGELOG](CHANGELOG.md) for details.
 
 ## 🌟 Overview
 

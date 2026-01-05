@@ -31,7 +31,14 @@
 
 ## Phase A1 Week 5-6: SFT Training (4 tasks)
 
-- [ ] 🧠 SFT Training Pipeline für Junior Agents (LoRA/QLoRA)
+- [x] **Task #17: 🧠 SFT Training Pipeline** für Junior Agents (LoRA/QLoRA)
+  - SFT config with 5 base models and 3 presets
+  - LoRA/QLoRA trainer with 4-bit quantization
+  - Unified training script for all agents
+  - Model registry with versioning and promotion
+  - Makefile commands (9 new targets)
+  - Acceptance tests (19 test cases passing)
+
 - [ ] 🚧 Eval Gates (Holdout-Performance Checking)
 - [ ] 🔒 Regression Guards (neue Modelle ≥ alte Modelle)
 - [ ] ✅ Acceptance Tests für SFT Training + Gates
@@ -63,30 +70,40 @@
 
 ## Progress Summary
 
-**Total Completed: 16 tasks**
+**Total Completed: 17 tasks**
 - Phase A0 (Proof-of-Value): 12/12 ✅
 - Phase A1 Week 3-4 (Closed Loop v1): 4/4 ✅
+- Phase A1 Week 5-6 (SFT Training): 1/4 ✅
 
-**Total Pending: 18 tasks**
-- Phase A1 Week 5-6 (SFT Training): 4 tasks
+**Total Pending: 17 tasks**
+- Phase A1 Week 5-6 (SFT Training): 3 tasks
 - Phase A1 Week 7-8 (RL Training): 4 tasks
 - Phase A2 Week 9-10 (Learning Track): 4 tasks
 - Phase A3 Week 11-12 (Produktisierung): 6 tasks
 
-**Overall Progress: 47% (16/34 tasks)**
+**Overall Progress: 50% (17/34 tasks)**
 
 ---
 
 ## Next Steps
 
-**Ready to start:** Phase A1 Week 5-6 - SFT Training Pipeline
+**Ready to start:** Tasks #18-20 - Eval Gates & Regression Guards
 
-**Task #17:** SFT Training Pipeline für Junior Agents (LoRA/QLoRA)
-- Implement LoRA/QLoRA fine-tuning for News, Technical, and Fundamental agents
-- Support for multiple base models (Llama, Mistral, Gemma)
-- Training configuration and hyperparameter management
-- Model checkpointing and versioning
+**Task #18:** Eval Gates (Holdout-Performance Checking)
+- Standalone evaluation system for holdout datasets
+- Performance monitoring and drift detection
+- Automated quality gates for model acceptance
+
+**Task #19:** Regression Guards (neue Modelle ≥ alte Modelle)
+- Comprehensive regression testing framework
+- Multi-metric comparison with tolerance
+- Automated blocking of degraded models
+
+**Task #20:** Acceptance Tests für SFT Training + Gates
+- End-to-end SFT pipeline testing
+- Eval gates and regression guard validation
+- Integration testing
 
 ---
 
-Last updated: 2026-01-05 (Task #13-16 complete)
+Last updated: 2026-01-05 (Task #13-17 complete)

@@ -44,6 +44,43 @@ export const appRouter = router({
       }),
   }),
 
+  // Risk Management Router
+  risk: router({
+    evaluateTrade: protectedProcedure
+      .input(z.object({
+        symbol: z.string(),
+        action: z.enum(["BUY", "SELL"]),
+        quantity: z.number(),
+        price: z.number(),
+        confidence: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return {
+          approved: true,
+          risk_level: "low" as const,
+          checks: [
+            { name: "position_size", status: "pass" as const, message: "Position size within limits", value: 5.0, limit: 10.0 },
+            { name: "confidence", status: "pass" as const, message: "Confidence acceptable", value: input.confidence, limit: 0.6 },
+          ],
+          warnings: [],
+        };
+      }),
+
+    getPolicies: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return [];
+      }),
+
+    updatePolicy: protectedProcedure
+      .input(z.object({ policy_id: z.string(), settings: z.any() }))
+      .mutation(async ({ input }) => {
+        // TODO: Call Python backend API
+        return { success: true };
+      }),
+  }),
+
   // Watchlist Router
   watchlist: router({
     createWatchlist: protectedProcedure

@@ -36,6 +36,9 @@ from orchestration.coordinator import SystemCoordinator
 from training.rl.backtester import Backtester
 from utils.config_loader import load_config
 
+# Import dashboard routes
+from api.dashboard import register_dashboard_routes
+
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -54,6 +57,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Register dashboard routes
+register_dashboard_routes(app)
 
 # Global coordinator instance
 coordinator: SystemCoordinator = None

@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Explainability from "./pages/Explainability";
 import Alerts from "./pages/Alerts";
 import RiskManagement from "./pages/RiskManagement";
+import Calibration from "./pages/Calibration";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -29,6 +30,7 @@ function Router() {
       <Route path={"/explainability"} component={Explainability} />
       <Route path={"/alerts"} component={Alerts} />
       <Route path={"/risk"} component={RiskManagement} />
+      <Route path={"/calibration"} component={Calibration} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

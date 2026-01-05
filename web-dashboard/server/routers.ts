@@ -44,6 +44,30 @@ export const appRouter = router({
       }),
   }),
 
+  // Calibration Router
+  calibration: router({
+    getMetrics: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return {
+          ece: 0.08,
+          mce: 0.15,
+          brier_score: 0.12,
+          accuracy: 0.82,
+        };
+      }),
+
+    getReliabilityDiagram: protectedProcedure
+      .query(async () => {
+        // TODO: Call Python backend API
+        return {
+          bin_centers: [0.1, 0.3, 0.5, 0.7, 0.9],
+          bin_accuracies: [0.15, 0.35, 0.48, 0.68, 0.85],
+          bin_counts: [50, 120, 200, 150, 80],
+        };
+      }),
+  }),
+
   // Risk Management Router
   risk: router({
     evaluateTrade: protectedProcedure

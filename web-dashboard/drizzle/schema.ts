@@ -124,3 +124,51 @@ export const trainingLogs = mysqlTable("training_logs", {
 
 export type TrainingLog = typeof trainingLogs.$inferSelect;
 export type InsertTrainingLog = typeof trainingLogs.$inferInsert;
+
+/**
+ * Decisions Table
+ * Stores agent decisions for explainability
+ */
+export const decisions = mysqlTable("decisions", {
+  id: int("id").autoincrement().primaryKey(),
+  decisionId: varchar("decisionId", { length: 64 }).notNull().unique(),
+  userId: int("userId").notNull(),
+  
+  // Decision details
+  symbol: varchar("symbol", { length: 10 }).notNull(),
+  agentName: varchar("agentName", { length: 50 }).notNull(), // 'news_agent', 'technical_agent', 'fundamental_agent', 'strategist'
+  recommendation: mysqlEnum("recommendation", ["BUY", "SELL", "HOLD"]).notNull(),
+  confidence: varchar("confidence", { length: 10 }).notNull(), // 0.0-1.0 as string
+  
+  // Explainability
+  reasoning: text("reasoning").notNull(),
+  agentOutput: text("agentOutput"), // JSON string of full agent output
+  
+  // Metadata
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Decision = typeof decisions.$inferSelect;
+export type InsertDecision = typeof decisions.$inferInsert;
+
+/**
+ * Decision Factors Table
+ * Stores individual factors contributing to each decision
+ */
+export const decisionFactors = mysqlTable("decision_factors", {
+  id: int("id").autoincrement().primaryKey(),
+  decisionId: varchar("decisionId", { length: 64 }).notNull(),
+  
+  // Factor details
+  factor: varchar("factor", { length: 100 }).notNull(), // Factor name
+  importance: varchar("importance", { length: 10 }).notNull(), // 0.0-1.0 as string
+  value: text("value"), // Factor value (can be any type, stored as string)
+  description: text("description"), // Human-readable description
+  
+  // Metadata
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type DecisionFactor = typeof decisionFactors.$inferSelect;
+export type InsertDecisionFactor = typeof decisionFactors.$inferInsert;

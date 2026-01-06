@@ -1,0 +1,45 @@
+# Database Configuration
+#
+# Supports both SQLite (development) and PostgreSQL (production)
+
+# Development (SQLite)
+development:
+  type: sqlite
+  database: data/stock_agent.db
+  echo_sql: false
+
+# Production (PostgreSQL)
+production:
+  type: postgresql
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}
+  database: ${DB_NAME:stock_agent}
+  user: ${DB_USER:postgres}
+  password: ${DB_PASSWORD:password}
+
+  # Connection pool settings
+  pool_size: 20
+  max_overflow: 40
+  pool_pre_ping: true
+  pool_recycle: 3600  # Recycle connections after 1 hour
+
+  # Performance
+  echo_sql: false
+  statement_timeout: 30000  # 30 seconds
+
+# Testing (SQLite in-memory)
+testing:
+  type: sqlite
+  database: ":memory:"
+  echo_sql: true
+
+# Docker Compose (PostgreSQL)
+docker:
+  type: postgresql
+  host: postgres
+  port: 5432
+  database: stock_agent
+  user: stock_user
+  password: stock_password
+  pool_size: 10
+  max_overflow: 20

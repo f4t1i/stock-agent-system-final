@@ -42,6 +42,9 @@ from api.dashboard import register_dashboard_routes
 # Import WebSocket handler
 from api.websocket import websocket_endpoint, manager as ws_manager, price_streaming_task
 
+# Import OpenBB router
+from api.openbb import router as openbb_router
+
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -63,6 +66,9 @@ app.add_middleware(
 
 # Register dashboard routes
 register_dashboard_routes(app)
+
+# Register OpenBB router
+app.include_router(openbb_router)
 
 # Global coordinator instance
 coordinator: SystemCoordinator = None

@@ -1,0 +1,3 @@
+🤖 Production-ready AI stock trading system with multi-agent analysis, GRPO training, risk management, and real-time explainability. Full-stack React dashboard with alerts, watchlists, and confidence calibration. v1.0.0 released!
+
+Topics: machine-learning, ai, stock-trading, multi-agent-system, reinforcement-learning, react, typescript, fastapi, risk-management, explainable-ai, grpo, supervised-learning, contextual-bandits, trading-bot, financial-analysis

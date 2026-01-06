@@ -14,7 +14,7 @@ from typing import Dict, List
 from datetime import datetime
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from loguru import logger
@@ -38,6 +38,9 @@ from utils.config_loader import load_config
 
 # Import dashboard routes
 from api.dashboard import register_dashboard_routes
+
+# Import WebSocket handler
+from api.websocket import websocket_endpoint, manager as ws_manager, price_streaming_task
 
 
 # Initialize FastAPI app
@@ -69,18 +72,22 @@ coordinator: SystemCoordinator = None
 async def startup_event():
     """Initialize system on startup"""
     global coordinator
-    
+
     logger.info("Starting Stock Analysis API Server")
-    
+
     try:
         # Load config
         config_path = os.getenv('CONFIG_PATH', 'config/system.yaml')
-        
+
         # Initialize coordinator
         coordinator = SystemCoordinator(config_path=config_path)
-        
-        logger.info("System initialized successfully")
-    
+
+        # Start WebSocket price streaming task
+        import asyncio
+        asyncio.create_task(price_streaming_task())
+
+        logger.info("System initialized successfully (WebSocket enabled)")
+
     except Exception as e:
         logger.error(f"Failed to initialize system: {e}")
         raise
@@ -320,6 +327,45 @@ async def run_backtest(request: BacktestRequest):
             status_code=500,
             detail=f"Backtesting failed: {str(e)}"
         )
+
+
+# ========== WebSocket Endpoints ==========
+
+@app.websocket("/ws/{client_id}")
+async def websocket_route(websocket: WebSocket, client_id: str):
+    """
+    WebSocket endpoint for real-time updates
+
+    Args:
+        websocket: WebSocket connection
+        client_id: Unique client identifier
+
+    Available channels:
+    - prices: Real-time price updates
+    - alerts: Alert notifications
+    - signals: Trading signals
+    - portfolio: Portfolio updates
+    - notifications: System notifications
+
+    Example client subscription:
+        ws.send(JSON.stringify({
+            type: "subscribe",
+            channel: "prices",
+            symbols: ["AAPL", "MSFT"]
+        }))
+    """
+    await websocket_endpoint(websocket, client_id)
+
+
+@app.get("/ws/stats", tags=["WebSocket"])
+async def websocket_stats():
+    """
+    Get WebSocket connection statistics
+
+    Returns:
+        Current connection stats, active clients, and subscriptions
+    """
+    return ws_manager.get_stats()
 
 
 # ========== Error Handlers ==========

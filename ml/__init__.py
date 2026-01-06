@@ -9,6 +9,9 @@ Enterprise-grade ML for stock trading with:
 - Model explainability (SHAP, LIME)
 - Feature engineering
 - Anomaly detection
+- Distributed training (Multi-GPU, Multi-Node)
+- Generative models (GANs for synthetic data)
+- Meta-learning (MAML, Few-shot learning)
 """
 
 from .ensemble import (
@@ -71,7 +74,30 @@ from .anomaly_detection import (
     AnomalyConfig,
 )
 
-__version__ = '2.0.0'
+from .distributed_training import (
+    DistributedTrainer,
+    DistributedConfig,
+    setup_distributed,
+    cleanup_distributed,
+    create_distributed_dataloader,
+    launch_distributed_training,
+)
+
+from .advanced_models import (
+    # GANs
+    TimeGANGenerator,
+    TimeGANDiscriminator,
+    ConditionalGAN,
+    WassersteinGAN,
+    GANConfig,
+    # Meta-Learning
+    MAML,
+    PrototypicalNetwork,
+    FewShotLearner,
+    MetaLearningConfig,
+)
+
+__version__ = '2.1.0'
 __all__ = [
     # Ensemble
     'EnsembleModel',
@@ -125,4 +151,25 @@ __all__ = [
     'StatisticalDetector',
     'TimeSeriesAnomalyDetector',
     'AnomalyConfig',
+
+    # Distributed Training
+    'DistributedTrainer',
+    'DistributedConfig',
+    'setup_distributed',
+    'cleanup_distributed',
+    'create_distributed_dataloader',
+    'launch_distributed_training',
+
+    # Advanced Models (GANs)
+    'TimeGANGenerator',
+    'TimeGANDiscriminator',
+    'ConditionalGAN',
+    'WassersteinGAN',
+    'GANConfig',
+
+    # Advanced Models (Meta-Learning)
+    'MAML',
+    'PrototypicalNetwork',
+    'FewShotLearner',
+    'MetaLearningConfig',
 ]

@@ -328,10 +328,15 @@ class SystemCoordinator:
             logger.info(f"Supervisor selected: {strategy_name} (confidence: {confidence:.2f})")
 
             # Convert strategy config to agent list
-            agents_to_activate = [
-                agent_name for agent_name, enabled in strategy_config.items()
-                if enabled and agent_name in self.agents
-            ]
+            # Extract active_agents from strategy_config dictionary
+            if 'active_agents' in strategy_config:
+                agents_to_activate = strategy_config['active_agents']
+            else:
+                # Fallback: extract enabled agents from config dict
+                agents_to_activate = [
+                    agent_name for agent_name, enabled in strategy_config.items()
+                    if enabled and agent_name in self.agents
+                ]
 
             return agents_to_activate
 

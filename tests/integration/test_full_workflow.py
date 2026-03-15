@@ -177,22 +177,23 @@ class TestFullWorkflow:
         
         # Verify results
         assert len(results) == 3
-        for result in results:
+        for symbol, result in results.items():
             assert 'symbol' in result
             assert 'recommendation' in result
     
     def test_workflow_with_supervisor(self, coordinator):
         """Test workflow with supervisor routing"""
         # Enable supervisor
-        coordinator.supervisor = Mock()
-        coordinator.supervisor.route.return_value = {
-            'strategy': 'news_technical',
-            'active_agents': ['news', 'technical'],
-            'reasoning': 'Test routing'
-        }
-        
-        # Mock agents
+        # Initialize agents first
         coordinator.agents['news'] = Mock()
+        coordinator.agents['technical'] = Mock()
+        coordinator.agents['fundamental'] = Mock()
+        coordinator.supervisor = Mock()
+        coordinator.supervisor.select_routing_strategy.return_value = (
+            'news_technical', 
+            {'active_agents': ['news', 'technical']}, 
+            0.85
+        )
         coordinator.agents['news'].analyze.return_value = {
             'sentiment_score': 1.0,
             'confidence': 0.8,
@@ -226,7 +227,7 @@ class TestFullWorkflow:
         result = coordinator.analyze_symbol('AAPL', use_supervisor=True)
         
         # Verify supervisor was called
-        coordinator.supervisor.route.assert_called_once()
+        coordinator.supervisor.select_routing_strategy.assert_called_once()
         
         # Verify only selected agents were called
         coordinator.agents['news'].analyze.assert_called_once()

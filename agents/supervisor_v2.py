@@ -91,6 +91,21 @@ class RoutingDecision:
             self.timestamp = datetime.now().isoformat()
 
 
+
+@dataclass
+class SupervisorConfig:
+    """Configuration for SupervisorV2"""
+    algorithm: str = 'thompson_sampling'
+    epsilon: float = 0.1
+    num_agents: int = 4
+    agents: list = None
+    tracking_db: str = 'tracking.db'
+    config_path: str = 'config/rl_config.yaml'
+    
+    def __post_init__(self):
+        if self.agents is None:
+            self.agents = ['news', 'technical', 'fundamental', 'strategist']
+
 class SupervisorV2:
     """
     Contextual Bandit Supervisor for Agent Routing

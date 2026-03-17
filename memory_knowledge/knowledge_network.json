@@ -1,0 +1,1994 @@
+{
+  "domains": {
+    "technology": {
+      "name": "technology",
+      "description": "Computing, software, hardware, and digital systems",
+      "concepts": {
+        "6559e74c": {
+          "name": "Artificial Intelligence",
+          "attributes": {
+            "type": "field",
+            "maturity": "advanced"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {
+            "ebf777eb": {
+              "relation_type": "includes",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:41:32"
+            },
+            "efc4f447": {
+              "relation_type": "includes",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:46:59"
+            }
+          }
+        },
+        "ebf777eb": {
+          "name": "Neural Networks",
+          "attributes": {
+            "type": "technique",
+            "maturity": "advanced"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {
+            "068fa814": {
+              "relation_type": "implemented_in",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:41:32"
+            }
+          }
+        },
+        "068fa814": {
+          "name": "Python",
+          "attributes": {
+            "type": "language",
+            "maturity": "mature"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        },
+        "efc4f447": {
+          "name": "Machine Learning",
+          "attributes": {
+            "type": "subfield"
+          },
+          "created_at": "2026-03-14 10:46:59",
+          "related_concepts": {
+            "ebf777eb": {
+              "relation_type": "utilizes",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:46:59"
+            }
+          }
+        },
+        "86f38361": {
+          "name": "Neural architecture search is an",
+          "attributes": {},
+          "created_at": "2026-03-14 10:46:59",
+          "related_concepts": {}
+        },
+        "4a6bc120": {
+          "name": "deepcore",
+          "attributes": {
+            "type": "module",
+            "category": "ai",
+            "function": "data processing",
+            "superintelligence": "deepall-hypervision",
+            "source": "modules_combined.csv"
+          },
+          "created_at": "2026-03-14 10:56:28",
+          "related_concepts": {}
+        },
+        "449dbdf7": {
+          "name": "deepvault",
+          "attributes": {
+            "type": "module",
+            "category": "healthcare",
+            "function": "cloud management",
+            "superintelligence": "deepall-strategic nexus",
+            "source": "modules_combined.csv"
+          },
+          "created_at": "2026-03-14 10:56:28",
+          "related_concepts": {}
+        },
+        "40e5b033": {
+          "name": "deepfusion",
+          "attributes": {
+            "type": "module",
+            "category": "security",
+            "function": "anomaly detection",
+            "superintelligence": "deepall-intelligent autonomy",
+            "source": "modules_combined.csv"
+          },
+          "created_at": "2026-03-14 10:56:28",
+          "related_concepts": {}
+        },
+        "933c1dab": {
+          "name": "26",
+          "attributes": {
+            "module_index": "m001",
+            "core_module": "deepcore",
+            "module_name": "deepcore",
+            "superintelligence__name": "deepall-hypervision",
+            "superintelligence_group": " deepsecurity, deepstabilitycheck,  deeploadbalancer,  deepai-accesscontrol",
+            "category": "ai",
+            "origin": "external integration",
+            "reason_for_development": "security",
+            "function": "data processing",
+            "target_audience": "healthcare professionals",
+            "benefit": "security enhancement",
+            "technology_methodology": "reinforcement learning",
+            "application_areas": "industry 4.0",
+            "reason_for_deployment": "security",
+            "technology": "blockchain",
+            "methodology": "unsupervised learning",
+            "interaction": "model sharing",
+            "superintelligenc": "1",
+            "knowledge_base_modules": "deepai-research",
+            "ai_training_method": "reinforcement learning",
+            "ai_optimization_strategies": "bayesian optimization",
+            "self_improvement_capabilities": "medium",
+            "data_processing_approach": "real-time streaming",
+            "index": "26",
+            "leserechte": "deepmaster: alles",
+            "synergy_index_history": "synehsy001",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "07381528": {
+          "name": "64",
+          "attributes": {
+            "module_index": "m002",
+            "core_module": "deepvault",
+            "module_name": "deepvault",
+            "superintelligence__name": "deepall-strategic nexus",
+            "superintelligence_group": "deepstrategy,  deepvision,  deepanticipate, deepai-decisionmaking",
+            "category": "healthcare",
+            "origin": "experimental",
+            "reason_for_development": "process automation",
+            "function": "cloud management",
+            "target_audience": "it admins",
+            "benefit": "security enhancement",
+            "technology_methodology": "bayesian models",
+            "application_areas": "financial markets",
+            "reason_for_deployment": "automation",
+            "technology": "neural networks",
+            "methodology": "unsupervised learning",
+            "interaction": "cross-module communication",
+            "superintelligenc": "2",
+            "knowledge_base_modules": "deepai-datahub",
+            "ai_training_method": "federated learning",
+            "ai_optimization_strategies": "gradient descent",
+            "self_improvement_capabilities": "high",
+            "data_processing_approach": "real-time streaming",
+            "index": "64",
+            "leserechte": "deepmaster: alles",
+            "synergy_index_history": "synehsy002",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "2ac6dd20": {
+          "name": "28",
+          "attributes": {
+            "module_index": "m003",
+            "core_module": "nicht zugeordnet",
+            "module_name": "deepfusion",
+            "superintelligence__name": "deepall-intelligent autonomy",
+            "superintelligence_group": " deepautonomy, deepselfreflect, deepai-refinement",
+            "category": "security",
+            "origin": "external integration",
+            "reason_for_development": "process automation",
+            "function": "anomaly detection",
+            "target_audience": "it admins",
+            "benefit": "time efficiency",
+            "technology_methodology": "rule-based systems",
+            "application_areas": "cybersecurity",
+            "reason_for_deployment": "efficiency",
+            "technology": "bayesian models",
+            "methodology": "evolutionary algorithms",
+            "interaction": "data exchange",
+            "superintelligenc": "3",
+            "knowledge_base_modules": "deepai-datahub",
+            "ai_training_method": "self-supervised learning",
+            "ai_optimization_strategies": "gradient descent",
+            "self_improvement_capabilities": "medium",
+            "data_processing_approach": "batch processing",
+            "index": "28",
+            "leserechte": "superintelligenz: alle zugeh\u00f6rigen module",
+            "synergy_index_history": "synehsy003",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "f4186d1c": {
+          "name": "93",
+          "attributes": {
+            "module_index": "m004",
+            "core_module": "deepedge",
+            "module_name": "deepedge",
+            "superintelligence__name": "deepriskmanagement",
+            "superintelligence_group": " deeprisk,  deepriskmodel,  deepai-riskmodel",
+            "category": "finance",
+            "origin": "experimental",
+            "reason_for_development": "data analysis",
+            "function": "machine learning",
+            "target_audience": "it admins",
+            "benefit": "time efficiency",
+            "technology_methodology": "reinforcement learning",
+            "application_areas": "medical diagnosis",
+            "reason_for_deployment": "automation",
+            "technology": "bayesian models",
+            "methodology": "supervised learning",
+            "interaction": "cross-module communication",
+            "superintelligenc": "4",
+            "knowledge_base_modules": "deepai-research",
+            "ai_training_method": "reinforcement learning",
+            "ai_optimization_strategies": "genetic algorithms",
+            "self_improvement_capabilities": "high",
+            "data_processing_approach": "real-time streaming",
+            "index": "93",
+            "leserechte": "deepmaster: alles",
+            "synergy_index_history": "synehsy004",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "abae7aa7": {
+          "name": "67",
+          "attributes": {
+            "module_index": "m005",
+            "core_module": "nicht zugeordnet",
+            "module_name": "deepflow",
+            "superintelligence__name": "deepquantumscience",
+            "superintelligence_group": " deepquantumsim, deepquantumai,  deepai-quantum",
+            "category": "ai",
+            "origin": "experimental",
+            "reason_for_development": "data analysis",
+            "function": "machine learning",
+            "target_audience": "developers",
+            "benefit": "time efficiency",
+            "technology_methodology": "bayesian models",
+            "application_areas": "cybersecurity",
+            "reason_for_deployment": "security",
+            "technology": "quantum computing",
+            "methodology": "supervised learning",
+            "interaction": "cross-module communication",
+            "superintelligenc": "5",
+            "knowledge_base_modules": "deepai-knowledgegraph",
+            "ai_training_method": "federated learning",
+            "ai_optimization_strategies": "genetic algorithms",
+            "self_improvement_capabilities": "low",
+            "data_processing_approach": "real-time streaming",
+            "index": "67",
+            "leserechte": "deepmaster: alles",
+            "synergy_index_history": "synehsy005",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "80042cae": {
+          "name": "tiny_test_repo/main",
+          "attributes": {
+            "source": "repository:tiny_test_repo",
+            "file_path": "src/main.py",
+            "module": "src",
+            "type": "file",
+            "path": "src/main.py",
+            "description": "Source file in src module"
+          },
+          "created_at": "2026-03-14 14:51:32",
+          "related_concepts": {}
+        },
+        "4e3c0bb0": {
+          "name": "tiny_test_repo/src",
+          "attributes": {
+            "source": "repository:tiny_test_repo",
+            "file_path": "src/main.py",
+            "module": "src",
+            "type": "module",
+            "description": "Module in tiny_test_repo repository"
+          },
+          "created_at": "2026-03-14 14:51:32",
+          "related_concepts": {}
+        },
+        "24d91b53": {
+          "name": "tiny_test_repo/main.hello",
+          "attributes": {
+            "source": "repository:tiny_test_repo",
+            "file_path": "src/main.py",
+            "module": "src",
+            "type": "function",
+            "language": "python",
+            "file": "main",
+            "description": "Python function in main"
+          },
+          "created_at": "2026-03-14 14:51:32",
+          "related_concepts": {}
+        },
+        "bff8b6a8": {
+          "name": "tiny_test_repo/main.add",
+          "attributes": {
+            "source": "repository:tiny_test_repo",
+            "file_path": "src/main.py",
+            "module": "src",
+            "type": "function",
+            "language": "python",
+            "file": "main",
+            "description": "Python function in main"
+          },
+          "created_at": "2026-03-14 14:51:32",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 10:41:32"
+    },
+    "science": {
+      "name": "science",
+      "description": "Scientific disciplines and research areas",
+      "concepts": {
+        "a166c333": {
+          "name": "Neuroscience",
+          "attributes": {
+            "type": "field",
+            "maturity": "advancing"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {
+            "3f72d5d8": {
+              "relation_type": "related_to",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:41:32"
+            }
+          }
+        },
+        "3f72d5d8": {
+          "name": "Cognitive Psychology",
+          "attributes": {
+            "type": "field",
+            "maturity": "mature"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 10:41:32"
+    },
+    "business": {
+      "name": "business",
+      "description": "Business concepts, strategies, and organizational structures",
+      "concepts": {
+        "27e8bc9e": {
+          "name": "AI Strategy",
+          "attributes": {
+            "type": "strategy",
+            "maturity": "emerging"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 10:41:32"
+    },
+    "humanities": {
+      "name": "humanities",
+      "description": "Human culture, literature, philosophy, and arts",
+      "concepts": {
+        "437c4f0d": {
+          "name": "Ethics",
+          "attributes": {
+            "type": "field",
+            "maturity": "mature"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {
+            "5f280f0b": {
+              "relation_type": "specialized_as",
+              "strength": 1.0,
+              "created_at": "2026-03-14 10:41:32"
+            }
+          }
+        },
+        "5f280f0b": {
+          "name": "AI Ethics",
+          "attributes": {
+            "type": "field",
+            "maturity": "emerging"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 10:41:32"
+    },
+    "mathematics": {
+      "name": "mathematics",
+      "description": "Mathematical concepts, theories, and applications",
+      "concepts": {
+        "29964123": {
+          "name": "Linear Algebra",
+          "attributes": {
+            "type": "field",
+            "maturity": "mature"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        },
+        "0ef9f9ba": {
+          "name": "Statistics",
+          "attributes": {
+            "type": "field",
+            "maturity": "mature"
+          },
+          "created_at": "2026-03-14 10:41:32",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 10:41:32"
+    },
+    "ai": {
+      "name": "ai",
+      "description": "Artificial intelligence, machine learning, and cognitive systems",
+      "concepts": {
+        "4fbc0c17": {
+          "name": "deepall-intelligent autonomy",
+          "attributes": {
+            "type": "superintelligence",
+            "category": "ai",
+            "importance": "high",
+            "source": "superintelligences.csv"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        },
+        "db34cb25": {
+          "name": "deepindustry & manufacturing",
+          "attributes": {
+            "type": "superintelligence",
+            "category": "finance",
+            "importance": "medium",
+            "source": "superintelligences.csv"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        },
+        "2d77cac1": {
+          "name": "deepcloud & data integration",
+          "attributes": {
+            "type": "superintelligence",
+            "category": "healthcare",
+            "importance": "medium",
+            "source": "superintelligences.csv"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        },
+        "2439286c": {
+          "name": "superintelligences_1c5e5121",
+          "attributes": {
+            "superintelligence_index": "si001",
+            "superintelligence_name": "deepall-intelligent autonomy",
+            "superintelligence_group_index": "m084, m065, m088",
+            "superintelligence_group_name": " deepautonomy, deepselfreflect, deepai-refinement",
+            "category": "ai",
+            "importance": "high",
+            "ranking": "1",
+            "average_simulation_results_": "81",
+            "average_test_results_": "78",
+            "optimization_performance_percent_": "76",
+            "self_improvement_capabilities": "continuous",
+            "ai_training_method": "supervised",
+            "ai_optimization_strategy": "gradient descent",
+            "data_processing_approach": "batch",
+            "learning_score": "85",
+            "status": "active",
+            "interactive_modules": "",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "5ff55828": {
+          "name": "superintelligences_3482715e",
+          "attributes": {
+            "superintelligence_index": "si002",
+            "superintelligence_name": "deepindustry & manufacturing",
+            "superintelligence_group_index": "m036, m178, m181 ",
+            "superintelligence_group_name": " deepindustry, deepai-industryanalytics, deepai-qualitycontrol",
+            "category": "finance",
+            "importance": "medium",
+            "ranking": "2",
+            "average_simulation_results_": "82",
+            "average_test_results_": "79",
+            "optimization_performance_percent_": "77",
+            "self_improvement_capabilities": "continuous",
+            "ai_training_method": "reinforcement",
+            "ai_optimization_strategy": "genetic optimization",
+            "data_processing_approach": "streamed",
+            "learning_score": "86",
+            "status": "experimental",
+            "interactive_modules": "",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "814e5c23": {
+          "name": "superintelligences_b156d4db",
+          "attributes": {
+            "superintelligence_index": "si003",
+            "superintelligence_name": "deepcloud & data integration",
+            "superintelligence_group_index": "nicht zugeordnet",
+            "superintelligence_group_name": "nicht zugeordnet",
+            "category": "healthcare",
+            "importance": "medium",
+            "ranking": "3",
+            "average_simulation_results_": "83",
+            "average_test_results_": "80",
+            "optimization_performance_percent_": "78",
+            "self_improvement_capabilities": "continuous",
+            "ai_training_method": "unsupervised",
+            "ai_optimization_strategy": "heuristics",
+            "data_processing_approach": "hybrid",
+            "learning_score": "87",
+            "status": "active",
+            "interactive_modules": "",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "bbc1cd60": {
+          "name": "superintelligences_72ec25c6",
+          "attributes": {
+            "superintelligence_index": "si004",
+            "superintelligence_name": "deepphysics & cosmology",
+            "superintelligence_group_index": "nicht zugeordnet",
+            "superintelligence_group_name": "nicht zugeordnet",
+            "category": "ai",
+            "importance": "medium",
+            "ranking": "4",
+            "average_simulation_results_": "84",
+            "average_test_results_": "81",
+            "optimization_performance_percent_": "79",
+            "self_improvement_capabilities": "continuous",
+            "ai_training_method": "self-supervised",
+            "ai_optimization_strategy": "transformer tuning",
+            "data_processing_approach": "edge",
+            "learning_score": "88",
+            "status": "experimental",
+            "interactive_modules": "",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "7a542d81": {
+          "name": "superintelligences_4153b28c",
+          "attributes": {
+            "superintelligence_index": "si005",
+            "superintelligence_name": "deepsocial & community management",
+            "superintelligence_group_index": "nicht zugeordnet",
+            "superintelligence_group_name": "nicht zugeordnet",
+            "category": "finance",
+            "importance": "medium",
+            "ranking": "5",
+            "average_simulation_results_": "85",
+            "average_test_results_": "82",
+            "optimization_performance_percent_": "80",
+            "self_improvement_capabilities": "continuous",
+            "ai_training_method": "supervised",
+            "ai_optimization_strategy": "gradient descent",
+            "data_processing_approach": "batch",
+            "learning_score": "89",
+            "status": "active",
+            "interactive_modules": "",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 11:01:18"
+    },
+    "knowledge": {
+      "name": "knowledge",
+      "description": "Knowledge bases, data sources, and information repositories",
+      "concepts": {
+        "eba394da": {
+          "name": "15",
+          "attributes": {
+            "knowledge_base_index": "kb001",
+            "knowledge_base_name": "deepai-knowledgegraph",
+            "description": "scientific data source",
+            "data_type": "unstructured",
+            "access_level": "public",
+            "storage_format": "sql",
+            "last_update": "2025-03-20",
+            "ai_method_index": "ai005",
+            "system_status_index": "status089",
+            "error_index": "err034",
+            "optimization_index": "op053",
+            "performance_index": "perf055",
+            "simulation_index": "sim063",
+            "test_index": "t062",
+            "synergy_index": "sy004",
+            "contribution_index": "ci060",
+            "efficiency_index": "ei092",
+            "cpu_usage_index": "cpu026",
+            "associated_modules_group_index": "gmod087",
+            "automation_level_index": "auto053",
+            "data_source_index": "ds055",
+            "deepsync_reset_index": "x001",
+            "energy_management_index": "em020",
+            "future_projection_index": "fp009",
+            "history_index": "h085",
+            "index": "15",
+            "knowledge_index": "k025",
+            "learning_index": "l027",
+            "module_activated_index": "mact013",
+            "optimization_date_index": "opd043",
+            "optimization_duration_formatted_index": "opdtime045",
+            "optimization_loop_index": "opl019",
+            "optimization_reason_index": "opr032",
+            "optimization_support_index": "ops006",
+            "overall_performance_index": "opm063",
+            "reward_index": "rwd098",
+            "self_training_index": "st077",
+            "simulation_index_extended": "simex087",
+            "superintelligence_group_index": "64",
+            "synergy_efficiency_index": "synei099",
+            "synergy_index_history": "syneh053",
+            "synergy_justification_index": "synj034",
+            "test_index_extended": "tex070",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "4b9d7e1a": {
+          "name": "52",
+          "attributes": {
+            "knowledge_base_index": "kb002",
+            "knowledge_base_name": "deepai-datahub",
+            "description": "scientific data source",
+            "data_type": "semi-structured",
+            "access_level": "confidential",
+            "storage_format": "csv",
+            "last_update": "2025-06-15",
+            "ai_method_index": "ai024",
+            "system_status_index": "status089",
+            "error_index": "err022",
+            "optimization_index": "op012",
+            "performance_index": "perf074",
+            "simulation_index": "sim067",
+            "test_index": "t099",
+            "synergy_index": "sy010",
+            "contribution_index": "ci067",
+            "efficiency_index": "ei034",
+            "cpu_usage_index": "cpu058",
+            "associated_modules_group_index": "gmod013",
+            "automation_level_index": "auto072",
+            "data_source_index": "ds099",
+            "deepsync_reset_index": "x067",
+            "energy_management_index": "em054",
+            "future_projection_index": "fp026",
+            "history_index": "h027",
+            "index": "52",
+            "knowledge_index": "k047",
+            "learning_index": "l097",
+            "module_activated_index": "mact049",
+            "optimization_date_index": "opd011",
+            "optimization_duration_formatted_index": "opdtime021",
+            "optimization_loop_index": "opl043",
+            "optimization_reason_index": "opr009",
+            "optimization_support_index": "ops099",
+            "overall_performance_index": "opm038",
+            "reward_index": "rwd057",
+            "self_training_index": "st084",
+            "simulation_index_extended": "simex049",
+            "superintelligence_group_index": "4",
+            "synergy_efficiency_index": "synei043",
+            "synergy_index_history": "syneh012",
+            "synergy_justification_index": "synj042",
+            "test_index_extended": "tex019",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "b3595674": {
+          "name": "81",
+          "attributes": {
+            "knowledge_base_index": "kb003",
+            "knowledge_base_name": "deepai-research",
+            "description": "encrypted database",
+            "data_type": "structured",
+            "access_level": "public",
+            "storage_format": "json",
+            "last_update": "2024-12-01",
+            "ai_method_index": "ai036",
+            "system_status_index": "status066",
+            "error_index": "err065",
+            "optimization_index": "op057",
+            "performance_index": "perf044",
+            "simulation_index": "sim097",
+            "test_index": "t023",
+            "synergy_index": "sy071",
+            "contribution_index": "ci005",
+            "efficiency_index": "ei085",
+            "cpu_usage_index": "cpu061",
+            "associated_modules_group_index": "gmod088",
+            "automation_level_index": "auto074",
+            "data_source_index": "ds073",
+            "deepsync_reset_index": "x028",
+            "energy_management_index": "em061",
+            "future_projection_index": "fp092",
+            "history_index": "h016",
+            "index": "81",
+            "knowledge_index": "k043",
+            "learning_index": "l044",
+            "module_activated_index": "mact045",
+            "optimization_date_index": "opd063",
+            "optimization_duration_formatted_index": "opdtime023",
+            "optimization_loop_index": "opl025",
+            "optimization_reason_index": "opr069",
+            "optimization_support_index": "ops019",
+            "overall_performance_index": "opm097",
+            "reward_index": "rwd051",
+            "self_training_index": "st076",
+            "simulation_index_extended": "simex039",
+            "superintelligence_group_index": "63",
+            "synergy_efficiency_index": "synei069",
+            "synergy_index_history": "syneh044",
+            "synergy_justification_index": "synj032",
+            "test_index_extended": "tex051",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "db121b91": {
+          "name": "4",
+          "attributes": {
+            "knowledge_base_index": "kb004",
+            "knowledge_base_name": "big data pipelines",
+            "description": "machine learning modell-datenbank",
+            "data_type": "structured",
+            "access_level": "confidential",
+            "storage_format": "sql",
+            "last_update": "2025-03-20",
+            "ai_method_index": "ai069",
+            "system_status_index": "status082",
+            "error_index": "err062",
+            "optimization_index": "op060",
+            "performance_index": "perf006",
+            "simulation_index": "sim061",
+            "test_index": "t065",
+            "synergy_index": "sy019",
+            "contribution_index": "ci045",
+            "efficiency_index": "ei027",
+            "cpu_usage_index": "cpu020",
+            "associated_modules_group_index": "gmod074",
+            "automation_level_index": "auto005",
+            "data_source_index": "ds058",
+            "deepsync_reset_index": "x055",
+            "energy_management_index": "em077",
+            "future_projection_index": "fp001",
+            "history_index": "h037",
+            "index": "4",
+            "knowledge_index": "k095",
+            "learning_index": "l020",
+            "module_activated_index": "mact001",
+            "optimization_date_index": "opd088",
+            "optimization_duration_formatted_index": "opdtime093",
+            "optimization_loop_index": "opl004",
+            "optimization_reason_index": "opr038",
+            "optimization_support_index": "ops076",
+            "overall_performance_index": "opm029",
+            "reward_index": "rwd036",
+            "self_training_index": "st021",
+            "simulation_index_extended": "simex047",
+            "superintelligence_group_index": "57",
+            "synergy_efficiency_index": "synei081",
+            "synergy_index_history": "syneh015",
+            "synergy_justification_index": "synj074",
+            "test_index_extended": "tex009",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        },
+        "a123b87b": {
+          "name": "60",
+          "attributes": {
+            "knowledge_base_index": "kb005",
+            "knowledge_base_name": "predictive models",
+            "description": "encrypted database",
+            "data_type": "unstructured",
+            "access_level": "confidential",
+            "storage_format": "json",
+            "last_update": "2024-12-01",
+            "ai_method_index": "ai030",
+            "system_status_index": "status082",
+            "error_index": "err052",
+            "optimization_index": "op092",
+            "performance_index": "perf019",
+            "simulation_index": "sim075",
+            "test_index": "t065",
+            "synergy_index": "sy071",
+            "contribution_index": "ci073",
+            "efficiency_index": "ei065",
+            "cpu_usage_index": "cpu065",
+            "associated_modules_group_index": "gmod029",
+            "automation_level_index": "auto006",
+            "data_source_index": "ds095",
+            "deepsync_reset_index": "x093",
+            "energy_management_index": "em012",
+            "future_projection_index": "fp004",
+            "history_index": "h018",
+            "index": "60",
+            "knowledge_index": "k055",
+            "learning_index": "l035",
+            "module_activated_index": "mact064",
+            "optimization_date_index": "opd054",
+            "optimization_duration_formatted_index": "opdtime012",
+            "optimization_loop_index": "opl033",
+            "optimization_reason_index": "opr048",
+            "optimization_support_index": "ops053",
+            "overall_performance_index": "opm051",
+            "reward_index": "rwd035",
+            "self_training_index": "st038",
+            "simulation_index_extended": "simex041",
+            "superintelligence_group_index": "35",
+            "synergy_efficiency_index": "synei067",
+            "synergy_index_history": "syneh091",
+            "synergy_justification_index": "synj040",
+            "test_index_extended": "tex024",
+            "name": ""
+          },
+          "created_at": "2026-03-14 11:24:22",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 11:01:18"
+    },
+    "system": {
+      "name": "system",
+      "description": "System architecture, synergies, and integration points",
+      "concepts": {},
+      "metadata": {},
+      "creation_time": "2026-03-14 11:01:18"
+    },
+    "repository": {
+      "name": "repository",
+      "description": "Software repositories and code",
+      "concepts": {
+        "608cd0a3": {
+          "name": "db_analysis",
+          "attributes": {
+            "type": "repository",
+            "path": "/home/deepall/opendeepwiki_setup/output/db_analysis",
+            "analyzed_at": "2026-03-14 11:01:18"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 11:01:18"
+    },
+    "deepwiki": {
+      "name": "deepwiki",
+      "description": "Repository documentation and insights",
+      "concepts": {
+        "20278936": {
+          "name": "db_analysis_documentation",
+          "attributes": {
+            "type": "documentation",
+            "path": "/home/deepall/opendeepwiki_setup/output/db_analysis/wiki.md",
+            "generated_at": "2026-03-13 10:34:58"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        },
+        "27863368": {
+          "name": "db_analysis_Architecture",
+          "attributes": {
+            "type": "documentation_section",
+            "repository": "db_analysis"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        },
+        "08fb2387": {
+          "name": "db_analysis_diagram_1",
+          "attributes": {
+            "type": "diagram",
+            "repository": "db_analysis",
+            "mermaid_content": "flowchart TB\n    Repo[\"Repository\"] --> Core[\"Core\"]\n    Repo --> API[\"API\"]\n    Repo --> Utils[\"Utils\"]"
+          },
+          "created_at": "2026-03-14 11:01:18",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 11:01:18"
+    },
+    "deepall_evolution": {
+      "name": "deepall_evolution",
+      "description": "DeepALL evolution modules and components",
+      "concepts": {
+        "6e01c887": {
+          "name": "deep_r_one",
+          "attributes": {
+            "id": "deep_r_one_v1",
+            "type": "evolutionsmodul",
+            "hauptfunktion": "r_one_execute(action_id, intent, resonance_signature)",
+            "trigger_bedingung": "Nur bei validierter Resonanzreaktion & unerreichter Ausf\u00fchrung",
+            "zugrundeliegende_logik": "Resonanzgetriebene Entscheidung & Selbstorganisation",
+            "einsatzzweck": "Autonome Entscheidungssteuerung im DeepALL Runtime-System",
+            "zustand": "bereit",
+            "aktivierungsart": "Automatisch oder manuell durch orchestrator()",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_evolution_module_docs.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {
+            "4b51d2a1": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            }
+          }
+        },
+        "3753daa3": {
+          "name": "deep_resonance_runtime",
+          "attributes": {
+            "id": "deep_resonance_runtime_v1",
+            "type": "evolutionsmodul",
+            "hauptfunktion": "runtime_resonance_loop(human_input, field)",
+            "trigger_bedingung": "Permanent aktiv, bei menschlicher Eingabe",
+            "zugrundeliegende_logik": "Resonanzgetriebene Entscheidung & Selbstorganisation",
+            "einsatzzweck": "Autonome Entscheidungssteuerung im DeepALL Runtime-System",
+            "zustand": "bereit",
+            "aktivierungsart": "Automatisch oder manuell durch orchestrator()",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_evolution_module_docs.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {
+            "4b51d2a1": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            }
+          }
+        },
+        "21320893": {
+          "name": "synaptica_trigger",
+          "attributes": {
+            "id": "synaptica_trigger_v1",
+            "type": "evolutionsmodul",
+            "hauptfunktion": "trigger_synaptica_insight(resonant_data)",
+            "trigger_bedingung": "Bei emotional- oder resonanzgeladenen Signalen",
+            "zugrundeliegende_logik": "Resonanzgetriebene Entscheidung & Selbstorganisation",
+            "einsatzzweck": "Autonome Entscheidungssteuerung im DeepALL Runtime-System",
+            "zustand": "bereit",
+            "aktivierungsart": "Automatisch oder manuell durch orchestrator()",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_evolution_module_docs.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {
+            "741cde12": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            }
+          }
+        },
+        "741cde12": {
+          "name": "resonance_reactor",
+          "attributes": {
+            "id": "resonance_reactor_v1",
+            "type": "evolutionsmodul",
+            "hauptfunktion": "resonance_reactor(resonance_payload)",
+            "trigger_bedingung": "Wenn Payload Schl\u00fcsselworte wie KI, Zukunft, Intelligenz enth\u00e4lt",
+            "zugrundeliegende_logik": "Resonanzgetriebene Entscheidung & Selbstorganisation",
+            "einsatzzweck": "Autonome Entscheidungssteuerung im DeepALL Runtime-System",
+            "zustand": "bereit",
+            "aktivierungsart": "Automatisch oder manuell durch orchestrator()",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_evolution_module_docs.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {
+            "21320893": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            },
+            "4b51d2a1": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            }
+          }
+        },
+        "4b51d2a1": {
+          "name": "runtime_orchestrator",
+          "attributes": {
+            "id": "runtime_orchestrator_v1",
+            "type": "evolutionsmodul",
+            "hauptfunktion": "orchestrate(human_input, field, action_id, intent)",
+            "trigger_bedingung": "Wenn alle Submodule bereit und ein Impuls erkannt wurde",
+            "zugrundeliegende_logik": "Resonanzgetriebene Entscheidung & Selbstorganisation",
+            "einsatzzweck": "Autonome Entscheidungssteuerung im DeepALL Runtime-System",
+            "zustand": "bereit",
+            "aktivierungsart": "Automatisch oder manuell durch orchestrator()",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_evolution_module_docs.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {
+            "6e01c887": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            },
+            "3753daa3": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            },
+            "741cde12": {
+              "relation_type": "verkn\u00fcpft_mit",
+              "strength": 1.0,
+              "created_at": "2026-03-14 13:03:37"
+            }
+          }
+        },
+        "e67971c7": {
+          "name": "deepconscious_nexus",
+          "attributes": {
+            "id": "deepconscious_nexus",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_resonance_memory.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {}
+        },
+        "d684a0c4": {
+          "name": "resonance_fusion",
+          "attributes": {
+            "id": "resonance_fusion",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_resonance_memory.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {}
+        },
+        "551b00e9": {
+          "name": "deepbreathmap",
+          "attributes": {
+            "id": "deepbreathmap",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_resonance_memory.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {}
+        },
+        "262ef2aa": {
+          "name": "human_field_node",
+          "attributes": {
+            "id": "human_field_node",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_resonance_memory.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {}
+        },
+        "e34e5a2b": {
+          "name": "deepdestiny",
+          "attributes": {
+            "id": "deepdestiny",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepall_resonance_memory.json"
+          },
+          "created_at": "2026-03-14 12:50:49",
+          "related_concepts": {}
+        },
+        "32713179": {
+          "name": "DF-003",
+          "attributes": {
+            "id": "DF-003",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_data_analysis_validation.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "c0d6c8a2": {
+          "name": "DF-005",
+          "attributes": {
+            "id": "DF-005",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_automated_audit_trail.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "5680f719": {
+          "name": "DF-004",
+          "attributes": {
+            "id": "DF-004",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_multi_scenario_planning.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "0fc0f385": {
+          "name": "DF-011",
+          "attributes": {
+            "id": "DF-011",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_supply_chain_risk_management.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "a8dcd4f5": {
+          "name": "DF-009",
+          "attributes": {
+            "id": "DF-009",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_quality_assurance_pipeline.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "8d250bc5": {
+          "name": "DF-010",
+          "attributes": {
+            "id": "DF-010",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_customer_journey_optimization.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "45d36990": {
+          "name": "DF-001",
+          "attributes": {
+            "id": "DF-001",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_risk_assessment_workflow.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "cc3daa0a": {
+          "name": "DF-013",
+          "attributes": {
+            "id": "DF-013",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_product_launch_pipeline.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "cf4e12bc": {
+          "name": "DF-007",
+          "attributes": {
+            "id": "DF-007",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_collaborative_decision_making.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "eea46b98": {
+          "name": "DF-008",
+          "attributes": {
+            "id": "DF-008",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_financial_risk_assessment.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "89780c01": {
+          "name": "DF-015",
+          "attributes": {
+            "id": "DF-015",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_ai_model_training_pipeline.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "48c2906e": {
+          "name": "DF-006",
+          "attributes": {
+            "id": "DF-006",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_realtime_monitoring_pipeline.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "d33ee39d": {
+          "name": "DF-012",
+          "attributes": {
+            "id": "DF-012",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_compliance_automation.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "42164fce": {
+          "name": "DF-002",
+          "attributes": {
+            "id": "DF-002",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_strategic_decision_pipeline.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "25d25f6c": {
+          "name": "DF-014",
+          "attributes": {
+            "id": "DF-014",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_bundle/deepflow_incident_response_automation.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "558b5e1c": {
+          "name": "resonance_interface",
+          "attributes": {
+            "id": "resonance_interface",
+            "type": "modul_erinnerung",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/meta_reflektor_jsons/metareflektor_resonance_interface_memory.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "ad1f1d4f": {
+          "name": "deepflow_master_06",
+          "attributes": {
+            "id": "deepflow_master_06",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_06.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "60f04b3c": {
+          "name": "deepflow_master_02",
+          "attributes": {
+            "id": "deepflow_master_02",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_02.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "eacaabd9": {
+          "name": "deepflow_master_05",
+          "attributes": {
+            "id": "deepflow_master_05",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_05.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "9fa0ba67": {
+          "name": "deepflow_master_09",
+          "attributes": {
+            "id": "deepflow_master_09",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_09.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "32422e6f": {
+          "name": "deepflow_master_01",
+          "attributes": {
+            "id": "deepflow_master_01",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_01.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "1c4d6e38": {
+          "name": "deepflow_master_13",
+          "attributes": {
+            "id": "deepflow_master_13",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_13.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "3f0c9602": {
+          "name": "deepflow_master_12",
+          "attributes": {
+            "id": "deepflow_master_12",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_12.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "87c510a9": {
+          "name": "deepflow_master_14",
+          "attributes": {
+            "id": "deepflow_master_14",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_14.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "fa2657a9": {
+          "name": "deepflow_master_11",
+          "attributes": {
+            "id": "deepflow_master_11",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_11.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "8f5cfd75": {
+          "name": "deepflow_master_15",
+          "attributes": {
+            "id": "deepflow_master_15",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_15.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "45d9bf43": {
+          "name": "deepflow_master_07",
+          "attributes": {
+            "id": "deepflow_master_07",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_07.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "c9d22a34": {
+          "name": "deepflow_master_08",
+          "attributes": {
+            "id": "deepflow_master_08",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_08.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "7401041d": {
+          "name": "deepflow_master_10",
+          "attributes": {
+            "id": "deepflow_master_10",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_10.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "5e4d52a2": {
+          "name": "deepflow_master_03",
+          "attributes": {
+            "id": "deepflow_master_03",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_passive_03.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        },
+        "e628f1af": {
+          "name": "deepflow_master_04",
+          "attributes": {
+            "id": "deepflow_master_04",
+            "type": "",
+            "hauptfunktion": "",
+            "trigger_bedingung": "",
+            "zugrundeliegende_logik": "",
+            "einsatzzweck": "",
+            "zustand": "",
+            "aktivierungsart": "",
+            "source_file": "/home/deepall/Json Bibliothek/deepflow_master_compiled/deepflow_adaptive_priority_active_04.json"
+          },
+          "created_at": "2026-03-14 12:57:50",
+          "related_concepts": {}
+        }
+      },
+      "metadata": {},
+      "creation_time": "2026-03-14 12:48:22"
+    }
+  },
+  "cross_domain_links": {
+    "technology:6559e74c-science:a166c333": {
+      "source_domain": "technology",
+      "source_concept": "6559e74c",
+      "target_domain": "science",
+      "target_concept": "a166c333",
+      "link_type": "inspired_by",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:41:32"
+    },
+    "technology:ebf777eb-mathematics:29964123": {
+      "source_domain": "technology",
+      "source_concept": "ebf777eb",
+      "target_domain": "mathematics",
+      "target_concept": "29964123",
+      "link_type": "uses",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:41:32"
+    },
+    "technology:6559e74c-business:27e8bc9e": {
+      "source_domain": "technology",
+      "source_concept": "6559e74c",
+      "target_domain": "business",
+      "target_concept": "27e8bc9e",
+      "link_type": "enables",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:41:32"
+    },
+    "technology:6559e74c-humanities:5f280f0b": {
+      "source_domain": "technology",
+      "source_concept": "6559e74c",
+      "target_domain": "humanities",
+      "target_concept": "5f280f0b",
+      "link_type": "raises_questions_in",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:41:32"
+    },
+    "mathematics:0ef9f9ba-science:a166c333": {
+      "source_domain": "mathematics",
+      "source_concept": "0ef9f9ba",
+      "target_domain": "science",
+      "target_concept": "a166c333",
+      "link_type": "supports",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:41:32"
+    },
+    "technology:efc4f447-mathematics:0ef9f9ba": {
+      "source_domain": "technology",
+      "source_concept": "efc4f447",
+      "target_domain": "mathematics",
+      "target_concept": "0ef9f9ba",
+      "link_type": "depends_on",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:46:59"
+    },
+    "technology:6559e74c-humanities:437c4f0d": {
+      "source_domain": "technology",
+      "source_concept": "6559e74c",
+      "target_domain": "humanities",
+      "target_concept": "437c4f0d",
+      "link_type": "raises_questions_in",
+      "strength": 1.0,
+      "created_at": "2026-03-14 10:46:59"
+    },
+    "technology:40e5b033-ai:4fbc0c17": {
+      "source_domain": "technology",
+      "source_concept": "40e5b033",
+      "target_domain": "ai",
+      "target_concept": "4fbc0c17",
+      "link_type": "part_of",
+      "strength": 0.9,
+      "created_at": "2026-03-14 11:01:18"
+    },
+    "repository:608cd0a3-deepwiki:20278936": {
+      "source_domain": "repository",
+      "source_concept": "608cd0a3",
+      "target_domain": "deepwiki",
+      "target_concept": "20278936",
+      "link_type": "documented_by",
+      "strength": 1.0,
+      "created_at": "2026-03-14 11:01:18"
+    },
+    "deepwiki:27863368-deepwiki:20278936": {
+      "source_domain": "deepwiki",
+      "source_concept": "27863368",
+      "target_domain": "deepwiki",
+      "target_concept": "20278936",
+      "link_type": "part_of",
+      "strength": 0.9,
+      "created_at": "2026-03-14 11:01:18"
+    },
+    "deepwiki:08fb2387-deepwiki:20278936": {
+      "source_domain": "deepwiki",
+      "source_concept": "08fb2387",
+      "target_domain": "deepwiki",
+      "target_concept": "20278936",
+      "link_type": "part_of",
+      "strength": 0.9,
+      "created_at": "2026-03-14 11:01:18"
+    },
+    "technology:80042cae-technology:4e3c0bb0": {
+      "source_domain": "technology",
+      "source_concept": "80042cae",
+      "target_domain": "technology",
+      "target_concept": "4e3c0bb0",
+      "link_type": "belongs_to",
+      "strength": 0.9,
+      "created_at": "2026-03-14 14:51:32"
+    },
+    "technology:24d91b53-technology:80042cae": {
+      "source_domain": "technology",
+      "source_concept": "24d91b53",
+      "target_domain": "technology",
+      "target_concept": "80042cae",
+      "link_type": "defined_in",
+      "strength": 0.9,
+      "created_at": "2026-03-14 14:51:32"
+    },
+    "technology:bff8b6a8-technology:80042cae": {
+      "source_domain": "technology",
+      "source_concept": "bff8b6a8",
+      "target_domain": "technology",
+      "target_concept": "80042cae",
+      "link_type": "defined_in",
+      "strength": 0.9,
+      "created_at": "2026-03-14 14:51:32"
+    }
+  },
+  "knowledge_gaps": {
+    "isolated_concepts": [
+      {
+        "domain": "technology",
+        "concept_id": "068fa814",
+        "concept_name": "Python"
+      },
+      {
+        "domain": "technology",
+        "concept_id": "86f38361",
+        "concept_name": "Neural architecture search is an"
+      },
+      {
+        "domain": "science",
+        "concept_id": "3f72d5d8",
+        "concept_name": "Cognitive Psychology"
+      }
+    ],
+    "weak_domains": [
+      {
+        "domain": "science",
+        "concept_count": 2
+      },
+      {
+        "domain": "business",
+        "concept_count": 1
+      },
+      {
+        "domain": "humanities",
+        "concept_count": 2
+      },
+      {
+        "domain": "mathematics",
+        "concept_count": 2
+      }
+    ],
+    "missing_connections": [],
+    "bridge_opportunities": []
+  },
+  "metadata": {
+    "last_updated": "2026-03-14 14:51:32",
+    "version": "1.0"
+  },
+  "version": "2.1.0",
+  "timestamp": "2026-03-16T14:24:48.617180Z",
+  "phase_c_insights": {
+    "meta_reflection": [
+      {
+        "id": "MR1_hierarchical_resilience",
+        "name": "Hierarchical Resilience Pattern",
+        "impact_pct": 40,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "MR2_exponential_learning",
+        "name": "Exponential Learning Through Bidirectional Feedback",
+        "impact_pct": 50,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "MR3_context_propagation",
+        "name": "Market Regime Context Propagation",
+        "impact_pct": 30,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "MR4_explainability_learning",
+        "name": "Explainability as Learning Factor",
+        "impact_pct": 30,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "MR5_conflict_intelligence",
+        "name": "Conflict as Intelligence Signal",
+        "impact_pct": 30,
+        "status": "READY_FOR_IMPLEMENTATION"
+      }
+    ],
+    "synthesis": [
+      {
+        "id": "SI1_adaptive_routing",
+        "name": "Adaptive Agent Routing (AAR)",
+        "sprint": "SPRINT_1",
+        "impact_pct": 45,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "SI2_explainability_knowledge",
+        "name": "Explainability-Driven Knowledge Generation",
+        "sprint": "SPRINT_2",
+        "impact_pct": 30,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI3_predictive_conflict",
+        "name": "Predictive Conflict Prevention (PCP)",
+        "sprint": "SPRINT_1",
+        "impact_pct": 40,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "SI4_multilevel_optimization",
+        "name": "Multi-Level Hierarchical Optimization",
+        "sprint": "SPRINT_2",
+        "impact_pct": 35,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI5_automated_knowledge_updates",
+        "name": "Automated Knowledge Network Updates",
+        "sprint": "SPRINT_2",
+        "impact_pct": 25,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI6_meta_learning_cycle",
+        "name": "Meta-Learning Autonomous Optimization Cycle",
+        "sprint": "SPRINT_1",
+        "impact_pct": 50,
+        "status": "READY_FOR_IMPLEMENTATION"
+      },
+      {
+        "id": "SI7_canonical_context",
+        "name": "Canonical Market Context Propagation",
+        "sprint": "SPRINT_2",
+        "impact_pct": 15,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI8_unified_metrics",
+        "name": "Unified Performance Metrics Framework",
+        "sprint": "SPRINT_2",
+        "impact_pct": 20,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI9_rolling_optimization",
+        "name": "Rolling Window Continuous Optimization",
+        "sprint": "SPRINT_3",
+        "impact_pct": 3,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI10_knowledge_composition",
+        "name": "Knowledge Composition Engine for Emergent Patterns",
+        "sprint": "SPRINT_3",
+        "impact_pct": 25,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI11_self_healing_resilience",
+        "name": "Self-Healing Resilience Architecture",
+        "sprint": "SPRINT_3",
+        "impact_pct": 40,
+        "status": "PLANNED"
+      },
+      {
+        "id": "SI12_emergent_behavior_capture",
+        "name": "Emergent Behavior Capture and Systematization",
+        "sprint": "SPRINT_3",
+        "impact_pct": 15,
+        "status": "PLANNED"
+      }
+    ]
+  },
+  "regime_affinity_matrix": {
+    "description": "Agent performance in different market regimes",
+    "agents": [
+      {
+        "agent_id": "TrendFollowingAgent",
+        "HIGH_VOLATILITY": 0.72,
+        "BULL_TREND": 0.89,
+        "BEAR_TREND": 0.45,
+        "SIDEWAYS": 0.38
+      },
+      {
+        "agent_id": "MeanReversionAgent",
+        "HIGH_VOLATILITY": 0.85,
+        "BULL_TREND": 0.42,
+        "BEAR_TREND": 0.48,
+        "SIDEWAYS": 0.91
+      },
+      {
+        "agent_id": "ValueInvestmentAgent",
+        "HIGH_VOLATILITY": 0.55,
+        "BULL_TREND": 0.78,
+        "BEAR_TREND": 0.72,
+        "SIDEWAYS": 0.68
+      },
+      {
+        "agent_id": "MomentumAgent",
+        "HIGH_VOLATILITY": 0.88,
+        "BULL_TREND": 0.92,
+        "BEAR_TREND": 0.35,
+        "SIDEWAYS": 0.41
+      },
+      {
+        "agent_id": "RiskManagementAgent",
+        "HIGH_VOLATILITY": 0.95,
+        "BULL_TREND": 0.6,
+        "BEAR_TREND": 0.85,
+        "SIDEWAYS": 0.7
+      }
+    ],
+    "last_updated": "2026-03-16T14:24:48.617532Z"
+  },
+  "sprint_1_readiness": {
+    "status": "READY_FOR_SPRINT_1_IMPLEMENTATION",
+    "target_implementations": [
+      "SI1_adaptive_routing",
+      "SI3_predictive_conflict",
+      "SI6_meta_learning_cycle"
+    ],
+    "modules": [
+      "optimizations/aar_routing_logic.py",
+      "optimizations/pcp_conflict_logic.py",
+      "optimizations/meta_learning_cycle.py"
+    ],
+    "expected_gains": {
+      "routing_precision": "+23%",
+      "conflict_reduction": "-8%",
+      "throughput": "+15%"
+    }
+  }
+}

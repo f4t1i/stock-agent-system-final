@@ -1,8 +1,15 @@
 # Stock Agent System
 
-**Enterprise-Grade Multi-Agent Stock Trading & Analysis Platform with Advanced ML**
+**Multi-Agent Stock Analysis Research Prototype with Advanced ML**
 
-A production-ready AI system combining multi-agent intelligence, deep learning, reinforcement learning, real-time analytics, explainability, and risk management for institutional-quality stock market analysis.
+An experimental AI system combining multi-agent intelligence, deep learning, reinforcement learning, real-time analytics, explainability, and risk management for stock market analysis.
+
+> [!WARNING]
+> **Research prototype — not production-ready, not for real-money trading.**
+> The full pipeline does not run out of the box (fine-tuned agent models are not included),
+> the default backtester has look-ahead bias, and there is no evidence yet that the system beats simple baselines.
+> Read **[Project Status & Honest Assessment](docs/PROJECT_STATUS.md)** and the
+> **[How to Use This Repository](#how-to-use-this-repository)** section before you start.
 
 [![Version](https://img.shields.io/badge/version-2.1.0-green.svg)](https://github.com/f4t1i/stock-agent-system-final/releases)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
@@ -11,29 +18,29 @@ A production-ready AI system combining multi-agent intelligence, deep learning, 
 [![TypeScript](https://img.shields.io/badge/typescript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![FastAPI](https://img.shields.io/badge/fastapi-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-100%25%20passing-brightgreen.svg)](tests/)
+[![Status](https://img.shields.io/badge/status-research%20prototype-orange.svg)](docs/PROJECT_STATUS.md)
 
 ---
 
 ## System Overview
 
 ```
-~110,000+ Lines of Production Code
-100+ Test Suites | 100% Passing
-5 AI Agents + 9 ML Systems
+~100,000 Lines of Code (≈78k Python, ≈23k TypeScript)
+Test suite partially passing (see Project Status)
+4 LLM Agents + Supervisor + 9 ML Systems
 Full-Stack Real-Time Dashboard
 Advanced Visualizations (8 Chart Types)
 Explainability & Confidence Calibration  <- Phase A3
 Risk Management & Trading Guardrails     <- Phase A3
 Alerts & Watchlist Monitoring            <- Phase A3
-180+ Git Commits | v2.1.0
+~150 Git Commits | v2.1.0
 ```
 
 ### What This System Does
 
-**Stock Agent System** is a comprehensive institutional-grade trading platform that combines:
+**Stock Agent System** is a research platform for multi-agent trading analysis that combines:
 
-- **Multi-Agent AI**: 5 specialized agents (News, Technical, Fundamental, Sentiment, Strategist)
+- **Multi-Agent AI**: 4 specialized agents (News/Sentiment, Technical, Fundamental, Strategist) plus a routing Supervisor
 - **Advanced ML**: Ensemble models, Deep Learning (LSTM/Transformer), RL (DQN), AutoML
 - **Real-Time System**: WebSocket streaming, live charts, sub-second updates
 - **Explainability**: AI decision transparency with reasoning visualization and confidence gauges
@@ -43,6 +50,79 @@ Alerts & Watchlist Monitoring            <- Phase A3
 - **Advanced Visualizations**: 8 interactive chart types with technical indicators
 - **Enterprise Database**: PostgreSQL with 8 ORM models for full persistence
 - **Market Intelligence**: OpenBB integration, anomaly detection, feature engineering
+
+---
+
+## Project Status
+
+| Area | Rating | Summary |
+|------|--------|---------|
+| Concept / architecture | 8/10 | Strong design: junior agents → strategist, bandit supervisor, LLM judge for SFT/RL |
+| Scope | 9/10 | Training, risk, calibration, explainability, alerts, dashboard |
+| End-to-end runnability | 2/10 | Agents load fine-tuned models (`models/*_v1`) that are **not in the repo** → `main.py` and the API server fail on startup |
+| Backtest validity | 2/10 | `training/rl/backtester.py` analyses each historical day with **today's** data (look-ahead bias) |
+| Production readiness | 1–2/10 | Hard-coded regime/volatility, no broker execution, no CI |
+
+**Known gaps** (details and file references in [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)):
+
+- Market regime (`'bull'`) and volatility (`20.0`) are hard-coded in `orchestration/coordinator.py`; trade execution is a TODO.
+- `agents/supervisor_v2.py` uses a random reward in its training loop.
+- DeepMaster / Epistemic Shield / Memory (`deepmaster_*.py`, `epistemic_shield.py`, `memory_knowledge/`) are **not wired into** the main system.
+- The `web-dashboard/` is a separate Node/tRPC app and is not connected to the Python API.
+- Offline test run with lightweight dependencies: **118 passed, 10 failed, 56 collection errors** (missing `torch`/`pandas_ta`, no network, no `pytest-asyncio`).
+
+---
+
+## How to Use This Repository
+
+Pick the path that matches your goal.
+
+### A) Explore the architecture (no GPU, no API keys)
+
+1. Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then `orchestration/coordinator.py` (how agents are wired).
+2. Read one agent, e.g. `agents/junior/news_agent.py` (prompt → JSON → parsed result).
+3. Run the tests that work offline:
+   ```bash
+   python -m venv venv && source venv/bin/activate
+   pip install pytest loguru python-dotenv pyyaml scipy scikit-learn \
+               yfinance anthropic fastapi httpx pydantic sqlalchemy
+   pytest -q tests/unit/test_error_taxonomy.py \
+             tests/acceptance/test_phase_a3_complete.py \
+             tests/acceptance/test_corporate_actions.py \
+             tests/acceptance/test_survivorship_bias.py \
+             test_deepmaster_orchestration.py
+   ```
+
+### B) Reuse individual components (works today)
+
+These modules can be imported without the LLM agents:
+
+| Module | Use |
+|--------|-----|
+| `risk_management/` | Risk gates, trading policies, position validation |
+| `calibration/confidence_calibrator.py` | Isotonic-regression confidence calibration |
+| `training/rl/backtester_v2.py` | Backtester with commission, slippage, corporate actions, survivorship-bias handling |
+| `utils/market_regime_detector.py` | Bull/bear/sideways regime detection |
+| `ml/` | Feature engineering, anomaly detection, ensembles, LSTM/Transformer |
+
+### C) Make the full agent system run (contributors)
+
+Recommended order:
+
+1. **Runnable path first** – replace local `from_pretrained` loading in the agents with an API-based LLM backend (Claude/OpenAI) behind a common interface, so no fine-tuned checkpoints are needed.
+2. **Fix the backtest** – add an `as_of` date to `analyze_symbol`, feed agents point-in-time prices and date-filtered news, and use `backtester_v2`.
+3. **Compare against baselines** – buy & hold and SMA crossover on an out-of-sample period.
+4. **Remove placeholders** – real regime/volatility, real reward signal for `supervisor_v2`.
+5. **Decide on DeepMaster** – integrate into the coordinator or move to `experimental/`.
+6. **Housekeeping** – CI with offline tests, split requirements (core / training / dashboard), consolidate root status files.
+
+Only after step 3 does it make sense to fine-tune agents (`training/`) and to measure whether they add value.
+
+### Do not
+
+- Trade real money based on this system's output.
+- Trust numbers from `python main.py --mode backtest` (look-ahead bias).
+- Expect `docker-compose up` or the Quick Start below to give a working analysis – both hit the missing-model problem until step C.1 is done.
 
 ---
 
@@ -231,6 +311,11 @@ Alerts & Watchlist Monitoring            <- Phase A3
 
 ## Quick Start
 
+> [!NOTE]
+> The commands below describe the **intended** setup. Until trained agent models exist in `models/`
+> (or an API-based LLM backend is added, see [How to Use This Repository](#how-to-use-this-repository)),
+> the API server fails during startup when `SystemCoordinator` tries to load them.
+
 ### Prerequisites
 
 ```bash
@@ -395,17 +480,13 @@ stock-agent-system-final/
 # Run all tests
 make test
 
-# Phase A3 acceptance tests (6/6 passing)
+# Phase A3 acceptance tests
 pytest tests/acceptance/test_phase_a3_complete.py -v
 ```
 
-| Suite | Tests | Status |
-|-------|-------|--------|
-| Unit Tests | 40+ | Passing |
-| Integration Tests | 15+ | Passing |
-| Acceptance Tests (Phase A3) | 6 | Passing |
-| Stress Tests | 5+ | Passing |
-| Adversarial Tests | 5+ | Passing |
+Many suites need the full ML stack (`torch`, `transformers`, `pandas_ta`) and internet access (`yfinance`).
+Last offline run with lightweight dependencies (2026-10-11): **118 passed, 10 failed, 56 collection errors**.
+There is no CI yet. See [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md#36-test-suite).
 
 ---
 
@@ -423,6 +504,8 @@ docker run -d -p 8000:8000 -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY stock-agent-s
 ---
 
 ## Performance Benchmarks
+
+> Target / design values — not yet backed by reproducible benchmark runs.
 
 | Feature | Latency | Throughput |
 |---------|---------|------------|
@@ -476,7 +559,7 @@ docker run -d -p 8000:8000 -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY stock-agent-s
 | Database Layer | ~1,600 | 8 |
 | Tests | ~8,900 | 30+ |
 | Documentation | ~5,000 | 20+ |
-| **Total** | **~110,000+** | **70+** |
+| **Total** | **~100,000** | **70+** |
 
 By Language: Python ~74,000 lines · TypeScript/React ~24,000 lines · Config ~3,100 lines · Docs ~5,000 lines
 
@@ -565,7 +648,7 @@ Anthropic · Meta AI · PyTorch · FastAPI · React · Recharts · Optuna · SHA
 - Risk Management - 5 risk gates, trading policies, position validation
 - Confidence Calibration - Isotonic regression with reliability diagrams
 - Full-stack web dashboard (React 19 + FastAPI)
-- Complete testing suite (100% passing)
+- Complete testing suite (originally reported as passing; see Project Status)
 
 ---
 
@@ -573,4 +656,4 @@ Built with care for intelligent, explainable, and safe stock trading
 
 [Star on GitHub](https://github.com/f4t1i/stock-agent-system-final) | [Read the Docs](docs/) | [Get Started](#quick-start)
 
-Enterprise-Grade | Production-Ready | Fully Tested | Open Source
+Research Prototype | Open Source | Contributions Welcome
